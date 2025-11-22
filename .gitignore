@@ -1,3 +1,11 @@
+# This file is used to exclude files and directories from Git version control.
+
+# Compiled source
+build/
+
+# Idea directory
+.idea/
+
 # Prerequisites
 *.d
 
