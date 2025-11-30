@@ -1,0 +1,10 @@
+# VERSION
+#
+# Copyright (c) 2025 user-name-beta. All rights reserved.
+# Licensed under the MIT license.
+# See LICENSE file in the project root for full license information.
+#
+# A Text File for Including The Version Information of the Project used by build.py.
+# Line starts with a `#` is a comment and will be ignored by the build script.
+
+p0.0.0
