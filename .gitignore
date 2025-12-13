@@ -6,15 +6,6 @@ build/
 # Idea directory
 .idea/
 
-# Ignore Python binary files
-
-# Byte-compiled files
-__pycache__/
-*.pyc
-
-# Environment files
-*.env
-
 # Prerequisites
 *.d
 
