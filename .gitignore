@@ -3,6 +3,9 @@
 # Compiled source
 build/
 
+# Distribution
+dist/
+
 # Idea directory
 .idea/
 
