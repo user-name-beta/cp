@@ -6,6 +6,9 @@ build/
 # Distribution
 dist/
 
+# Resource files
+*.res
+
 # Idea directory
 .idea/
 
