@@ -142,7 +142,7 @@ endif
 
 BUILD ?= build
 DIST ?= dist
-SRC ?= .
+SRC ?= src
 
 # Define installation directory
 ifeq ($(origin GLOBALPREFIX),undefined)
