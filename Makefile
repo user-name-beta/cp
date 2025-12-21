@@ -243,7 +243,7 @@ endif
 .PHONY: install
 
 uninstall:
-	$(RMDIR) $(PREFIX)
+	$(RMDIR) $(call fix_path,$(GLOBALPREFIX))
 .PHONY: uninstall
 
 help:
