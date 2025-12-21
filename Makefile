@@ -234,16 +234,23 @@ install-files-only: all
 install: install-files-only
 	$(call global_export,CPGLOBALHOME,$(call fix_path,$(GLOBALPREFIX)))
 	$(call global_export,CPLOCALHOME,$(call fix_path,$(PREFIX)))
+	@echo Installed cp $(VERSION) in $(PREFIX)
+	@echo Please remove the old path and add $(call fix_path,$(PREFIX)) to PATH to use cp $(VERSION).
+	@echo Please also add $(call fix_path,$(PREFIX)) to LD_LIBRARY_PATH
+	@echo on Unix-like systems to use the library.
 .PHONY: install
 
 uninstall-all: uninstall
 	$(RMDIR) "$(call fix_path,$(GLOBALPREFIX))"
 	$(call global_export,CPGLOBALHOME,)
+	@echo Uninstalled all versions of cp from $(GLOBALPREFIX)
 .PHONY: uninstall-all
 
 uninstall:
 	$(RM) "$(call fix_path,$(PREFIX)/*)"
 	$(call global_export,CPLOCALHOME,)
+	@echo Uninstalled cp $(VERSION) from $(PREFIX)
+	@echo Please remove $(call fix_path,$(PREFIX)) from PATH and LD_LIBRARY_PATH.
 .PHONY: uninstall
 
 help:
@@ -255,6 +262,7 @@ help:
 	@echo clean-all      - Clean the build directory only
 	@echo install        - Install the project in $(PREFIX)
 	@echo uninstall      - Uninstall the project from $(PREFIX)
+	@echo uninstall-all  - Uninstall all versions of the project from $(GLOBALPREFIX)
 	@echo help           - Display this help message
 	@echo Use MSVC on Windows or GCC on Linux/MacOS as default compiler.
 	@echo Now only support building with MSVC or GCC.
