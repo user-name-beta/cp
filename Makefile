@@ -32,9 +32,9 @@ else
 	STATIC_EXT = .a
 endif
 ifeq ($(OS),Windows_NT)
-	global_export = setx $(1) $(2)
+	global_export = powershell -Command "[Environment]::SetEnvironmentVariable('$(1)', '$(2)', 'User')"
 else
-	global_export = echo "export $(1)=$(2)" >> ~/.bashrc
+	global_export = echo "export $(1)='$(2)'" >> ~/.bashrc
 endif
 
 ifeq ($(OS),Windows_NT)
@@ -44,9 +44,9 @@ else
 endif
 
 ifeq ($(OS),Windows_NT)
-	fix_path = "$(subst /,\,$(1))"
+	fix_path = $(subst /,\,$(1))
 else
-	fix_path = "$(1)"
+	fix_path = $(1)
 endif
 
 # Define CC and CFLAGS
@@ -226,9 +226,9 @@ clean: clean-build
 .PHONY: clean
 
 install-files-only: all
-	$(call mkdir,$(call fix_path,$(GLOBALPREFIX)))
-	$(call mkdir,$(call fix_path,$(PREFIX)))
-	$(COPY) $(call fix_path,$(DIST)/*) $(call fix_path,$(PREFIX))
+	$(call mkdir,"$(call fix_path,$(GLOBALPREFIX))")
+	$(call mkdir,"$(call fix_path,$(PREFIX))")
+	$(COPY) $(call fix_path,$(DIST)/*) "$(call fix_path,$(PREFIX))"
 .PHONY: install-files-only
 
 install: install-files-only
@@ -236,8 +236,14 @@ install: install-files-only
 	$(call global_export,CPLOCALHOME,$(call fix_path,$(PREFIX)))
 .PHONY: install
 
+uninstall-all: uninstall
+	$(RMDIR) "$(call fix_path,$(GLOBALPREFIX))"
+	$(call global_export,CPGLOBALHOME,)
+.PHONY: uninstall-all
+
 uninstall:
-	$(RMDIR) $(call fix_path,$(GLOBALPREFIX))
+	$(RM) "$(call fix_path,$(PREFIX)/*)"
+	$(call global_export,CPLOCALHOME,)
 .PHONY: uninstall
 
 help:
