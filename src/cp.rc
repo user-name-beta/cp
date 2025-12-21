@@ -1,0 +1,30 @@
+﻿// This file is used to define the version information of the CP program.
+#include <windows.h>
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     0,0,0,0
+PRODUCTVERSION  0,0,0,0
+FILEFLAGSMASK   0x3fL
+FILEFLAGS       0x0L
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "CP Program"
+            VALUE "FileVersion", "p0.0.0"
+            VALUE "ProductName", "CP"
+            VALUE "ProductVersion", "p0.0.0"
+            VALUE "CompanyName", "user-name-beta"
+            VALUE "LegalCopyright", "Copyright (c) 2025 user-name-beta."
+            VALUE "InternalName", "cp.exe"
+            VALUE "OriginalFilename", "cp.exe"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

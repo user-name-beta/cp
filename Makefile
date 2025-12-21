@@ -185,11 +185,23 @@ $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
 # This object file cannot not be linked into the library(but the executable file).
 
-# Define library and executable files
+# Define library and executable files and resources(Windows only)
 
-$(DIST)/$(LIB_PREFIX)cp$(SO_EXT): $(OBJECTS)
+ifeq ($(OS),Windows_NT)
+LIBRES = $(BUILD)/lib.res
+$(LIBRES): $(SRC)/lib.rc
+	rc /nologo /fo$@ $<
+EXERES = $(BUILD)/cp.res
+$(EXERES): $(SRC)/cp.rc
+	rc /nologo /fo$@ $<
+else
+LIBRES =
+EXERES =
+endif
+
+$(DIST)/$(LIB_PREFIX)cp$(SO_EXT): $(OBJECTS) $(LIBRES)
 	$(CC) $(CFLAGS) $(DLL_FLAG) $(OUTDLL_FLAG) $(OBJECTS) \
-	$(call IMPLIB_FLAG,$(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)) $(LINK_OPT) $(NOEXP)
+	$(call IMPLIB_FLAG,$(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)) $(LINK_OPT) $(NOEXP) $(LIBRES)
 
 ifeq ($(OS),Windows_NT)
 CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)
@@ -199,9 +211,9 @@ CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
 $(CPIMPLIB):
 endif
 
-$(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB)
+$(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< \
-	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp)
+	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES)
 
 # Define targets
 
