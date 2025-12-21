@@ -21,7 +21,6 @@ ifeq ($(OS),Windows_NT)
 	LIB_PREFIX =
 	SO_EXT = .dll
 	STATIC_EXT = .lib
-	PATH_SEP = ;
 else
 	SHELL := /bin/bash
 	RM = rm -f
@@ -31,7 +30,6 @@ else
 	LIB_PREFIX = lib
 	SO_EXT = .so
 	STATIC_EXT = .a
-	PATH_SEP = :
 endif
 ifeq ($(OS),Windows_NT)
 	global_export = setx $(1) $(2)
@@ -236,10 +234,6 @@ install-files-only: all
 install: install-files-only
 	$(call global_export,CPGLOBALHOME,$(call fix_path,$(GLOBALPREFIX)))
 	$(call global_export,CPLOCALHOME,$(call fix_path,$(PREFIX)))
-	$(call global_export,PATH,$(call fix_path,$(PREFIX))$(PATH_SEP)$(PATH))
-ifneq ($(OS),Windows_NT)
-	$(call global_export,LD_LIBRARY_PATH,$(call fix_path,$(PREFIX))$(PATH_SEP)$(LD_LIBRARY_PATH))
-endif
 .PHONY: install
 
 uninstall:
