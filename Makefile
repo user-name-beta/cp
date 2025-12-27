@@ -52,7 +52,7 @@ endif
 # Define CC and CFLAGS
 
 CFLAGS ?=
-NDEBUG ?= 0
+RELEASE ?= 0
 
 ifeq ($(filter $(origin CC),undefined default),$(origin CC))
 	ifeq ($(OS),Windows_NT)
@@ -76,14 +76,14 @@ endif
 
 ifeq ($(CC),cl)
 	CFLAGS += /nologo /DYNAMICBASE
-	ifeq ($(NDEBUG),0)
+	ifeq ($(RELEASE),0)
 		CFLAGS += /Od /D_DEBUG
 	else
 		CFLAGS += /O2
 	endif
 else ifeq ($(CC),gcc)
 	CFLAGS += -std=c99 -Wall -fPIC -fvisibility=hidden
-	ifeq ($(NDEBUG),0)
+	ifeq ($(RELEASE),0)
 		CFLAGS += -O0 -DDEBUG -g
 	else
 		CFLAGS += -O2 -DNDEBUG
