@@ -211,6 +211,10 @@ $(BUILD)/path$(OBJ_EXT): $(SRC)/path.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/path$(OBJ_EXT)
 
+$(BUILD)/report_error$(OBJ_EXT): $(SRC)/report_error.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/report_error$(OBJ_EXT)
+
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
