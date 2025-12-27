@@ -160,6 +160,10 @@ else
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
+# Define API headers
+
+API_HEADERS = # No API headers yet.
+
 # Define headers and source files
 $(SRC)/main.c:
 $(SRC)/launch.c:
@@ -210,10 +214,16 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = $(CPIMPLIB) $(DIST)/cp$(EXE_EXT)
+TARGET = $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
 all: directories $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
+
+api_headers: $(API_HEADERS)
+	$(call mkdir,"$(call fix_path,$(DIST)/include)")
+#	$(COPY) $(API_HEADERS) "$(call fix_path,$(DIST)/include/)"
+# No API headers yet. This command will cause an error.
+.PHONY: api_headers
 
 directories:
 	@$(call mkdir,$(DIST))
