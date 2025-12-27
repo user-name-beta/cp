@@ -160,17 +160,6 @@ else
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
-# Define target all as a default target
-
-TARGET = $(CPIMPLIB) $(DIST)/cp$(EXE_EXT)
-all: directories $(TARGET)
-.PHONY: all
-
-directories:
-	@$(call mkdir,$(DIST))
-	@$(call mkdir,$(BUILD))
-.PHONY: directories
-
 # Define object files
 
 OBJECTS =
@@ -214,6 +203,18 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES)
 
 # Define targets
+
+# Define target all as a default target
+
+TARGET = $(CPIMPLIB) $(DIST)/cp$(EXE_EXT)
+all: directories $(TARGET)
+.PHONY: all
+.DEFAULT_GOAL := all
+
+directories:
+	@$(call mkdir,$(DIST))
+	@$(call mkdir,$(BUILD))
+.PHONY: directories
 
 clean-build:
 	$(RM) $(call fix_path,$(BUILD)/*)
