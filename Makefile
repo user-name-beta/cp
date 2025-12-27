@@ -160,6 +160,10 @@ else
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
+# Define headers and source files
+$(SRC)/main.c:
+$(SRC)/launch.c:
+
 # Define object files
 
 OBJECTS =
