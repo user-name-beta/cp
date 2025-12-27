@@ -13,21 +13,28 @@ VERSION := p0.0.0
 # Define tools
 
 ifeq ($(OS),Windows_NT)
+	SHELL := $(COMSPEC)
 	RM = del /Q
 	RMDIR = rmdir /Q /S
-	CP = copy
+	COPY = copy
 	EXE_EXT = .exe
 	LIB_PREFIX =
 	SO_EXT = .dll
 	STATIC_EXT = .lib
 else
-	RM = rm -f
+	SHELL := /bin/bash
+	RM = rm -rf
 	RMDIR = rm -rf
-	CP = cp
+	COPY = cp -r
 	EXE_EXT =
 	LIB_PREFIX = lib
 	SO_EXT = .so
 	STATIC_EXT = .a
+endif
+ifeq ($(OS),Windows_NT)
+	global_export = powershell -Command "[Environment]::SetEnvironmentVariable('$(1)', '$(2)', 'User')"
+else
+	global_export = echo "export $(1)='$(2)'" >> ~/.bashrc
 endif
 
 ifeq ($(OS),Windows_NT)
@@ -37,15 +44,15 @@ else
 endif
 
 ifeq ($(OS),Windows_NT)
-	fix_path = "$(subst /,\,$(1))"
+	fix_path = $(subst /,\,$(1))
 else
-	fix_path = "$(1)"
+	fix_path = $(1)
 endif
 
 # Define CC and CFLAGS
 
 CFLAGS ?=
-NDEBUG ?= 0
+RELEASE ?= 0
 
 ifeq ($(filter $(origin CC),undefined default),$(origin CC))
 	ifeq ($(OS),Windows_NT)
@@ -56,9 +63,9 @@ ifeq ($(filter $(origin CC),undefined default),$(origin CC))
 endif
 
 ifeq ($(CC),cl)
-	ifeq ($(origin VisualStudioVersion),undefined)
+       ifeq ($(origin VisualStudioVersion),undefined)
 $(error Build with MSVC but not in Visual Studio Command Prompt)
-	endif
+       endif
 endif
 
 ifneq ($(CC),cl)
@@ -69,14 +76,14 @@ endif
 
 ifeq ($(CC),cl)
 	CFLAGS += /nologo /DYNAMICBASE
-	ifeq ($(NDEBUG),0)
+	ifeq ($(RELEASE),0)
 		CFLAGS += /Od /D_DEBUG
 	else
 		CFLAGS += /O2
 	endif
 else ifeq ($(CC),gcc)
 	CFLAGS += -std=c99 -Wall -fPIC -fvisibility=hidden
-	ifeq ($(NDEBUG),0)
+	ifeq ($(RELEASE),0)
 		CFLAGS += -O0 -DDEBUG -g
 	else
 		CFLAGS += -O2 -DNDEBUG
@@ -85,18 +92,16 @@ endif
 
 ifeq ($(CC),cl)
 	IMPLIB_EXT = .lib
-	OUTOBJ_FLAG = /Fo$@
+	OUTOBJ_FLAG = /c /Fo$@
 	OUTEXE_FLAG = /Fe$@
 	OUTDLL_FLAG = /Fe$@
-	OBJ = /c
 	OBJ_EXT = .obj
 else ifeq ($(CC),gcc)
 	IMPLIB_EXT = .dll.a
-	OUTOBJ_FLAG = -o $@
+	OUTOBJ_FLAG = -c -o $@
 	OUTEXE_FLAG = -o $@
 	OUTDLL_FLAG = -o $@
 	OUT = -o $@
-	OBJ = -c
 	OBJ_EXT = .o
 endif
 
@@ -137,70 +142,126 @@ endif
 
 BUILD ?= build
 DIST ?= dist
-SRC ?= .
-ifeq ($(origin CPGLOBALHOME),undefined)
-	ifeq ($(OS),Windows_NT)
-		PREFIX ?= $(call fix_path,$(ProgramFiles)/cp/$(VERSION))
+SRC ?= src
+
+# Define installation directory
+ifeq ($(origin PREFIX),undefined)
+	ifeq ($(origin CPGLOBALHOME),undefined)
+		ifeq ($(OS),Windows_NT)
+			PREFIX = $(ProgramFiles)/cp
+		else
+			PREFIX = /usr/local/cp
+		endif
 	else
-		PREFIX ?= $(call fix_path,/usr/local/cp/$(VERSION))
+		PREFIX ?= $(call fix_path,$(CPGLOBALHOME))
 	endif
-else
-	PREFIX ?= $(call fix_path,$(CPGLOBALHOME)/$(VERSION))
 endif
+LOCALPREFIX = $(PREFIX)/$(VERSION)
 
-# Define target all as a default target
+# Define API headers
 
-all: directories $(DIST)/$(LIB_PREFIX)cp$(SO_EXT) $(DIST)/cp$(EXE_EXT)
-.PHONY: all
+API_HEADERS = # No API headers yet.
 
-directories:
-	$(call mkdir,$(DIST))
-	$(call mkdir,$(BUILD))
-.PHONY: directories
+# Define headers and source files
+$(SRC)/main.c:
+$(SRC)/launch.c:
 
 # Define object files
 
+OBJECTS =
 $(BUILD)/main$(OBJ_EXT): $(SRC)/main.c
-	$(CC) $(CFLAGS) $(OBJ) $(OUTOBJ_FLAG) $<
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/main$(OBJ_EXT)
+
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
-	$(CC) $(CFLAGS) $(OBJ) $(OUTOBJ_FLAG) $<
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+#OBJECTS += $(BUILD)/launch$(OBJ_EXT)
+# This object file cannot not be linked into the library(but the executable file).
 
-# Define library and executable files
-
-$(DIST)/$(LIB_PREFIX)cp$(SO_EXT): $(BUILD)/main$(OBJ_EXT)
-	$(CC) $(CFLAGS) $(DLL_FLAG) $(OUTDLL_FLAG) $< \
-	$(call IMPLIB_FLAG,$(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)) $(LINK_OPT) $(NOEXP)
+# Define library and executable files and resources(Windows only)
 
 ifeq ($(OS),Windows_NT)
-$(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT): $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
-CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)
+LIBRES = $(BUILD)/lib.res
+$(LIBRES): $(SRC)/lib.rc
+	rc /nologo /fo$@ $<
+EXERES = $(BUILD)/cp.res
+$(EXERES): $(SRC)/cp.rc
+	rc /nologo /fo$@ $<
 else
-$(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT):
-CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
+LIBRES =
+EXERES =
 endif
 
-$(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB)
+$(DIST)/$(LIB_PREFIX)cp$(SO_EXT): $(OBJECTS) $(LIBRES)
+	$(CC) $(CFLAGS) $(DLL_FLAG) $(OUTDLL_FLAG) $(OBJECTS) \
+	$(call IMPLIB_FLAG,$(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)) $(LINK_OPT) $(NOEXP) $(LIBRES)
+
+ifeq ($(OS),Windows_NT)
+CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(IMPLIB_EXT)
+$(CPIMPLIB): $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
+else
+CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
+$(CPIMPLIB):
+endif
+
+$(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< \
-	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp)
+	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES)
 
 # Define targets
 
-clean:
+# Define target all as a default target
+
+TARGET = $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
+all: directories $(TARGET)
+.PHONY: all
+.DEFAULT_GOAL := all
+
+api_headers: $(API_HEADERS)
+	$(call mkdir,"$(call fix_path,$(DIST)/include)")
+#	$(COPY) $(API_HEADERS) "$(call fix_path,$(DIST)/include/)"
+# No API headers yet. This command will cause an error.
+.PHONY: api_headers
+
+directories:
+	@$(call mkdir,$(DIST))
+	@$(call mkdir,$(BUILD))
+.PHONY: directories
+
+clean-build:
 	$(RM) $(call fix_path,$(BUILD)/*)
+.PHONY: clean-build
+
+clean: clean-build
+	$(RM) $(call fix_path,$(DIST)/*)
 .PHONY: clean
 
-clean-all: clean
-	$(RM) $(call fix_path,$(DIST)/*)
-.PHONY: clean-all
+install-files-only: all
+	$(call mkdir,"$(call fix_path,$(PREFIX))")
+	$(call mkdir,"$(call fix_path,$(LOCALPREFIX))")
+	$(COPY) $(call fix_path,$(DIST)/*) "$(call fix_path,$(LOCALPREFIX))"
+.PHONY: install-files-only
 
-install: all
-	$(call mkdir,$(PREFIX)/..)
-	$(call mkdir,$(PREFIX))
-	$(CP) $(call fix_path,$(DIST)/*) $(PREFIX)
+install: install-files-only
+	$(call global_export,CPGLOBALHOME,$(call fix_path,$(PREFIX)))
+	$(call global_export,CPLOCALHOME,$(call fix_path,$(LOCALPREFIX)))
+	@echo Installed cp $(VERSION) in $(LOCALPREFIX)
+	@echo Please remove the old path and add $(call fix_path,$(LOCALPREFIX)) to PATH to use cp $(VERSION).
+	@echo Please also add $(call fix_path,$(LOCALPREFIX)) to LD_LIBRARY_PATH
+	@echo on Unix-like systems to use the library.
 .PHONY: install
 
+uninstall-all: uninstall
+	$(RMDIR) "$(call fix_path,$(PREFIX))"
+	$(call global_export,CPGLOBALHOME,)
+	@echo Uninstalled all versions of cp from $(PREFIX)
+.PHONY: uninstall-all
+
 uninstall:
-	$(RMDIR) $(PREFIX)
+	$(RM) "$(call fix_path,$(LOCALPREFIX)/*)"
+	$(call global_export,CPLOCALHOME,)
+	@echo Uninstalled cp $(VERSION) from $(LOCALPREFIX)
+	@echo Please remove $(call fix_path,$(LOCALPREFIX)) from PATH and LD_LIBRARY_PATH.
 .PHONY: uninstall
 
 help:
@@ -208,13 +269,28 @@ help:
 	@echo Available targets:
 	@echo no-target-name - Same as target all
 	@echo all            - Build the project
-	@echo clean          - Clean the build directory
-	@echo clean-all      - Clean the build and distribution directories
-	@echo install        - Install the project in $(PREFIX) or PREFIX environment variable
-	@echo uninstall      - Uninstall the project from $(PREFIX) or PREFIX environment variable
+	@echo clean          - Clean the build and dist directories
+	@echo clean-all      - Clean the build directory only
+	@echo install        - Install the project in $(LOCALPREFIX)
+	@echo uninstall      - Uninstall the project from $(LOCALPREFIX)
+	@echo uninstall-all  - Uninstall all versions of the project from $(PREFIX)
 	@echo help           - Display this help message
-	@echo If you make on Windows, not to use MSYS2 bash.
 	@echo Use MSVC on Windows or GCC on Linux/MacOS as default compiler.
+	@echo Now only support building with MSVC or GCC.
 	@echo Run in Visual Studio Developer Command Prompt to build with MSVC.
-	@echo Setting CPGLOBALHOME environment variable can specify the installation directory.
+	@echo Run "make help-install" to see verbose help for installing. 
 .PHONY: help
+
+help-install:
+	@echo Now install the project in $(LOCALPREFIX) as default.
+	@echo You can change the installation directory by setting some environment variables:
+	@echo CPGLOBALHOME - This directory is often setted automatically by the installer.
+	@echo GLOBALPREFIX - This directory will be used as the installation directory if CPGLOBALHOME is not setted.
+	@echo When you set any of these variables, the installation directory will 
+	@echo become a version-numbered subdirectory under the path specified by that variable.
+	@echo For example, if CPGLOBALHOME is set to "C:\Program Files\cp", 
+	@echo the installation directory will be "C:\Program Files\cp\$(VERSION)".
+	@echo When installing, the installer will not only copy the files to the installation directory,
+	@echo but also create some environment variables for the program to use at runtime, such as CPGLOBALHOME,
+	@echo unless when running "make install-files-only".
+.PHONY: help-install
