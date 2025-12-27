@@ -145,22 +145,20 @@ DIST ?= dist
 SRC ?= src
 
 # Define installation directory
-ifeq ($(origin GLOBALPREFIX),undefined)
+ifeq ($(origin PREFIX),undefined)
 	ifeq ($(origin CPGLOBALHOME),undefined)
 		ifeq ($(OS),Windows_NT)
-			GLOBALPREFIX = $(ProgramFiles)/cp
+			PREFIX = $(ProgramFiles)/cp
 		else
-			GLOBALPREFIX = /usr/local/cp
+			PREFIX = /usr/local/cp
 		endif
 	else
-		GLOBALPREFIX = $(CPGLOBALHOME)
+		PREFIX ?= $(call fix_path,/usr/local/cp)
 	endif
+else
+	PREFIX ?= $(call fix_path,$(CPGLOBALHOME))
 endif
-
-ifneq ($(origin PREFIX),undefined)
-	$(error PREFIX is removed, use GLOBALPREFIX instead)
-endif
-PREFIX = $(GLOBALPREFIX)/$(VERSION)
+LOCALPREFIX = $(PREFIX)/$(VERSION)
 
 # Define target all as a default target
 
@@ -226,31 +224,31 @@ clean: clean-build
 .PHONY: clean
 
 install-files-only: all
-	$(call mkdir,"$(call fix_path,$(GLOBALPREFIX))")
 	$(call mkdir,"$(call fix_path,$(PREFIX))")
-	$(COPY) $(call fix_path,$(DIST)/*) "$(call fix_path,$(PREFIX))"
+	$(call mkdir,"$(call fix_path,$(LOCALPREFIX))")
+	$(COPY) $(call fix_path,$(DIST)/*) "$(call fix_path,$(LOCALPREFIX))"
 .PHONY: install-files-only
 
 install: install-files-only
-	$(call global_export,CPGLOBALHOME,$(call fix_path,$(GLOBALPREFIX)))
-	$(call global_export,CPLOCALHOME,$(call fix_path,$(PREFIX)))
-	@echo Installed cp $(VERSION) in $(PREFIX)
-	@echo Please remove the old path and add $(call fix_path,$(PREFIX)) to PATH to use cp $(VERSION).
-	@echo Please also add $(call fix_path,$(PREFIX)) to LD_LIBRARY_PATH
+	$(call global_export,CPGLOBALHOME,$(call fix_path,$(PREFIX)))
+	$(call global_export,CPLOCALHOME,$(call fix_path,$(LOCALPREFIX)))
+	@echo Installed cp $(VERSION) in $(LOCALPREFIX)
+	@echo Please remove the old path and add $(call fix_path,$(LOCALPREFIX)) to PATH to use cp $(VERSION).
+	@echo Please also add $(call fix_path,$(LOCALPREFIX)) to LD_LIBRARY_PATH
 	@echo on Unix-like systems to use the library.
 .PHONY: install
 
 uninstall-all: uninstall
-	$(RMDIR) "$(call fix_path,$(GLOBALPREFIX))"
+	$(RMDIR) "$(call fix_path,$(PREFIX))"
 	$(call global_export,CPGLOBALHOME,)
-	@echo Uninstalled all versions of cp from $(GLOBALPREFIX)
+	@echo Uninstalled all versions of cp from $(PREFIX)
 .PHONY: uninstall-all
 
 uninstall:
-	$(RM) "$(call fix_path,$(PREFIX)/*)"
+	$(RM) "$(call fix_path,$(LOCALPREFIX)/*)"
 	$(call global_export,CPLOCALHOME,)
-	@echo Uninstalled cp $(VERSION) from $(PREFIX)
-	@echo Please remove $(call fix_path,$(PREFIX)) from PATH and LD_LIBRARY_PATH.
+	@echo Uninstalled cp $(VERSION) from $(LOCALPREFIX)
+	@echo Please remove $(call fix_path,$(LOCALPREFIX)) from PATH and LD_LIBRARY_PATH.
 .PHONY: uninstall
 
 help:
@@ -260,9 +258,9 @@ help:
 	@echo all            - Build the project
 	@echo clean          - Clean the build and dist directories
 	@echo clean-all      - Clean the build directory only
-	@echo install        - Install the project in $(PREFIX)
-	@echo uninstall      - Uninstall the project from $(PREFIX)
-	@echo uninstall-all  - Uninstall all versions of the project from $(GLOBALPREFIX)
+	@echo install        - Install the project in $(LOCALPREFIX)
+	@echo uninstall      - Uninstall the project from $(LOCALPREFIX)
+	@echo uninstall-all  - Uninstall all versions of the project from $(PREFIX)
 	@echo help           - Display this help message
 	@echo Use MSVC on Windows or GCC on Linux/MacOS as default compiler.
 	@echo Now only support building with MSVC or GCC.
@@ -271,7 +269,7 @@ help:
 .PHONY: help
 
 help-install:
-	@echo Now install the project in $(PREFIX) as default.
+	@echo Now install the project in $(LOCALPREFIX) as default.
 	@echo You can change the installation directory by setting some environment variables:
 	@echo CPGLOBALHOME - This directory is often setted automatically by the installer.
 	@echo GLOBALPREFIX - This directory will be used as the installation directory if CPGLOBALHOME is not setted.
