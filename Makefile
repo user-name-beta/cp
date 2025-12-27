@@ -23,7 +23,7 @@ ifeq ($(OS),Windows_NT)
 	STATIC_EXT = .lib
 else
 	SHELL := /bin/bash
-	RM = rm -f
+	RM = rm -rf
 	RMDIR = rm -rf
 	COPY = cp
 	EXE_EXT =
