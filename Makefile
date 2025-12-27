@@ -153,10 +153,8 @@ ifeq ($(origin PREFIX),undefined)
 			PREFIX = /usr/local/cp
 		endif
 	else
-		PREFIX ?= $(call fix_path,/usr/local/cp)
+		PREFIX ?= $(call fix_path,$(CPGLOBALHOME))
 	endif
-else
-	PREFIX ?= $(call fix_path,$(CPGLOBALHOME))
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
