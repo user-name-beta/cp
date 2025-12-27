@@ -215,6 +215,10 @@ $(BUILD)/report_error$(OBJ_EXT): $(SRC)/report_error.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/report_error$(OBJ_EXT)
 
+$(BUILD)/parsearg$(OBJ_EXT): $(SRC)/parsearg.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/parsearg$(OBJ_EXT)
+
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
