@@ -25,7 +25,7 @@ else
 	SHELL := /bin/bash
 	RM = rm -rf
 	RMDIR = rm -rf
-	COPY = cp
+	COPY = cp -r
 	EXE_EXT =
 	LIB_PREFIX = lib
 	SO_EXT = .so
