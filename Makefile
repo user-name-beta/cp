@@ -13,7 +13,7 @@ VERSION := p0.0.0
 # Define tools
 
 ifeq ($(OS),Windows_NT)
-	SHELL := $(COMSPEC)
+	SHELL := cmd.exe
 	RM = del /Q
 	RMDIR = rmdir /Q /S
 	COPY = copy
