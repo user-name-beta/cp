@@ -1,0 +1,73 @@
+name: Build and test on Linux, Windows with MSVC and MinGW
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-on-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: make
+      run: make
+    - name: test-run
+      run: dist/cp version
+    - name: make clean
+      run: make clean
+    - name: make release
+      run: make RELEASE=1
+    - name: release-test-run
+      run: dist/cp version
+
+  build-on-windows-with-msvc:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: set up MSVC 2022
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vs-version: 2022
+    - name: make
+      run: make
+    - name: test-run
+      run: dist/cp version
+    - name: make clean
+      run: make clean
+    - name: make release
+      run: make RELEASE=1
+    - name: release-test-run
+      run: dist/cp version
+
+  build-on-windows-with-mingw:
+
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: set up mingw
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: mingw64
+        update: true
+        install: |
+          mingw-w64-x86_64-toolchain
+          base-devel
+      
+    - name: make
+      run: make CC=gcc
+    - name: test-run
+      run: dist/cp version
+    - name: make clean
+      run: make clean CC=gcc
+    - name: make release
+      run: make RELEASE=1 CC=gcc
+    - name: release-test-run
+      run: dist/cp version
