@@ -120,9 +120,18 @@ else ifeq ($(CC),gcc)
 	SLIB_FLAG = -l$(1)
 	LIBPATH_FLAG = -L$(1)
 	DLL_FLAG = -shared
-	IMPLIB_FLAG = -Wl,--out-implib,$(1)
+	ifeq ($(OS),Windows_NT)
+		IMPLIB_FLAG = -Wl,--out-implib,$(1)
+	else
+		IMPLIB_FLAG =
+	endif
 	LINK_OPT =
 	NOEXP =
+	ifneq ($(OS),Windows_NT) # Linux
+		RPATH_FLAG = -Wl,-rpath,$(1)
+	else
+		RPATH_FLAG =
+	endif
 endif
 
 # Define AR and ARFLAGS
@@ -206,7 +215,8 @@ endif
 
 $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< \
-	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES)
+	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES) \
+	$(call RPATH_FLAG,\$$ORIGIN)
 
 # Define targets
 
