@@ -120,7 +120,11 @@ else ifeq ($(CC),gcc)
 	SLIB_FLAG = -l$(1)
 	LIBPATH_FLAG = -L$(1)
 	DLL_FLAG = -shared
-	IMPLIB_FLAG = -Wl,--out-implib,$(1)
+	ifeq ($(OS),Windows_NT)
+		IMPLIB_FLAG = -Wl,--out-implib,$(1)
+	else
+		IMPLIB_FLAG =
+	endif
 	LINK_OPT =
 	NOEXP =
 	ifneq ($(OS),Windows_NT) # Linux
