@@ -60,13 +60,7 @@ jobs:
         install: |
           mingw-w64-x86_64-toolchain
           base-devel
-    - name: test if mingw toolchain is available
-      shell: msys2 {0}
-      run: |
-        gcc --version
-        make --version
-        ld --version
-        rc /?
+      
     - name: make
       run: make CC=gcc
     - name: test-run
