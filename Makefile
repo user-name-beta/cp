@@ -147,6 +147,21 @@ else ifeq ($(AR),lib)
 	ARFLAGS = /nologo /OUT:$(1)
 endif
 
+# Define Resource compiler (rc or windres) flags
+
+ifeq ($(OS),Windows_NT)
+ifeq ($(CC),cl)
+	RC = rc
+	RCFLAGS = /nologo /fo$@ $<
+else ifeq ($(CC),gcc)
+	RC = windres
+	RCFLAGS = -O coff -o $@ -i $<
+endif
+else
+	RC =
+	RCFLAGS =
+endif
+
 # Define the output directory
 
 BUILD ?= build
@@ -192,10 +207,10 @@ $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 ifeq ($(OS),Windows_NT)
 LIBRES = $(BUILD)/lib.res
 $(LIBRES): $(SRC)/lib.rc
-	rc /nologo /fo$@ $<
+	$(RC) $(RCFLAGS)
 EXERES = $(BUILD)/cp.res
 $(EXERES): $(SRC)/cp.rc
-	rc /nologo /fo$@ $<
+	$(RC) $(RCFLAGS)
 else
 LIBRES =
 EXERES =
