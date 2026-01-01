@@ -251,8 +251,8 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = deps $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
-all: directories $(TARGET)
+TARGET = directories deps $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
+all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
 
