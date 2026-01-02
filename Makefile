@@ -107,6 +107,8 @@ else ifeq ($(CC),gcc)
 	MACRO = -D$(1)
 endif
 
+CFLAGS += $(call MACRO,_CP_STATIC_IMPORT_)
+
 # Define variables about linking
 
 ifeq ($(CC),cl)
