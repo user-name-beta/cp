@@ -289,11 +289,11 @@ directories:
 .PHONY: directories
 
 clean-build:
-	$(RM) $(call fix_path,$(BUILD)/*)
+	$(RMDIR) $(call fix_path,$(BUILD))
 .PHONY: clean-build
 
 clean: clean-build
-	$(RM) $(call fix_path,$(DIST)/*)
+	$(RMDIR) $(call fix_path,$(DIST))
 .PHONY: clean
 
 install-files-only: all
