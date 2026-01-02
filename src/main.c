@@ -116,7 +116,9 @@ CP_Main(int argc, char **argv) {
         cp_report_error(exe_name, "Cannot get home directory.");
         home = NULL;
     } else home = buf2;
-    if(CPath_Filename(exe_name, exe) < 0)goto error;
+    if(CPath_Filename(exe_name, exe) < 0) {
+        cp_report_error(exe_name, "Cannot get executable name.");
+    } 
     /* Initialize the argument parser. */
     cp_argc = argc - 1;
     cp_argv = argv + 1;
@@ -128,7 +130,9 @@ CP_Main(int argc, char **argv) {
         print_copyright();
     } else
     if(strcmp(cmd, "license") == 0) {
-        if(print_file(home, "LICENSE") != 0)goto error;
+        if(print_file(home, "LICENSE") < 0) {
+            cp_report_error(exe_name, "Cannot open LICENSE file.");
+        }
     } else
     if(strcmp(cmd, "version") == 0) {
         print_version();
