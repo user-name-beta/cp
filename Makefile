@@ -186,9 +186,19 @@ LOCALPREFIX = $(PREFIX)/$(VERSION)
 
 API_HEADERS = # No API headers yet.
 
-# Define headers and source files
-$(SRC)/main.c:
-$(SRC)/launch.c:
+# Define dependencies of headers and source files
+
+$(BUILD)/depends.d: $(wildcard $(SRC)/*.*) | directories
+ifeq ($(OS),Windows_NT)
+	powershell -ExecutionPolicy Bypass -File ./depends.ps1 $(SRC) $@
+else
+	@chmod +x ./depends.sh
+	./depends.sh $(SRC) $@
+endif
+
+ifneq ($(MAKECMDGOALS),$(BUILD)/depends.d)
+-include $(BUILD)/depends.d
+endif
 
 # Define object files
 
@@ -237,8 +247,8 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
-all: directories $(TARGET)
+TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
+all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
 
