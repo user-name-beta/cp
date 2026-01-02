@@ -188,11 +188,7 @@ API_HEADERS = # No API headers yet.
 
 # Define dependencies of headers and source files
 
-deps:
-	make -s $(BUILD)/depends.d
-.PHONY: deps
-
-$(BUILD)/depends.d: $(wildcard $(SRC)/*.*)
+$(BUILD)/depends.d: $(wildcard $(SRC)/*.*) | directories
 ifeq ($(OS),Windows_NT)
 	powershell -ExecutionPolicy Bypass -File ./depends.ps1 $(SRC) $@
 else
@@ -251,7 +247,7 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = directories deps $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
+TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
