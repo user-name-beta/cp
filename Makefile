@@ -96,6 +96,7 @@ ifeq ($(CC),cl)
 	OUTEXE_FLAG = /Fe$@
 	OUTDLL_FLAG = /Fe$@
 	OBJ_EXT = .obj
+	MACRO = /D$(1)
 else ifeq ($(CC),gcc)
 	IMPLIB_EXT = .dll.a
 	OUTOBJ_FLAG = -c -o $@
@@ -103,6 +104,7 @@ else ifeq ($(CC),gcc)
 	OUTDLL_FLAG = -o $@
 	OUT = -o $@
 	OBJ_EXT = .o
+	MACRO = -D$(1)
 endif
 
 # Define variables about linking
