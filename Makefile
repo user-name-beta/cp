@@ -186,6 +186,11 @@ ifeq ($(origin PREFIX),undefined)
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
+# Define other targets
+
+$(DIST)/LICENSE: LICENSE
+	$(COPY) $< $@
+
 # Define API headers
 
 API_HEADERS = # No API headers yet.
@@ -267,7 +272,7 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
+TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers $(DIST)/LICENSE
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
