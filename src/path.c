@@ -43,6 +43,7 @@ CPath_IsAbsolute(const char *path) {
 
 int
 CPath_Getcwd(char *cwd) {
+    if(cwd == NULL)return -1;
 #ifdef _WIN32
     DWORD len = GetCurrentDirectoryA(CP_MAX_PATH, cwd);
     if(len == 0 || len >= CP_MAX_PATH) {
@@ -59,6 +60,7 @@ CPath_Getcwd(char *cwd) {
 
 int
 CPath_Setcwd(const char *path) {
+    if(path == NULL)return -1;
 #ifdef _WIN32
     if(SetCurrentDirectoryA(path) == 0) {
         return -1;
@@ -73,6 +75,7 @@ CPath_Setcwd(const char *path) {
 
 int
 CPath_Join(char *dst, const char *src1, const char *src2) {
+    if(dst == NULL || src1 == NULL || src2 == NULL)return -1;
     if(CPath_IsAbsolute(src2)) {
         return -1;
     }
@@ -86,6 +89,7 @@ CPath_Join(char *dst, const char *src1, const char *src2) {
 
 int
 CPath_JoinInPlace(char *dst, const char *src) {
+    if(dst == NULL || src == NULL)return -1;
     if(CPath_IsAbsolute(src)) {
         return -1;
     }
@@ -98,6 +102,7 @@ CPath_JoinInPlace(char *dst, const char *src) {
 
 int
 CPath_Filename(char *dst, const char *src) {
+    if(dst == NULL || src == NULL)return -1;
     size_t len = strlen(src);
     for(ssize_t i = (ssize_t)len - 1; i >= 0; i--) {
         if(CP_IS_PATH_SEP(src[i])) {
@@ -111,6 +116,7 @@ CPath_Filename(char *dst, const char *src) {
 
 int
 CPath_Dirname(char *dst, const char *src) {
+    if(dst == NULL || src == NULL)return -1;
     size_t len = strlen(src);
     for(ssize_t i = len - 1; i >= 0; i--) {
         if(CP_IS_PATH_SEP(src[i])) {
