@@ -47,6 +47,14 @@
 
 #endif /* _CP_EXPORTS_H_ */
 
+#ifdef CP_API_FUNC
+#undef CP_API_FUNC
+#endif /* CP_API_FUNC */
+
+#ifdef CP_API_DATA
+#undef CP_API_DATA
+#endif /* CP_API_DATA */
+
 #ifdef CP_EXPORT_SYMBOL
 #undef CP_EXPORT_SYMBOL
 #define CP_API_FUNC(TYPE) CP_EXPORT_FUNC(TYPE)
