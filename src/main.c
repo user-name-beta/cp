@@ -121,7 +121,9 @@ CP_Main(int argc, char **argv) {
     cp_argc = argc - 1;
     cp_argv = argv + 1;
     const char *cmd = CP_ParseOneArg();
-    if(cmd == NULL)goto error;
+    if(cmd == NULL) {
+        print_version();
+    } else
     if(strcmp(cmd, "copyright") == 0) {
         print_copyright();
     } else
