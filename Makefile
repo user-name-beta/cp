@@ -223,6 +223,10 @@ $(BUILD)/parsearg$(OBJ_EXT): $(SRC)/parsearg.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/parsearg$(OBJ_EXT)
 
+$(BUILD)/version$(OBJ_EXT): $(SRC)/version.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/version$(OBJ_EXT)
+
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
