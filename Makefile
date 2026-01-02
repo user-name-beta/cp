@@ -192,7 +192,7 @@ $(BUILD)/depends.d: $(wildcard $(SRC)/*.*) | directories
 ifeq ($(OS),Windows_NT)
 	powershell -ExecutionPolicy Bypass -File ./depends.ps1 $(SRC) $@
 else
-	chmod +x ./depends.sh
+	@chmod +x ./depends.sh
 	./depends.sh $(SRC) $@
 endif
 
