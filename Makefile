@@ -196,7 +196,7 @@ else
 	./depends.sh $(SRC) $@
 endif
 
-ifneq ($(MAKECMDGOALS),$(BUILD)/depends.d)
+ifeq ($(filter clean clean-build help help-install install install-files-only uninstall uninstall-all $(BUILD)/depends.d,$(MAKECMDGOALS)),)
 -include $(BUILD)/depends.d
 endif
 
