@@ -253,7 +253,7 @@ all: $(TARGET)
 .DEFAULT_GOAL := all
 
 api_headers: $(API_HEADERS)
-	$(call mkdir,"$(call fix_path,$(DIST)/include)")
+	@$(call mkdir,"$(call fix_path,$(DIST)/include)")
 #	$(COPY) $(API_HEADERS) "$(call fix_path,$(DIST)/include/)"
 # No API headers yet. This command will cause an error.
 .PHONY: api_headers
