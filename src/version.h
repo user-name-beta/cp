@@ -25,11 +25,19 @@
 #define CP_VERSION_PRERELEASE 0
 #define CP_VERSION_RELEASE 1
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 CP_API_DATA(const char *) CP_VersionString;
 CP_API_DATA(const int) CP_VersionType;
 CP_API_DATA(const int) CP_VersionMajor;
 CP_API_DATA(const int) CP_VersionMinor;
 CP_API_DATA(const int) CP_VersionMicro;
 CP_API_DATA(const long) CP_VersionHex;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // _CP_VERSION_H_
