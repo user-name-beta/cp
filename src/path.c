@@ -8,6 +8,7 @@
 
 #include "cptypes.h"
 #include "path.h"
+#include "safe_string.h"
 
 static inline char
 get_volume(const char *path) {
@@ -79,10 +80,10 @@ CPath_Join(char *dst, const char *src1, const char *src2) {
     if(CPath_IsAbsolute(src2)) {
         return -1;
     }
-    if(strcpy_s(dst, CP_MAX_PATH, src1) != 0)return -1;
+    if(strcpy_safe(dst, src1, CP_MAX_PATH) != 0)return -1;
     remove_end_sep(dst);
-    if(strcat_s(dst, CP_MAX_PATH, CP_PATH_SEP) != 0)return -1;
-    if(strcat_s(dst, CP_MAX_PATH, src2) != 0)return -1;
+    if(strcat_safe(dst, CP_PATH_SEP, CP_MAX_PATH) != 0)return -1;
+    if(strcat_safe(dst, src2, CP_MAX_PATH) != 0)return -1;
     remove_end_sep(dst);
     return 0;
 }
@@ -94,8 +95,8 @@ CPath_JoinInPlace(char *dst, const char *src) {
         return -1;
     }
     remove_end_sep(dst);
-    if(strcat_s(dst, CP_MAX_PATH, CP_PATH_SEP) != 0)return -1;
-    if(strcat_s(dst, CP_MAX_PATH, src) != 0)return -1;
+    if(strcat_safe(dst, CP_PATH_SEP, CP_MAX_PATH) != 0)return -1;
+    if(strcat_safe(dst, src, CP_MAX_PATH) != 0)return -1;
     remove_end_sep(dst);
     return 0;
 }
@@ -106,11 +107,11 @@ CPath_Filename(char *dst, const char *src) {
     size_t len = strlen(src);
     for(ssize_t i = (ssize_t)len - 1; i >= 0; i--) {
         if(CP_IS_PATH_SEP(src[i])) {
-            if(strcpy_s(dst, CP_MAX_PATH, src + i + 1) != 0)return -1;
+            if(strcpy_safe(dst, src + i + 1, CP_MAX_PATH) != 0)return -1;
             return 0;
         }
     }
-    if(strcpy_s(dst, CP_MAX_PATH, src) != 0)return -1;
+    if(strcpy_safe(dst, src, CP_MAX_PATH) != 0)return -1;
     return 0;
 }
 
@@ -124,7 +125,7 @@ CPath_Dirname(char *dst, const char *src) {
                 dst[0] = src[0];
                 dst[1] = '\0';
             } else {
-                if(strncpy_s(dst, CP_MAX_PATH, src, i) != 0)return -1;
+                if(strncpy_safe(dst, src, i, CP_MAX_PATH) != 0)return -1;
                 dst[i] = '\0';
             }
             return 0;
