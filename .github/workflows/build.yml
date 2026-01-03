@@ -1,4 +1,4 @@
-name: Build and test on Linux, Windows with MSVC and MinGW
+name: Build
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-on-linux:
+  on-linux:
 
     runs-on: ubuntu-latest
 
@@ -24,7 +24,7 @@ jobs:
     - name: release-test-run
       run: dist/cp version
 
-  build-on-windows-with-msvc:
+  on-windows-with-msvc:
 
     runs-on: windows-latest
 
@@ -45,7 +45,7 @@ jobs:
     - name: release-test-run
       run: dist/cp version
 
-  build-on-windows-with-mingw:
+  on-windows-with-mingw:
 
     runs-on: windows-latest
     
