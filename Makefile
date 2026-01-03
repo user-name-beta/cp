@@ -232,6 +232,10 @@ $(BUILD)/version$(OBJ_EXT): $(SRC)/version.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/version$(OBJ_EXT)
 
+$(BUILD)/safe_string$(OBJ_EXT): $(SRC)/safe_string.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/safe_string$(OBJ_EXT)
+
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
