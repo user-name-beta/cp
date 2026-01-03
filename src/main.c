@@ -12,6 +12,7 @@
 #include "path.h"
 #include "report_error.h"
 #include "version.h"
+#include "safe_string.h"
 
 #include "main.h"
 
@@ -31,7 +32,7 @@ get_exe_path(char *dst) {
 #else
     Dl_info info;
     if(dladdr((void *)CP_Main, &info)) {
-        if(strcpy_s(dst, CP_MAX_PATH, info.dli_fname) != 0)return -1;
+        if(strcpy_safe(dst, info.dli_fname, CP_MAX_PATH) != 0)return -1;
     } else {
         return -1;
     }
@@ -90,7 +91,7 @@ static inline int
 get_home_path(char *dst, const char *exe) {
     char *home = getenv("CPLOCALHOME");
     if(home != NULL) {
-        if(strcpy_s(dst, CP_MAX_PATH, home) != 0)return -1;
+        if(strcpy_safe(dst, home, CP_MAX_PATH) != 0)return -1;
         return 0;
     }
     if(exe == NULL)return -1;
