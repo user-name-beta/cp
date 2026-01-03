@@ -17,7 +17,11 @@
 #include "main.h"
 
 static bool main_running = false;
-
+#ifndef _WIN32
+#include <dlfcn.h>
+#include <unistd.h>
+#include <limits.h>
+#endif
 static inline int
 get_exe_path(char *dst) {
 #ifdef _WIN32
