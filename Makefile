@@ -96,6 +96,7 @@ ifeq ($(CC),cl)
 	OUTEXE_FLAG = /Fe$@
 	OUTDLL_FLAG = /Fe$@
 	OBJ_EXT = .obj
+	MACRO = /D$(1)
 else ifeq ($(CC),gcc)
 	IMPLIB_EXT = .dll.a
 	OUTOBJ_FLAG = -c -o $@
@@ -103,7 +104,10 @@ else ifeq ($(CC),gcc)
 	OUTDLL_FLAG = -o $@
 	OUT = -o $@
 	OBJ_EXT = .o
+	MACRO = -D$(1)
 endif
+
+CFLAGS += $(call MACRO,_CP_STATIC_IMPORT_)
 
 # Define variables about linking
 
@@ -182,6 +186,11 @@ ifeq ($(origin PREFIX),undefined)
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
+# Define other targets
+
+$(DIST)/LICENSE: LICENSE
+	$(COPY) $< $@
+
 # Define API headers
 
 API_HEADERS = # No API headers yet.
@@ -206,6 +215,26 @@ OBJECTS =
 $(BUILD)/main$(OBJ_EXT): $(SRC)/main.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/main$(OBJ_EXT)
+
+$(BUILD)/path$(OBJ_EXT): $(SRC)/path.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/path$(OBJ_EXT)
+
+$(BUILD)/report_error$(OBJ_EXT): $(SRC)/report_error.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/report_error$(OBJ_EXT)
+
+$(BUILD)/parsearg$(OBJ_EXT): $(SRC)/parsearg.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/parsearg$(OBJ_EXT)
+
+$(BUILD)/version$(OBJ_EXT): $(SRC)/version.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/version$(OBJ_EXT)
+
+$(BUILD)/safe_string$(OBJ_EXT): $(SRC)/safe_string.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/safe_string$(OBJ_EXT)
 
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
@@ -247,7 +276,7 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers
+TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers $(DIST)/LICENSE
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
