@@ -13,24 +13,24 @@
 void
 cp_report_fatal(const char *exename, const char *fmt, ...) {
     if(exename != NULL) {
-        printf("%s: ", exename);
+        fprintf(stderr, "%s: ", exename);
     }
     va_list args;
     va_start(args, fmt);
     vfprintf(stderr, fmt, args);
     va_end(args);
-    printf("\n");
+    fprintf(stderr, "\n");
     exit(1);
 }
 
 void
 cp_report_error(const char *exename, const char *fmt, ...) {
     if(exename != NULL) {
-        printf("%s: ", exename);
+        fprintf(stderr, "%s: ", exename);
     }
     va_list args;
     va_start(args, fmt);
     vfprintf(stderr, fmt, args);
     va_end(args);
-    printf("\n");
+    fprintf(stderr, "\n");
 }
