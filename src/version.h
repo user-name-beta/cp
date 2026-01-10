@@ -25,6 +25,10 @@
 #define CP_VERSION_PRERELEASE 0xA0
 #define CP_VERSION_RELEASE 0xFF
 
+#define CP_BYTECODE_MAGIC_NUMBER "\x63\x70\x6d\x80"
+#define CP_BYTECODE_VERSION_MAJOR 0x00000000L
+#define CP_BYTECODE_VERSION_MINOR 0x00000000L
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -35,6 +39,9 @@ CP_API_DATA(const int) CP_VersionMajor;
 CP_API_DATA(const int) CP_VersionMinor;
 CP_API_DATA(const int) CP_VersionMicro;
 CP_API_DATA(const long) CP_VersionHex;
+CP_API_DATA(const char *) CP_BytecodeMagicNumber;
+CP_API_DATA(const long) CP_BytecodeVersionMajor;
+CP_API_DATA(const long) CP_BytecodeVersionMinor;
 
 #ifdef __cplusplus
 }

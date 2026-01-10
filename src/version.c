@@ -15,3 +15,6 @@ CP_API_DATA(const int) CP_VersionMajor = CP_VERSION_MAJOR;
 CP_API_DATA(const int) CP_VersionMinor = CP_VERSION_MINOR;
 CP_API_DATA(const int) CP_VersionMicro = CP_VERSION_MICRO;
 CP_API_DATA(const long) CP_VersionHex = CP_VERSION_HEX;
+CP_API_DATA(const char *) CP_BytecodeMagicNumber = CP_BYTECODE_MAGIC_NUMBER;
+CP_API_DATA(const long) CP_BytecodeVersionMajor = CP_BYTECODE_VERSION_MAJOR;
+CP_API_DATA(const long) CP_BytecodeVersionMinor = CP_BYTECODE_VERSION_MINOR;
