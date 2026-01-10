@@ -10,6 +10,9 @@
 #include "path.h"
 #include "safe_string.h"
 
+#ifndef _WIN32
+__attribute__((unused)) // Unix systems have no volume concept.
+#endif
 static inline char
 get_volume(const char *path) {
 #ifndef _WIN32
