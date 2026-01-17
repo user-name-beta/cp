@@ -106,6 +106,7 @@ static inline flags_t
 convert_flags(file_t file, prot_t p, int flags) {
 #ifdef _WIN32
     (void)file; // unused
+    (void)flags; // unused
     switch (p) {
         case PAGE_NOACCESS:
             return 0;
