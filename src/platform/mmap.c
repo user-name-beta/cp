@@ -85,6 +85,7 @@ convert_prot(int prot, int flags) {
     if(!r && w && x) return s ? PAGE_EXECUTE_READWRITE : PAGE_EXECUTE_WRITECOPY;
     if(r && w && x) return s ? PAGE_EXECUTE_READWRITE : PAGE_EXECUTE_WRITECOPY;
     assert(0 && "Invalid combination of flags and prot");
+    return 0; // To avoid compiler warning: not all control paths return a value
 #else
     (void)flags; // unused
     int f = 0;
