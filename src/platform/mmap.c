@@ -128,10 +128,10 @@ convert_flags(file_t file, prot_t p, int flags) {
 #else
     (void)p; // unused
     int mmap_flags = 0;
-    if(flags & CP_MMAP_PROT_SHARED) {
+    if(flags & CP_MMAP_FLAG_SHARED) {
         mmap_flags |= MAP_SHARED;
     } else
-    if(flags & CP_MMAP_PROT_PRIVATE) {
+    if(flags & CP_MMAP_FLAG_PRIVATE) {
         mmap_flags |= MAP_PRIVATE;
     }
     if(file == -1){
