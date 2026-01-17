@@ -149,6 +149,7 @@ CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t
     if(size == (size_t)-1) {
         return -1;
     }
+    mapping->size = size;
     if(offset > size) {
         return -1;
     }
@@ -161,7 +162,7 @@ CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t
     }
 #ifdef _WIN64
     mapping->addr = MapViewOfFile(mapping->hMapping, f, offset >> 32, (DWORD)offset, size);
-#else
+#else /* _WIN64 */
     mapping->addr = MapViewOfFile(mapping->hMapping, f, 0, offset, size);
 #endif /* _WIN64 */
     if(mapping->addr == NULL) {
@@ -174,8 +175,23 @@ CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t
     if(mapping->addr == MAP_FAILED) {
         return -1;
     }
-    mapping->len = size;
     return 0;
+#endif
+}
+
+int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size, int prot) {
+    if(size == (size_t)-1) {
+        size = mapping->size;
+    }
+#ifdef _WIN32
+    DWORD dwOldProtect;
+    if(!VirtualProtect(mapping->addr + offset, size, convert_prot(prot, 0), &dwOldProtect)) {
+        return -1;
+    }
+#else
+    if(!mprotect(mapping->addr + offset, size, convert_prot(prot, 0))) {
+        return -1;
+    }
 #endif
 }
 
@@ -184,7 +200,7 @@ int CPMemoryMapping_Destroy(CPMemoryMapping *mapping) {
     UnmapViewOfFile(mapping->addr);
     CloseHandle(mapping->hMapping);
 #else
-    munmap(mapping->addr, mapping->len);
+    munmap(mapping->addr, mapping->size);
 #endif
     return 0;
 }

@@ -21,12 +21,10 @@
 
 typedef 
 struct _CPMemoryMapping_ {
+    void *addr;
+    size_t size;
 #ifdef _WIN32
-    void *addr;
     HANDLE hMapping;
-#else
-    void *addr;
-    size_t len;
 #endif
 } CPMemoryMapping;
 
@@ -39,6 +37,7 @@ struct _CPMemoryMapping_ {
 #define CP_MMAP_FLAG_PRIVATE 0b10
 
 int CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t offset, int prot, int flags);
+int CPMemoryMapping_Protect(CPMemoryMapping *mapping, int prot);
 int CPMemoryMapping_Destroy(CPMemoryMapping *mapping);
 
 #endif /* _CP_MMAP_H_ */
