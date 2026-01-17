@@ -75,14 +75,14 @@ endif
 endif
 
 ifeq ($(CC),cl)
-	CFLAGS += /nologo /DYNAMICBASE
+	CFLAGS += /nologo /DYNAMICBASE /WX
 	ifeq ($(RELEASE),0)
 		CFLAGS += /Od /D_DEBUG
 	else
 		CFLAGS += /O2
 	endif
 else ifeq ($(CC),gcc)
-	CFLAGS += -std=gnu99 -Wall -fPIC -fvisibility=hidden
+	CFLAGS += -std=gnu99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden
 	ifeq ($(RELEASE),0)
 		CFLAGS += -O0 -DDEBUG -g
 	else
