@@ -86,23 +86,25 @@ convert_prot(int prot, int flags) {
     if(r && w && x) return s ? PAGE_EXECUTE_READWRITE : PAGE_EXECUTE_WRITECOPY;
     assert(0 && "Invalid combination of flags and prot");
 #else
-    int flags = 0;
+    (void)flags; // unused
+    int f = 0;
     if(prot & CP_MMAP_PROT_READ) {
-        flags |= PROT_READ;
+        f |= PROT_READ;
     }
     if(prot & CP_MMAP_PROT_WRITE) {
-        flags |= PROT_WRITE;
+        f |= PROT_WRITE;
     }
     if(prot & CP_MMAP_PROT_EXEC) {
-        flags |= PROT_EXEC;
+        f |= PROT_EXEC;
     }
-    return flags;
+    return f;
 #endif
 }
 
 static inline flags_t
 convert_flags(file_t file, prot_t p, int flags) {
 #ifdef _WIN32
+    (void)file; // unused
     switch (p) {
         case PAGE_NOACCESS:
             return 0;
@@ -126,10 +128,10 @@ convert_flags(file_t file, prot_t p, int flags) {
 #else
     (void)p; // unused
     int mmap_flags = 0;
-    if(flags & CP_MMAP_MAP_SHARED) {
+    if(flags & CP_MMAP_PROT_SHARED) {
         mmap_flags |= MAP_SHARED;
     } else
-    if(flags & CP_MMAP_MAP_PRIVATE) {
+    if(flags & CP_MMAP_PROT_PRIVATE) {
         mmap_flags |= MAP_PRIVATE;
     }
     if(file == -1){
@@ -150,7 +152,7 @@ CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t
         return -1;
     }
     prot_t p = convert_prot(prot, flags);
-    flags_t f = convert_flags(file, p, flags);
+    flags_t f = convert_flags(handle, p, flags);
 #ifdef _WIN32
     mapping->hMapping = CreateFileMappingA(handle, NULL, p, 0, 0, NULL);
     if(mapping->hMapping == NULL || mapping->hMapping == INVALID_HANDLE_VALUE) {
