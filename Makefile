@@ -235,6 +235,10 @@ $(BUILD)/safe_string$(OBJ_EXT): $(SRC)/safe_string.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/safe_string$(OBJ_EXT)
 
+$(BUILD)/platform/mmap$(OBJ_EXT): $(SRC)/platform/mmap.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/platform/mmap$(OBJ_EXT)
+
 $(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
@@ -289,6 +293,7 @@ api_headers: $(API_HEADERS)
 directories:
 	@$(call mkdir,$(DIST))
 	@$(call mkdir,$(BUILD))
+	@$(call mkdir,$(BUILD)/platform)
 .PHONY: directories
 
 clean-build:
