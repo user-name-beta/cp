@@ -185,11 +185,11 @@ int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size
     }
 #ifdef _WIN32
     DWORD dwOldProtect;
-    if(!VirtualProtect(mapping->addr + offset, size, convert_prot(prot, 0), &dwOldProtect)) {
+    if(!VirtualProtect((char *)mapping->addr + offset, size, convert_prot(prot, 0), &dwOldProtect)) {
         return -1;
     }
 #else
-    if(!mprotect(mapping->addr + offset, size, convert_prot(prot, 0))) {
+    if(!mprotect((char *)mapping->addr + offset, size, convert_prot(prot, 0))) {
         return -1;
     }
 #endif
