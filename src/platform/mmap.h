@@ -37,7 +37,7 @@ struct _CPMemoryMapping_ {
 #define CP_MMAP_FLAG_PRIVATE 0b10
 
 int CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t offset, int prot, int flags);
-int CPMemoryMapping_Protect(CPMemoryMapping *mapping, int prot);
+int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size, int prot);
 int CPMemoryMapping_Destroy(CPMemoryMapping *mapping);
 
 #endif /* _CP_MMAP_H_ */

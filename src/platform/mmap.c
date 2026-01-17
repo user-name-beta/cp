@@ -193,6 +193,7 @@ int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size
         return -1;
     }
 #endif
+    return 0;
 }
 
 int CPMemoryMapping_Destroy(CPMemoryMapping *mapping) {
