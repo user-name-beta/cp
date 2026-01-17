@@ -16,6 +16,7 @@ __attribute__((unused)) // Unix systems have no volume concept.
 static inline char
 get_volume(const char *path) {
 #ifndef _WIN32
+    (void)path; // unused
     return '\0';
 #else
     if(strlen(path) >= 2 && path[1] == ':') {
