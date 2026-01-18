@@ -157,21 +157,25 @@ CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t
     prot_t p = convert_prot(prot, flags);
     flags_t f = convert_flags(handle, p, flags);
 #ifdef _WIN32
-    mapping->hMapping = CreateFileMappingA(handle, NULL, p, 0, 0, NULL);
+  #ifdef _WIN64
+    mapping->hMapping = CreateFileMappingA(handle, NULL, p, size >> 32, (DWORD)size, NULL);
+  #else /* _WIN64 */
+    mapping->hMapping = CreateFileMappingA(handle, NULL, p, 0, (DWORD)size, NULL);
+  #endif /* _WIN64 */
     if(mapping->hMapping == NULL || mapping->hMapping == INVALID_HANDLE_VALUE) {
         return -1;
     }
-#ifdef _WIN64
+  #ifdef _WIN64
     mapping->addr = MapViewOfFile(mapping->hMapping, f, offset >> 32, (DWORD)offset, size);
-#else /* _WIN64 */
+  #else /* _WIN64 */
     mapping->addr = MapViewOfFile(mapping->hMapping, f, 0, offset, size);
-#endif /* _WIN64 */
+  #endif /* _WIN64 */
     if(mapping->addr == NULL) {
         CloseHandle(mapping->hMapping);
         return -1;
     }
     return 0;
-#else
+#else /* _WIN32 */
     mapping->addr = mmap(NULL, size, p, f, handle, offset);
     if(mapping->addr == MAP_FAILED) {
         return -1;
