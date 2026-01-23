@@ -250,8 +250,8 @@ ifeq ($(OS),Windows_NT)
 LIBRES = $(BUILD)/lib.res
 $(LIBRES): $(SRC)/lib.rc
 	$(RC) $(RCFLAGS)
-EXERES = $(BUILD)/cp.res
-$(EXERES): $(SRC)/cp.rc
+EXERES = $(BUILD)/cpc.res
+$(EXERES): $(SRC)/cpc.rc
 	$(RC) $(RCFLAGS)
 else
 LIBRES =
@@ -270,7 +270,7 @@ CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
 $(CPIMPLIB):
 endif
 
-$(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
+$(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< \
 	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES) \
 	$(call RPATH_FLAG,\$$ORIGIN)
@@ -279,7 +279,7 @@ $(DIST)/cp$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define target all as a default target
 
-TARGET = directories $(CPIMPLIB) $(DIST)/cp$(EXE_EXT) api_headers $(DIST)/LICENSE
+TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/LICENSE
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all

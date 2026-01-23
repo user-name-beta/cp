@@ -16,13 +16,13 @@ jobs:
     - name: make
       run: make
     - name: test-run
-      run: dist/cp version
+      run: dist/cpc version
     - name: make clean
       run: make clean
     - name: make release
       run: make RELEASE=1
     - name: release-test-run
-      run: dist/cp version
+      run: dist/cpc version
 
   on-windows-with-msvc:
 
@@ -37,13 +37,13 @@ jobs:
     - name: make
       run: make
     - name: test-run
-      run: dist/cp version
+      run: dist/cpc version
     - name: make clean
       run: make clean
     - name: make release
       run: make RELEASE=1
     - name: release-test-run
-      run: dist/cp version
+      run: dist/cpc version
 
   on-windows-with-mingw:
 
@@ -64,10 +64,10 @@ jobs:
     - name: make
       run: make CC=gcc
     - name: test-run
-      run: dist/cp version
+      run: dist/cpc version
     - name: make clean
       run: make clean CC=gcc
     - name: make release
       run: make RELEASE=1 CC=gcc
     - name: release-test-run
-      run: dist/cp version
+      run: dist/cpc version
