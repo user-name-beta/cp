@@ -129,7 +129,7 @@ CPath_Dirname(char *dst, const char *src) {
                 dst[0] = src[0];
                 dst[1] = '\0';
             } else {
-                if(strncpy_safe(dst, src, i, CP_MAX_PATH) != 0)return -1;
+                if(strncpy_safe(dst, src, CP_MAX_PATH, i) != 0)return -1;
                 dst[i] = '\0';
             }
             return 0;
