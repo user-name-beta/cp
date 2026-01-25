@@ -75,14 +75,14 @@ endif
 endif
 
 ifeq ($(CC),cl)
-	CFLAGS += /nologo /DYNAMICBASE /WX
+	CFLAGS += /nologo /DYNAMICBASE /WX /I. /I$(SRC)
 	ifeq ($(RELEASE),0)
 		CFLAGS += /Od /D_DEBUG
 	else
 		CFLAGS += /O2
 	endif
 else ifeq ($(CC),gcc)
-	CFLAGS += -std=gnu99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden
+	CFLAGS += -std=gnu99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden -I. -I$(SRC)
 	ifeq ($(RELEASE),0)
 		CFLAGS += -O0 -DDEBUG -g
 	else
@@ -275,6 +275,15 @@ $(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES) \
 	$(call RPATH_FLAG,\$$ORIGIN)
 
+# Define test targets
+
+TEST_TARGETS =
+
+$(BUILD)/Test/platform/mmap$(EXE_EXT): Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
+	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< $(BUILD)/platform/mmap$(OBJ_EXT)
+	$@
+TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
+
 # Define targets
 
 # Define target all as a default target
@@ -294,6 +303,8 @@ directories:
 	@$(call mkdir,$(DIST))
 	@$(call mkdir,$(BUILD))
 	@$(call mkdir,$(BUILD)/platform)
+	@$(call mkdir,$(BUILD)/Test)
+	@$(call mkdir,$(BUILD)/Test/platform)
 .PHONY: directories
 
 clean-build:
@@ -303,6 +314,9 @@ clean-build:
 clean: clean-build
 	$(RMDIR) $(call fix_path,$(DIST))
 .PHONY: clean
+
+test: $(TEST_TARGETS)
+.PHONY: test
 
 install-files-only: all
 	$(call mkdir,"$(call fix_path,$(PREFIX))")
