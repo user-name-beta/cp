@@ -194,7 +194,7 @@ int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size
         return -1;
     }
 #else
-    if(!mprotect((char *)mapping->addr + offset, size, convert_prot(prot, 0))) {
+    if(mprotect((char *)mapping->addr + offset, size, convert_prot(prot, 0)) != 0) {
         return -1;
     }
 #endif
