@@ -13,14 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: make
       run: make
+
     - name: test-run
       run: dist/cpc version
+
     - name: make clean
       run: make clean
+
     - name: make release
       run: make RELEASE=1
+
     - name: release-test-run
       run: dist/cpc version
 
@@ -34,14 +39,19 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
       with:
         vsversion: 2022
+
     - name: make
       run: make
+
     - name: test-run
       run: dist/cpc version
+
     - name: make clean
       run: make clean
+
     - name: make release
       run: make RELEASE=1
+
     - name: release-test-run
       run: dist/cpc version
 
@@ -62,11 +72,15 @@ jobs:
       
     - name: make
       run: make CC=gcc
+
     - name: test-run
       run: dist/cpc version
+
     - name: make clean
       run: make clean CC=gcc
+
     - name: make release
       run: make RELEASE=1 CC=gcc
+      
     - name: release-test-run
       run: dist/cpc version
