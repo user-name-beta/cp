@@ -19,6 +19,9 @@ jobs:
 
     - name: test-run
       run: dist/cpc version
+    
+    - name: make test
+      run: make test
 
   on-windows-with-msvc:
 
@@ -36,6 +39,9 @@ jobs:
 
     - name: test-run
       run: dist/cpc version
+    
+    - name: make test
+      run: make test
 
   on-windows-with-mingw:
 
@@ -57,3 +63,6 @@ jobs:
 
     - name: test-run
       run: dist/cpc version
+    
+    - name: make test
+      run: make test CC=gcc
