@@ -31,7 +31,7 @@ main() {
     ((char *)map1.addr)[0] = 'A';
     ((char *)map1.addr)[1] = 'B';
     ((char *)map1.addr)[2] = 'C';
-    ret = CPMemoryMapping_Protect(&map1, 0, 4096, CP_MMAP_PROT_READ | CP_MMAP_PROT_EXEC);
+    ret = CPMemoryMapping_Protect(&map1, 0, 4096, CP_MMAP_PROT_READ);
     if (ret != 0) {
         printf("Failed to protect memory mapping 1: %d\n", err);
         return -1;
