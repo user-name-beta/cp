@@ -21,6 +21,7 @@ ifeq ($(OS),Windows_NT)
 	LIB_PREFIX =
 	SO_EXT = .dll
 	STATIC_EXT = .lib
+	BAT_EXT = .bat
 else
 	SHELL := /bin/bash
 	RM = rm -rf
@@ -30,6 +31,7 @@ else
 	LIB_PREFIX = lib
 	SO_EXT = .so
 	STATIC_EXT = .a
+	BAT_EXT = .sh
 endif
 ifeq ($(OS),Windows_NT)
 	global_export = powershell -Command "[Environment]::SetEnvironmentVariable('$(1)', '$(2)', 'User')"
@@ -75,14 +77,14 @@ endif
 endif
 
 ifeq ($(CC),cl)
-	CFLAGS += /nologo /DYNAMICBASE /WX
+	CFLAGS += /nologo /DYNAMICBASE /WX /I. /I$(SRC)
 	ifeq ($(RELEASE),0)
 		CFLAGS += /Od /D_DEBUG
 	else
 		CFLAGS += /O2
 	endif
 else ifeq ($(CC),gcc)
-	CFLAGS += -std=gnu99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden
+	CFLAGS += -std=gnu99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden -I. -I$(SRC)
 	ifeq ($(RELEASE),0)
 		CFLAGS += -O0 -DDEBUG -g
 	else
@@ -275,6 +277,18 @@ $(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES) \
 	$(call RPATH_FLAG,\$$ORIGIN)
 
+# Define test targets
+
+TEST_TARGETS =
+
+WRITE_TEST_RUN = @echo $(call fix_path,$@) >> $(call fix_path,$(BUILD)/Test/testrun$(BAT_EXT))
+
+$(BUILD)/Test/platform/mmap$(EXE_EXT): $(SRC)/Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
+	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< $(BUILD)/platform/mmap$(OBJ_EXT)
+	$(WRITE_TEST_RUN)
+
+TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
+
 # Define targets
 
 # Define target all as a default target
@@ -294,6 +308,8 @@ directories:
 	@$(call mkdir,$(DIST))
 	@$(call mkdir,$(BUILD))
 	@$(call mkdir,$(BUILD)/platform)
+	@$(call mkdir,$(BUILD)/Test)
+	@$(call mkdir,$(BUILD)/Test/platform)
 .PHONY: directories
 
 clean-build:
@@ -303,6 +319,13 @@ clean-build:
 clean: clean-build
 	$(RMDIR) $(call fix_path,$(DIST))
 .PHONY: clean
+
+test: $(TEST_TARGETS)
+ifneq ($(OS),Windows_NT)
+	@chmod +x $(BUILD)/Test/testrun$(BAT_EXT)
+endif
+
+.PHONY: test
 
 install-files-only: all
 	$(call mkdir,"$(call fix_path,$(PREFIX))")

@@ -19,6 +19,12 @@ jobs:
 
     - name: test-run
       run: dist/cpc version
+    
+    - name: make test
+      run: make test
+    
+    - name: testrun
+      run: build/Test/testrun.sh
 
   on-windows-with-msvc:
 
@@ -36,6 +42,12 @@ jobs:
 
     - name: test-run
       run: dist/cpc version
+    
+    - name: make test
+      run: make test
+    
+    - name: testrun
+      run: cmd /c build\Test\testrun.bat
 
   on-windows-with-mingw:
 
@@ -57,3 +69,9 @@ jobs:
 
     - name: test-run
       run: dist/cpc version
+    
+    - name: make test
+      run: make test CC=gcc
+    
+    - name: testrun
+      run: cmd /c build\Test\testrun.bat
