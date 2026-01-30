@@ -281,7 +281,7 @@ $(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 TEST_TARGETS =
 
-WRITE_TEST_RUN = @echo $@ >> $(call fix_path,$(BUILD)/Test/testrun$(BAT_EXT))
+WRITE_TEST_RUN = @echo $(call fix_path,$@) >> $(call fix_path,$(BUILD)/Test/testrun$(BAT_EXT))
 
 $(BUILD)/Test/platform/mmap$(EXE_EXT): $(SRC)/Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< $(BUILD)/platform/mmap$(OBJ_EXT)
