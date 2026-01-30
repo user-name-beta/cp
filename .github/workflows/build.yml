@@ -24,7 +24,7 @@ jobs:
       run: make test
     
     - name: testrun
-      run: build/Test/testrun
+      run: build/Test/testrun.sh
 
   on-windows-with-msvc:
 
@@ -47,7 +47,7 @@ jobs:
       run: make test
     
     - name: testrun
-      run: cmd /c call build\Test\testrun
+      run: cmd /c build\Test\testrun.bat
 
   on-windows-with-mingw:
 
@@ -74,4 +74,4 @@ jobs:
       run: make test CC=gcc
     
     - name: testrun
-      run: cmd /c call build\Test\testrun
+      run: cmd /c build\Test\testrun.bat

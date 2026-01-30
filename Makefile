@@ -21,6 +21,7 @@ ifeq ($(OS),Windows_NT)
 	LIB_PREFIX =
 	SO_EXT = .dll
 	STATIC_EXT = .lib
+	BAT_EXT = .bat
 else
 	SHELL := /bin/bash
 	RM = rm -rf
@@ -30,6 +31,7 @@ else
 	LIB_PREFIX = lib
 	SO_EXT = .so
 	STATIC_EXT = .a
+	BAT_EXT = .sh
 endif
 ifeq ($(OS),Windows_NT)
 	global_export = powershell -Command "[Environment]::SetEnvironmentVariable('$(1)', '$(2)', 'User')"
@@ -281,7 +283,7 @@ TEST_TARGETS =
 
 $(BUILD)/Test/platform/mmap$(EXE_EXT): $(SRC)/Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< $(BUILD)/platform/mmap$(OBJ_EXT)
-	@echo $@ >> $(BUILD)/Test/testrun
+	@echo $@ >> $(BUILD)/Test/testrun$(BAT_EXT)
 TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
 
 # Define targets
@@ -317,7 +319,7 @@ clean: clean-build
 
 test: $(TEST_TARGETS)
 ifneq ($(OS),Windows_NT)
-	@chmod +x $(BUILD)/Test/testrun
+	@chmod +x $(BUILD)/Test/testrun$(BAT_EXT)
 endif
 
 .PHONY: test
