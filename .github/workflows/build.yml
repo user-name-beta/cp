@@ -47,7 +47,7 @@ jobs:
       run: make test
     
     - name: testrun
-      run: call build\Test\testrun
+      run: cmd /c build\Test\testrun
 
   on-windows-with-mingw:
 
@@ -74,4 +74,4 @@ jobs:
       run: make test CC=gcc
     
     - name: testrun
-      run: build\Test\testrun
+      run: cmd /c build\Test\testrun
