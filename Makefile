@@ -281,7 +281,7 @@ TEST_TARGETS =
 
 $(BUILD)/Test/platform/mmap$(EXE_EXT): $(SRC)/Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< $(BUILD)/platform/mmap$(OBJ_EXT)
-	
+	@echo $@ >> $(BUILD)/Test/testrun
 TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
 
 # Define targets
@@ -316,6 +316,10 @@ clean: clean-build
 .PHONY: clean
 
 test: $(TEST_TARGETS)
+ifneq ($(OS),Windows_NT)
+	@chmod +x $(BUILD)/Test/testrun
+endif
+
 .PHONY: test
 
 install-files-only: all
