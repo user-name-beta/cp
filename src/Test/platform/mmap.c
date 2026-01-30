@@ -46,7 +46,13 @@ main() {
         printf("Failed to open file: %d\n", err);
         return -1;
     }
-    ret = CPMemoryMapping_Create(&map2, file, 4096, 0, CP_MMAP_PROT_READ | CP_MMAP_PROT_WRITE, CP_MMAP_FLAG_PRIVATE);
+    if(fwrite("This is test data.\n", 1, 20, file) != 20) {
+        printf("Failed to write to file: %d\n", err);
+        fclose(file);
+        return -1;
+    }
+    fflush(file);
+    ret = CPMemoryMapping_Create(&map2, file, -1, 0, CP_MMAP_PROT_READ | CP_MMAP_PROT_WRITE, CP_MMAP_FLAG_PRIVATE);
     if (ret != 0) {
         printf("Failed to create memory mapping 2: %d\n", err);
         return -1;
