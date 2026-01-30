@@ -279,9 +279,9 @@ $(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 TEST_TARGETS =
 
-$(BUILD)/Test/platform/mmap$(EXE_EXT): Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
+$(BUILD)/Test/platform/mmap$(EXE_EXT): $(SRC)/Test/platform/mmap.c $(BUILD)/platform/mmap$(OBJ_EXT)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< $(BUILD)/platform/mmap$(OBJ_EXT)
-	$@
+	
 TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
 
 # Define targets
