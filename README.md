@@ -29,7 +29,9 @@ Use it as a command-line tool. Such as:
 
 `cpc version`
 
-and it will print version information. As what we design, this command-line program has a group of sub commands like `version` (just like git).
+and it will print version information.
+
+New features will be added soon.
 
 <!--What you should pay attention to is that the name of cp is as same as a coreutil (which used to copy file) in Unix-like systems. This may make the execution of the real cp difficult. We are working on solving this issue.-->
 <!--This issue is solved-->
