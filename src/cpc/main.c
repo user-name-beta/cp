@@ -14,6 +14,8 @@
 
 #include "main.h"
 
+#include <stddef.h>
+
 static int main_running = 0;
 
 static char *exe = NULL;
