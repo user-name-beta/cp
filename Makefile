@@ -279,7 +279,10 @@ $(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 
 # Define test targets
 
-TEST_TARGETS =
+testrun-cleanup:
+	@echo > $(call fix_path,$(BUILD)/Test/testrun$(BAT_EXT))
+
+TEST_TARGETS = testrun-cleanup
 
 WRITE_TEST_RUN = @echo $(call fix_path,$@) >> $(call fix_path,$(BUILD)/Test/testrun$(BAT_EXT))
 
