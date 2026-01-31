@@ -20,6 +20,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int
 CPCommandLine_GetExecutablePath(char *dst) {
