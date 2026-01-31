@@ -193,6 +193,9 @@ LOCALPREFIX = $(PREFIX)/$(VERSION)
 $(DIST)/LICENSE: LICENSE
 	$(COPY) $< $@
 
+$(DIST)/cpc-help.txt: $(SRC)/cpc/help.txt
+	$(COPY) $(call fix_path,$<) $(call fix_path,$@)
+
 # Define API headers
 
 API_HEADERS = # No API headers yet.
@@ -213,9 +216,9 @@ endif
 # Define object files
 
 OBJECTS =
-$(BUILD)/main$(OBJ_EXT): $(SRC)/main.c
+$(BUILD)/cpc/main$(OBJ_EXT): $(SRC)/cpc/main.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
-OBJECTS += $(BUILD)/main$(OBJ_EXT)
+OBJECTS += $(BUILD)/cpc/main$(OBJ_EXT)
 
 $(BUILD)/path$(OBJ_EXT): $(SRC)/path.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
@@ -241,7 +244,11 @@ $(BUILD)/platform/mmap$(OBJ_EXT): $(SRC)/platform/mmap.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/platform/mmap$(OBJ_EXT)
 
-$(BUILD)/launch$(OBJ_EXT): $(SRC)/launch.c
+$(BUILD)/commandline$(OBJ_EXT): $(SRC)/commandline.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/commandline$(OBJ_EXT)
+
+$(BUILD)/cpc/launch$(OBJ_EXT): $(SRC)/cpc/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
 # This object file cannot not be linked into the library(but the executable file).
@@ -272,7 +279,7 @@ CPIMPLIB = $(DIST)/$(LIB_PREFIX)cp$(SO_EXT)
 $(CPIMPLIB):
 endif
 
-$(DIST)/cpc$(EXE_EXT): $(BUILD)/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
+$(DIST)/cpc$(EXE_EXT): $(BUILD)/cpc/launch$(OBJ_EXT) $(CPIMPLIB) $(EXERES)
 	$(CC) $(CFLAGS) $(OUTEXE_FLAG) $< \
 	$(LINK_OPT) $(call LIBPATH_FLAG,$(DIST)) $(call DLIB_FLAG,cp) $(EXERES) \
 	$(call RPATH_FLAG,\$$ORIGIN)
@@ -296,7 +303,7 @@ TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
 
 # Define target all as a default target
 
-TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/LICENSE
+TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/LICENSE $(DIST)/cpc-help.txt
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
@@ -313,6 +320,7 @@ directories:
 	@$(call mkdir,$(BUILD)/platform)
 	@$(call mkdir,$(BUILD)/Test)
 	@$(call mkdir,$(BUILD)/Test/platform)
+	@$(call mkdir,$(BUILD)/cpc)
 .PHONY: directories
 
 clean-build:

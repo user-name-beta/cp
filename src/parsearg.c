@@ -24,7 +24,7 @@ pop(int index) {
 int
 CP_ParseAssertNoMoreArgs(void) {
     if(cp_argc > 0) {
-        fprintf(stderr, "Warning: extra arguments: %s", cp_argv[0]);
+        fprintf(stderr, "Error: extra arguments: %s\n", cp_argv[0]);
         return -1;
     }
     return 0;
@@ -41,16 +41,16 @@ CP_ParseOneArg(void) {
     return arg;
 }
 
-bool
+int
 CP_ParseFlag(const char *flag) {
     /* Parse --flag or -f */
     for(int i = 0; i < cp_argc; i++) {
         if(strcmp(cp_argv[i], flag) == 0){
             pop(i);
-            return true;
+            return 1;
         }
     }
-    return false;
+    return 0;
 }
 
 int

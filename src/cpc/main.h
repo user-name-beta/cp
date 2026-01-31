@@ -6,22 +6,22 @@
 //
 // Provide with the entry point function CP_Main() for the program.
 
-#ifndef _CP_MAIN_H_
-#define _CP_MAIN_H_
+#ifndef _CP_CPC__MAIN_H_
+#define _CP_CPC__MAIN_H_
 
-#ifdef _CP_MAIN_E_
+#ifdef _CP_CPC__MAIN_E_
 #define CP_EXPORT_SYMBOL
 #endif
-#include "exports.h"
+#include <exports.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-CP_API_FUNC(int) CP_Main(int argc, char **argv);
+CP_API_FUNC(int) CPMainProgramEntryPoint_CPC(int argc, char **argv);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CP_MAIN_H_ */
+#endif /* _CP_CPC__MAIN_H_ */
