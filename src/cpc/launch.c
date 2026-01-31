@@ -4,10 +4,10 @@
 // Licensed under the MIT license.
 // See LICENSE file in the project root for full license information.
 //
-// Launch the program.
+// Launch the cpc program.
 
 #include "main.h"
 
 int main(int argc, char **argv) {
-    return CP_Main(argc, argv);
+    return CPMainProgramEntryPoint_CPC(argc, argv);
 }

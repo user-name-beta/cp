@@ -23,6 +23,8 @@
 #define CP_IS_PATH_SEP(c) ((c) == '/')
 #endif /* _WIN32 */
 
+#include <stdbool.h>
+
 bool CPath_IsAbsolute(const char *path);
 int CPath_Getcwd(char *cwd);
 int CPath_Join(char *dst, const char *src1, const char *src2);

@@ -18,7 +18,7 @@ jobs:
       run: make
 
     - name: test-run
-      run: dist/cpc version
+      run: dist/cpc --version
     
     - name: make test
       run: make test
@@ -41,7 +41,7 @@ jobs:
       run: make
 
     - name: test-run
-      run: dist/cpc version
+      run: dist/cpc --version
     
     - name: make test
       run: make test
@@ -68,7 +68,7 @@ jobs:
       run: make CC=gcc
 
     - name: test-run
-      run: dist/cpc version
+      run: dist/cpc --version
     
     - name: make test
       run: make test CC=gcc
