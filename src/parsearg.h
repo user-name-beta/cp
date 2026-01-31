@@ -21,5 +21,6 @@ bool CP_ParseFlag(const char *flag);
 int CP_ParseFlagEx(int flagc, const char * const *flags);
 const char *CP_ParseOption(const char *option);
 int CP_ParseOptionEx(const char *option, int valuec, const char **values);
+int CP_ParseAssertNoMoreArgs(void);
 
 #endif /* _CP_PARSE_H_ */
