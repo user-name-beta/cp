@@ -22,7 +22,7 @@ pop(int index) {
 }
 
 int
-CP_ParseAssertNoMoreArgs() {
+CP_ParseAssertNoMoreArgs(void) {
     if(cp_argc > 0) {
         fprintf(stderr, "Warning: extra arguments: %s", cp_argv[0]);
         return -1;
