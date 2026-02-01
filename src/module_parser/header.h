@@ -11,7 +11,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <assert.h>
+#include <cpassert.h>
 
 #include "cpoffset.h"
 
