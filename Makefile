@@ -248,6 +248,10 @@ $(BUILD)/commandline$(OBJ_EXT): $(SRC)/commandline.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/commandline$(OBJ_EXT)
 
+$(BUILD)/module_parser/header$(OBJ_EXT): $(SRC)/module_parser/header.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/module_parser/header$(OBJ_EXT)
+
 $(BUILD)/cpc/launch$(OBJ_EXT): $(SRC)/cpc/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
