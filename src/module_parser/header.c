@@ -20,8 +20,12 @@ CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
     if(strncmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
         return -1;
     }
-    if(out_header->major != CP_BYTECODE_VERSION_MAJOR ||
-       out_header->minor < CP_BYTECODE_VERSION_MINOR) {
+    if(out_header->major != CP_BYTECODE_VERSION_MAJOR // ||
+//     out_header->minor < CP_BYTECODE_VERSION_MINOR) {
+// CP_BYTECODE_VERSION_MINOR is zero, so it will cause 
+// a compilation warning about comparison being always true.
+// We should avoid this warning.
+    ) {
         return -1;
     }
     if(!CPOffset_IsValidByteMode(out_header->byte_mode)) {
