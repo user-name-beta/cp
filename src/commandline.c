@@ -23,7 +23,8 @@
 #include <stdlib.h>
 
 int
-CPCommandLine_GetExecutablePath(char *dst) {
+CPCommandLine_GetExecutablePath(char *dst)
+{
 #ifdef _WIN32
     size_t len = GetModuleFileNameA(NULL, dst, CP_MAX_PATH);
     if(len == 0 || len >= CP_MAX_PATH) {
@@ -45,7 +46,8 @@ CPCommandLine_GetExecutablePath(char *dst) {
 }
 
 int
-CPCommandLine_PrintFile(const char *directory, const char *rel_path){
+CPCommandLine_PrintFile(const char *directory, const char *rel_path)
+{
     if(directory == NULL || rel_path == NULL) {
         return -1;
     }
@@ -65,7 +67,8 @@ CPCommandLine_PrintFile(const char *directory, const char *rel_path){
 }
 
 void
-CPCommandLine_PrintCopyright(void) {
+CPCommandLine_PrintCopyright(void)
+{
     printf("Copyright (c) 2025 user-name-beta. All rights reserved.\n");
     printf("Licensed under the MIT license.\n");
     printf("See LICENSE file in the software root for full license information.\n");
@@ -78,7 +81,8 @@ CPCommandLine_PrintCopyright(void) {
 }
 
 void
-CPCommandLine_PrintVersion(void) {
+CPCommandLine_PrintVersion(void)
+{
     printf("CP version %s\n", CP_VERSION_STRING);
     printf("Build date: %s %s\n", __DATE__, __TIME__);
 #ifdef _MSC_VER
@@ -93,7 +97,8 @@ CPCommandLine_PrintVersion(void) {
 }
 
 int
-CPCommandLine_GetHomeDirectory(char *dst, const char *exe) {
+CPCommandLine_GetHomeDirectory(char *dst, const char *exe)
+{
     char *home = getenv("CPLOCALHOME");
     if(home != NULL) {
         if(strcpy_safe(dst, home, CP_MAX_PATH) != 0)return -1;
@@ -105,11 +110,13 @@ CPCommandLine_GetHomeDirectory(char *dst, const char *exe) {
 }
 
 int
-CPCommandLine_PrintLicense(const char *home) {
+CPCommandLine_PrintLicense(const char *home)
+{
     return CPCommandLine_PrintFile(home, "LICENSE");
 }
 
 int
-CPCommandLine_PrintHelp(const char *home, const char *helpfile) {
+CPCommandLine_PrintHelp(const char *home, const char *helpfile)
+{
     return CPCommandLine_PrintFile(home, helpfile);
 }

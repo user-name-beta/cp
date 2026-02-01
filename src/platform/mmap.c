@@ -39,7 +39,8 @@ typedef int flags_t;
 #endif
 
 static inline file_t
-convert_file_to_handle_or_fd(FILE *file) {
+convert_file_to_handle_or_fd(FILE *file)
+{
 #ifdef _WIN32
     if(file == NULL)return INVALID_HANDLE_VALUE;
     return (HANDLE) _get_osfhandle(_fileno(file));
@@ -50,7 +51,8 @@ convert_file_to_handle_or_fd(FILE *file) {
 }
 
 static inline size_t
-convert_size(file_t file, size_t size) {
+convert_size(file_t file, size_t size)
+{
     if(size != (size_t)-1)  {
         return size;
     }
@@ -70,7 +72,8 @@ convert_size(file_t file, size_t size) {
 }
 
 static inline prot_t
-convert_prot(int prot, int flags) {
+convert_prot(int prot, int flags)
+{
 #ifdef _WIN32
     int r = prot & CP_MMAP_PROT_READ;
     int w = prot & CP_MMAP_PROT_WRITE;
@@ -103,7 +106,8 @@ convert_prot(int prot, int flags) {
 }
 
 static inline flags_t
-convert_flags(file_t file, prot_t p, int flags) {
+convert_flags(file_t file, prot_t p, int flags)
+{
 #ifdef _WIN32
     (void)file; // unused
     (void)flags; // unused
@@ -144,7 +148,8 @@ convert_flags(file_t file, prot_t p, int flags) {
 }
 
 int 
-CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t offset, int prot, int flags) {
+CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t offset, int prot, int flags)
+{
     file_t handle = convert_file_to_handle_or_fd(file);
     size = convert_size(handle, size);
     if(size == (size_t)-1) {
@@ -184,7 +189,8 @@ CPMemoryMapping_Create(CPMemoryMapping *mapping, FILE *file, size_t size, size_t
 #endif
 }
 
-int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size, int prot) {
+int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size, int prot)
+{
     if(size == (size_t)-1) {
         size = mapping->size;
     }
@@ -201,7 +207,8 @@ int CPMemoryMapping_Protect(CPMemoryMapping *mapping, size_t offset, size_t size
     return 0;
 }
 
-int CPMemoryMapping_Destroy(CPMemoryMapping *mapping) {
+int CPMemoryMapping_Destroy(CPMemoryMapping *mapping)
+{
 #ifdef _WIN32
     UnmapViewOfFile(mapping->addr);
     CloseHandle(mapping->hMapping);

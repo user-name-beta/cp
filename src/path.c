@@ -14,7 +14,8 @@
 __attribute__((unused)) // Unix systems have no volume concept.
 #endif
 static inline char
-get_volume(const char *path) {
+get_volume(const char *path)
+{
 #ifndef _WIN32
     (void)path; // unused
     return '\0';
@@ -27,7 +28,8 @@ get_volume(const char *path) {
 }
 
 static inline void
-remove_end_sep(char *path) {
+remove_end_sep(char *path)
+{
     size_t len = strlen(path);
     if(len > 0 && CP_IS_PATH_SEP(path[len-1])) {
         path[len-1] = '\0';
@@ -35,7 +37,8 @@ remove_end_sep(char *path) {
 }
 
 bool
-CPath_IsAbsolute(const char *path) {
+CPath_IsAbsolute(const char *path)
+{
 #ifdef _WIN32
     return get_volume(path) != '\0';
 #else
@@ -47,7 +50,8 @@ CPath_IsAbsolute(const char *path) {
 }
 
 int
-CPath_Getcwd(char *cwd) {
+CPath_Getcwd(char *cwd)
+{
     if(cwd == NULL)return -1;
 #ifdef _WIN32
     DWORD len = GetCurrentDirectoryA(CP_MAX_PATH, cwd);
@@ -64,7 +68,8 @@ CPath_Getcwd(char *cwd) {
 }
 
 int
-CPath_Setcwd(const char *path) {
+CPath_Setcwd(const char *path)
+{
     if(path == NULL)return -1;
 #ifdef _WIN32
     if(SetCurrentDirectoryA(path) == 0) {
@@ -79,7 +84,8 @@ CPath_Setcwd(const char *path) {
 }
 
 int
-CPath_Join(char *dst, const char *src1, const char *src2) {
+CPath_Join(char *dst, const char *src1, const char *src2)
+{
     if(dst == NULL || src1 == NULL || src2 == NULL)return -1;
     if(CPath_IsAbsolute(src2)) {
         return -1;
@@ -93,7 +99,8 @@ CPath_Join(char *dst, const char *src1, const char *src2) {
 }
 
 int
-CPath_JoinInPlace(char *dst, const char *src) {
+CPath_JoinInPlace(char *dst, const char *src)
+{
     if(dst == NULL || src == NULL)return -1;
     if(CPath_IsAbsolute(src)) {
         return -1;
@@ -106,7 +113,8 @@ CPath_JoinInPlace(char *dst, const char *src) {
 }
 
 int
-CPath_Filename(char *dst, const char *src) {
+CPath_Filename(char *dst, const char *src)
+{
     if(dst == NULL || src == NULL)return -1;
     size_t len = strlen(src);
     for(ssize_t i = (ssize_t)len - 1; i >= 0; i--) {
@@ -120,7 +128,8 @@ CPath_Filename(char *dst, const char *src) {
 }
 
 int
-CPath_Dirname(char *dst, const char *src) {
+CPath_Dirname(char *dst, const char *src)
+{
     if(dst == NULL || src == NULL)return -1;
     size_t len = strlen(src);
     for(ssize_t i = len - 1; i >= 0; i--) {

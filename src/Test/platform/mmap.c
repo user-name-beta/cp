@@ -19,7 +19,8 @@
 #endif
 
 int
-main() {
+main()
+{
     int ret;
     CPMemoryMapping map1;
     CPMemoryMapping map2;

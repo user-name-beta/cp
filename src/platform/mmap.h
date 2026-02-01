@@ -19,8 +19,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-typedef 
-struct _CPMemoryMapping_ {
+typedef struct {
     void *addr;
     size_t size;
 #ifdef _WIN32
