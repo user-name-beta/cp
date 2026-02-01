@@ -65,9 +65,9 @@ ifeq ($(filter $(origin CC),undefined default),$(origin CC))
 endif
 
 ifeq ($(CC),cl)
-       ifeq ($(origin VisualStudioVersion),undefined)
-$(error Build with MSVC but not in Visual Studio Command Prompt)
-       endif
+ifeq ($(origin VisualStudioVersion),undefined)
+CC = gcc
+endif
 endif
 
 ifneq ($(CC),cl)
