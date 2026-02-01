@@ -11,7 +11,8 @@
 #include <stddef.h> // for size_t
 
 int
-strcat_safe(char *dst, const char *src, size_t dst_size) {
+strcat_safe(char *dst, const char *src, size_t dst_size)
+{
     size_t dst_len = strlen(dst);
     size_t src_len = strlen(src);
     if(dst_len + src_len + 1 > dst_size) {
@@ -25,7 +26,8 @@ strcat_safe(char *dst, const char *src, size_t dst_size) {
 }
 
 int
-strcpy_safe(char *dst, const char *src, size_t dst_size) {
+strcpy_safe(char *dst, const char *src, size_t dst_size)
+{
     size_t src_len = strlen(src);
     if(src_len + 1 > dst_size) {
         return -1;
@@ -38,7 +40,8 @@ strcpy_safe(char *dst, const char *src, size_t dst_size) {
 }
 
 int
-strncat_safe(char *dst, const char *src, size_t dst_size, size_t n) {
+strncat_safe(char *dst, const char *src, size_t dst_size, size_t n)
+{
     size_t dst_len = strlen(dst);
     size_t src_len = strlen(src);
     if(n > src_len) {
@@ -55,7 +58,8 @@ strncat_safe(char *dst, const char *src, size_t dst_size, size_t n) {
 }
 
 int
-strncpy_safe(char *dst, const char *src, size_t dst_size, size_t n) {
+strncpy_safe(char *dst, const char *src, size_t dst_size, size_t n)
+{
     size_t src_len = strlen(src);
     if(n > src_len) {
         n = src_len;

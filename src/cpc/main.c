@@ -24,7 +24,8 @@ static char buf1[CP_MAX_PATH];
 static char buf2[CP_MAX_PATH];
 static char exe_name[CP_MAX_PATH];
 
-static int init_program_path(void) {
+static int init_program_path(void)
+{
     if(CPCommandLine_GetExecutablePath(buf1) == 0) {
         exe = buf1;
     } else {
@@ -45,7 +46,8 @@ static int init_program_path(void) {
 }
 
 CP_API_FUNC(int)
-CPMainProgramEntryPoint_CPC(int argc, char **argv) {
+CPMainProgramEntryPoint_CPC(int argc, char **argv)
+{
     if(main_running) {
         cp_report_fatal("cpc", "Recursive call to main entry point.");
         return -1;

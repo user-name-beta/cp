@@ -14,7 +14,8 @@ int cp_argc;
 char **cp_argv;
 
 static inline void
-pop(int index) {
+pop(int index)
+{
     for(int i = index; i < cp_argc - 1; i++) {
         cp_argv[i] = cp_argv[i+1];
     }
@@ -22,7 +23,8 @@ pop(int index) {
 }
 
 int
-CP_ParseAssertNoMoreArgs(void) {
+CP_ParseAssertNoMoreArgs(void)
+{
     if(cp_argc > 0) {
         fprintf(stderr, "Error: extra arguments: %s\n", cp_argv[0]);
         return -1;
@@ -31,7 +33,8 @@ CP_ParseAssertNoMoreArgs(void) {
 }
 
 const char *
-CP_ParseOneArg(void) {
+CP_ParseOneArg(void)
+{
     /* Parse next argument */
     if(cp_argc == 0) {
         return NULL;
@@ -42,7 +45,8 @@ CP_ParseOneArg(void) {
 }
 
 int
-CP_ParseFlag(const char *flag) {
+CP_ParseFlag(const char *flag)
+{
     /* Parse --flag or -f */
     for(int i = 0; i < cp_argc; i++) {
         if(strcmp(cp_argv[i], flag) == 0){
@@ -54,7 +58,8 @@ CP_ParseFlag(const char *flag) {
 }
 
 int
-CP_ParseFlagEx(int flagc, const char * const *flags) {
+CP_ParseFlagEx(int flagc, const char * const *flags)
+{
     /* Parse exclusive multiple flags */
     int rv = -1;
     for(int i = 0; i < cp_argc; i++) {
@@ -75,7 +80,8 @@ CP_ParseFlagEx(int flagc, const char * const *flags) {
 }
 
 const char *
-CP_ParseOption(const char *option) {
+CP_ParseOption(const char *option)
+{
     /* Parse -option value */
 
     size_t len = strlen(option);
@@ -111,7 +117,8 @@ CP_ParseOption(const char *option) {
 }
 
 int
-CP_ParseOptionEx(const char *option, int valuec, const char **values) {
+CP_ParseOptionEx(const char *option, int valuec, const char **values)
+{
     int count = 0;
     size_t len = strlen(option);
     for(int i = 0; i < cp_argc; i++) {

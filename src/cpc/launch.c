@@ -8,6 +8,8 @@
 
 #include "main.h"
 
-int main(int argc, char **argv) {
+int 
+main(int argc, char **argv)
+{
     return CPMainProgramEntryPoint_CPC(argc, argv);
 }

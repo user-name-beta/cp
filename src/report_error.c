@@ -11,7 +11,8 @@
 #include <stdlib.h>
 
 void
-cp_report_fatal(const char *exename, const char *fmt, ...) {
+cp_report_fatal(const char *exename, const char *fmt, ...)
+{
     if(exename != NULL) {
         fprintf(stderr, "%s: ", exename);
     }
@@ -24,7 +25,8 @@ cp_report_fatal(const char *exename, const char *fmt, ...) {
 }
 
 void
-cp_report_error(const char *exename, const char *fmt, ...) {
+cp_report_error(const char *exename, const char *fmt, ...)
+{
     if(exename != NULL) {
         fprintf(stderr, "%s: ", exename);
     }
