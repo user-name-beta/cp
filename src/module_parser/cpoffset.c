@@ -20,7 +20,7 @@ CPOffset_IsValidByteMode(uint8_t byte_mode)
 }
 
 ssize_t
-CPOffset_ToSize_T(uint8_t byte_mode, cpoffset_t offset)
+CPOffset_ToSizeT(uint8_t byte_mode, cpoffset_t offset)
 {
 #if SIZE_MAX == UINT64_MAX
     if(byte_mode == 0) { // 32-bit mode

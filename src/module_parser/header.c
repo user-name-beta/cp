@@ -45,7 +45,7 @@ CPModuleParser_GetSegment(CPModuleHeader *header, uint8_t index)
         return NULL;
     }
     cpoffset_t seg_offset = *(cpoffset_t *)((char *)header->seg_table + seg_offset_offset);
-    size_t seg_offset_size = CPOffset_ToSize_T(header->byte_mode, seg_offset);
+    size_t seg_offset_size = CPOffset_ToSizeT(header->byte_mode, seg_offset);
     if(seg_offset_size == (size_t)-1) {
         return NULL;
     }
