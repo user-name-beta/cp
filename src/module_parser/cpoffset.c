@@ -118,12 +118,12 @@ CPOffset_WriteToMemory(uint8_t byte_mode, cpoffset_t offset, void *buffer, size_
 }
 
 size_t
-CPOffset_GetOffsetByCount(uint8_t byte_mode, size_t count)
+CPOffset_GetSizeByByteMode(uint8_t byte_mode)
 {
     if(byte_mode == 0) {  // 32-bit mode
-        return count * sizeof(uint32_t);
+        return sizeof(uint32_t);
     } else if(byte_mode == 1) {  // 64-bit mode
-        return count * sizeof(uint64_t);
+        return sizeof(uint64_t);
     } else {
         return (size_t)-1;
     }

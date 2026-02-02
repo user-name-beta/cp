@@ -24,6 +24,6 @@ ssize_t CPOffset_ToSizeT(uint8_t byte_mode, cpoffset_t offset);
 int CPOffset_FromSize_T(uint8_t byte_mode, size_t value, cpoffset_t *offset);
 int CPOffset_WriteToMemory(uint8_t byte_mode, cpoffset_t offset, void *buffer, size_t buffer_size);
 int CPOffset_ReadFromMemory(uint8_t byte_mode, const void *buffer, size_t buffer_size, cpoffset_t *offset);
-size_t CPOffset_GetOffsetByCount(uint8_t byte_mode, size_t count);
+size_t CPOffset_GetSizeByByteMode(uint8_t byte_mode);
 
 #endif /* _CP_MODULE_PARSER__CPOFFSET_H_ */
