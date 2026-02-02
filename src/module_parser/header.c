@@ -10,6 +10,16 @@
 #include "cpoffset.h"
 #include <version.h>
 
+static size_t
+get_header_size(CPModuleHeader *header) {
+    size_t cpoffset_size = CPOffset_GetSizeByByteMode(header->byte_mode);
+    if(cpoffset_size == (size_t)-1) {
+        return (size_t)-1;
+    }
+    return sizeof(CPModuleHeader) +
+        cpoffset_size * header->seg_counts;
+}
+
 int
 CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
 {
@@ -17,9 +27,11 @@ CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
         return -1;
     }
     *out_header = *(CPModuleHeader *)data;
-    if(size < sizeof(CPModuleHeader) +
-        CPOffset_GetSizeByByteMode(out_header->byte_mode) *
-        out_header->seg_counts) {
+    size_t header_size = get_header_size(out_header);
+    if(header_size == (size_t)-1) {
+        return -1;
+    }
+    if(size < header_size) {
         return -1;
     }
     if(memcmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
@@ -55,7 +67,5 @@ CPModuleParser_GetSegment(CPModuleHeader *header, uint8_t index)
     if(seg_offset_size == (size_t)-1) {
         return NULL;
     }
-    size_t header_size = sizeof(CPModuleHeader) +
-        CPOffset_GetSizeByByteMode(header->byte_mode) * header->seg_counts;
-    return (void *)((char *)header + header_size + seg_offset_size);
+    return (void *)((char *)header + get_header_size(header) + seg_offset_size);
 }
