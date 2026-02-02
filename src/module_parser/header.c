@@ -17,7 +17,10 @@ CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
         return -1;
     }
     *out_header = *(CPModuleHeader *)data;
-    if(strncmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
+    //if(strncmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
+    //    return -1;
+    //}
+    if(memcmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
         return -1;
     }
     if(out_header->major != CP_BYTECODE_VERSION_MAJOR // ||
