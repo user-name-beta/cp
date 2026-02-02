@@ -6,8 +6,8 @@
 //
 // assert.h and static_assert (if compiler does not support static_assert natively).
 
-#ifndef _CP_ASSERT_H_
-#define _CP_ASSERT_H_
+#ifndef _CP_CPASSERT_H_
+#define _CP_CPASSERT_H_
 
 #include <assert.h>
 
@@ -17,4 +17,4 @@
 #endif /* static_assert */
 #endif /* __cplusplus */
 
-#endif /* _CP_ASSERT_H_ */
+#endif /* _CP_CPASSERT_H_ */
