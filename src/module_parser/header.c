@@ -17,6 +17,11 @@ CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
         return -1;
     }
     *out_header = *(CPModuleHeader *)data;
+    if(size < sizeof(CPModuleHeader) +
+        CPOffset_GetSizeByByteMode(out_header->byte_mode) *
+        out_header->seg_counts) {
+        return -1;
+    }
     //if(strncmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
     //    return -1;
     //}
