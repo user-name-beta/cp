@@ -248,6 +248,14 @@ $(BUILD)/commandline$(OBJ_EXT): $(SRC)/commandline.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/commandline$(OBJ_EXT)
 
+$(BUILD)/module_parser/header$(OBJ_EXT): $(SRC)/module_parser/header.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/module_parser/header$(OBJ_EXT)
+
+$(BUILD)/module_parser/cpoffset$(OBJ_EXT): $(SRC)/module_parser/cpoffset.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/module_parser/cpoffset$(OBJ_EXT)
+
 $(BUILD)/cpc/launch$(OBJ_EXT): $(SRC)/cpc/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
@@ -321,6 +329,7 @@ directories:
 	@$(call mkdir,$(BUILD)/Test)
 	@$(call mkdir,$(BUILD)/Test/platform)
 	@$(call mkdir,$(BUILD)/cpc)
+	@$(call mkdir,$(BUILD)/module_parser)
 .PHONY: directories
 
 clean-build:
