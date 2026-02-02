@@ -45,6 +45,10 @@ CPModuleParser_GetSegment(CPModuleHeader *header, uint8_t index)
     if(header->seg_counts <= index) {
         return NULL;
     }
+    size_t cpoffset_size = CPOffset_GetSizeByByteMode(header->byte_mode);
+    if(cpoffset_size == (size_t)-1) {
+        return NULL;
+    }
     size_t seg_offset_offset = index * CPOffset_GetSizeByByteMode(header->byte_mode);
     cpoffset_t seg_offset = *(cpoffset_t *)((char *)header->seg_table + seg_offset_offset);
     size_t seg_offset_size = CPOffset_ToSizeT(header->byte_mode, seg_offset);
