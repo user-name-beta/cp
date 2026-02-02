@@ -54,5 +54,7 @@ CPModuleParser_GetSegment(CPModuleHeader *header, uint8_t index)
     if(seg_offset_size == (size_t)-1) {
         return NULL;
     }
-    return (void *)((char *)header + seg_offset_size);
+    size_t header_size = sizeof(CPModuleHeader) +
+        CPOffset_GetSizeByByteMode(header->byte_mode) * header->seg_counts;
+    return (void *)((char *)header + header_size + seg_offset_size);
 }
