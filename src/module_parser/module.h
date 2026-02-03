@@ -13,6 +13,7 @@
 
 typedef struct
 {
+    void *data;
     uint8_t byte_mode;
     size_t size;
 } CPModule;
