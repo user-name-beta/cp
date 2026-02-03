@@ -10,5 +10,7 @@
 #define _CP_MODULE_PARSER__MODULE_PARSER_H_
 
 #include "header.h"
+#include "module.h"
+#include "cpoffset.h"
 
 #endif /* _CP_MODULE_PARSER__MODULE_PARSER_H_ */
