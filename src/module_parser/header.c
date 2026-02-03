@@ -11,8 +11,8 @@
 #include <version.h>
 
 static size_t
-get_header_size(CPModuleHeader *header) {
-    size_t cpoffset_size = CPOffset_GetSizeByByteMode(header->byte_mode);
+get_header_size(CPModule *module, CPModuleHeader *header) {
+    size_t cpoffset_size = CPOffset_GetSizeByByteMode(module);
     if(cpoffset_size == (size_t)-1) {
         return (size_t)-1;
     }
@@ -21,13 +21,16 @@ get_header_size(CPModuleHeader *header) {
 }
 
 int
-CPModule_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
+CPModule_ParseHeader(void *data, size_t size, CPModule *module, CPModuleHeader *out_header)
 {
     if(size < sizeof(CPModuleHeader)) {
         return -1;
     }
     *out_header = *(CPModuleHeader *)data;
-    size_t header_size = get_header_size(out_header);
+    if(!CPOffset_VerifyByteMode(module)) {
+        return -1;
+    }
+    size_t header_size = get_header_size(module, out_header);
     if(header_size == (size_t)-1) {
         return -1;
     }
@@ -45,27 +48,25 @@ CPModule_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
     ) {
         return -1;
     }
-    if(!CPOffset_IsValidByteMode(out_header->byte_mode)) {
-        return -1;
-    }
+    module->byte_mode = out_header->byte_mode;
     return 0;
 }
 
 void *
-CPModule_GetSegment(CPModuleHeader *header, uint8_t index)
+CPModule_GetSegment(CPModule *module, CPModuleHeader *header, uint8_t index)
 {
     if(header->seg_counts <= index) {
         return NULL;
     }
-    size_t cpoffset_size = CPOffset_GetSizeByByteMode(header->byte_mode);
+    size_t cpoffset_size = CPOffset_GetSizeByByteMode(module);
     if(cpoffset_size == (size_t)-1) {
         return NULL;
     }
-    size_t seg_offset_offset = index * CPOffset_GetSizeByByteMode(header->byte_mode);
+    size_t seg_offset_offset = index * CPOffset_GetSizeByByteMode(module);
     cpoffset_t seg_offset = *(cpoffset_t *)((char *)header->seg_table + seg_offset_offset);
-    size_t seg_offset_size = CPOffset_ToSizeT(header->byte_mode, seg_offset);
+    size_t seg_offset_size = CPOffset_ToSizeT(module, seg_offset);
     if(seg_offset_size == (size_t)-1) {
         return NULL;
     }
-    return (void *)((char *)header + get_header_size(header) + seg_offset_size);
+    return (void *)((char *)header + get_header_size(module, header) + seg_offset_size);
 }
