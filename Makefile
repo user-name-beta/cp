@@ -84,7 +84,7 @@ ifeq ($(CC),cl)
 		CFLAGS += /O2
 	endif
 else ifeq ($(CC),gcc)
-	CFLAGS += -std=gnu99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden -I. -I$(SRC)
+	CFLAGS += -std=c99 -Wall -Werror -Wextra -fPIC -fvisibility=hidden -I. -I$(SRC)
 	ifeq ($(RELEASE),0)
 		CFLAGS += -O0 -DDEBUG -g
 	else
