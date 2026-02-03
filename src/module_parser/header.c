@@ -21,12 +21,12 @@ get_header_size(CPModule *module, CPModuleHeader *header) {
 }
 
 int
-CPModule_ParseHeader(void *data, size_t size, CPModule *module, CPModuleHeader *out_header)
+CPModule_ParseHeader(CPModule *module, CPModuleHeader *out_header)
 {
-    if(size < sizeof(CPModuleHeader)) {
+    if(module->size < sizeof(CPModuleHeader)) {
         return -1;
     }
-    *out_header = *(CPModuleHeader *)data;
+    *out_header = *(CPModuleHeader *)module->data;
     if(!CPOffset_VerifyByteMode(module)) {
         return -1;
     }
@@ -34,7 +34,7 @@ CPModule_ParseHeader(void *data, size_t size, CPModule *module, CPModuleHeader *
     if(header_size == (size_t)-1) {
         return -1;
     }
-    if(size < header_size) {
+    if(module->size < header_size) {
         return -1;
     }
     if(memcmp(out_header->magic, CP_BYTECODE_MAGIC_NUMBER, CP_BYTECODE_MAGIC_NUMBER_SIZE) != 0) {
