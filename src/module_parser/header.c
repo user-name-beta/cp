@@ -21,7 +21,7 @@ get_header_size(CPModuleHeader *header) {
 }
 
 int
-CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
+CPModule_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
 {
     if(size < sizeof(CPModuleHeader)) {
         return -1;
@@ -52,7 +52,7 @@ CPModuleParser_ParseHeader(void *data, size_t size, CPModuleHeader *out_header)
 }
 
 void *
-CPModuleParser_GetSegment(CPModuleHeader *header, uint8_t index)
+CPModule_GetSegment(CPModuleHeader *header, uint8_t index)
 {
     if(header->seg_counts <= index) {
         return NULL;
