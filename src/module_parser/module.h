@@ -6,11 +6,14 @@
 //
 // A header file including other headers in this directory.
 
-#ifndef _CP_MODULE_PARSER__MODULE_PARSER_H_
-#define _CP_MODULE_PARSER__MODULE_PARSER_H_
+#ifndef _CP_MODULE_PARSER__MODULE_H_
+#define _CP_MODULE_PARSER__MODULE_H_
 
-#include "header.h"
-#include "module.h"
-#include "cpoffset.h"
+#include <stdint.h>
 
-#endif /* _CP_MODULE_PARSER__MODULE_PARSER_H_ */
+typedef struct
+{
+    uint8_t byte_mode;
+} CPModule;
+
+#endif /* _CP_MODULE_PARSER__MODULE_H_ */

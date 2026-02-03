@@ -12,6 +12,7 @@
 #include <cptypes.h>
 
 #include <stdint.h>
+#include "module.h"
 
 typedef union
 {
@@ -19,11 +20,11 @@ typedef union
     uint64_t o64;
 } cpoffset_t;
 
-int CPOffset_IsValidByteMode(uint8_t byte_mode);
-ssize_t CPOffset_ToSizeT(uint8_t byte_mode, cpoffset_t offset);
-int CPOffset_FromSize_T(uint8_t byte_mode, size_t value, cpoffset_t *offset);
-int CPOffset_WriteToMemory(uint8_t byte_mode, cpoffset_t offset, void *buffer, size_t buffer_size);
-int CPOffset_ReadFromMemory(uint8_t byte_mode, const void *buffer, size_t buffer_size, cpoffset_t *offset);
-size_t CPOffset_GetSizeByByteMode(uint8_t byte_mode);
+int CPOffset_VerifyByteMode(CPModule *module);
+ssize_t CPOffset_ToSizeT(CPModule *module, cpoffset_t offset);
+int CPOffset_FromSize_T(CPModule *module, size_t value, cpoffset_t *offset);
+int CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer, size_t buffer_size);
+int CPOffset_ReadFromMemory(CPModule *module, const void *buffer, size_t buffer_size, cpoffset_t *offset);
+size_t CPOffset_GetSizeByByteMode(CPModule *module);
 
 #endif /* _CP_MODULE_PARSER__CPOFFSET_H_ */

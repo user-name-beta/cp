@@ -11,29 +11,30 @@
 #include <limits.h>
 
 #include "cpoffset.h"
+#include "module.h"
 #include <cptypes.h>
 
 int
-CPOffset_IsValidByteMode(uint8_t byte_mode)
+CPOffset_VerifyByteMode(CPModule *module)
 {
-    return (byte_mode == 0 || byte_mode == 1) ? 1 : 0;
+    return (module->byte_mode == 0 || module->byte_mode == 1) ? 1 : 0;
 }
 
 ssize_t
-CPOffset_ToSizeT(uint8_t byte_mode, cpoffset_t offset)
+CPOffset_ToSizeT(CPModule *module, cpoffset_t offset)
 {
 #if SIZE_MAX == UINT64_MAX
-    if(byte_mode == 0) { // 32-bit mode
+    if(module->byte_mode == 0) { // 32-bit mode
         return (ssize_t)(offset.o32);
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         return (ssize_t)(offset.o64);
     } else {
         return -2;
     }
 #elif SIZE_MAX == UINT32_MAX
-    if(byte_mode == 0) {  // 32-bit mode
+    if(module->byte_mode == 0) {  // 32-bit mode
         return (ssize_t)(offset.o32);
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         if(offset.o64 > UINT32_MAX) {
             return -1;
         }
@@ -47,26 +48,26 @@ CPOffset_ToSizeT(uint8_t byte_mode, cpoffset_t offset)
 }
 
 int
-CPOffset_FromSize_T(uint8_t byte_mode, size_t value, cpoffset_t *offset)
+CPOffset_FromSize_T(CPModule *module, size_t value, cpoffset_t *offset)
 {
 #if SIZE_MAX == UINT64_MAX
-    if(byte_mode == 0) {  // 32-bit mode
+    if(module->byte_mode == 0) {  // 32-bit mode
         if(value > UINT32_MAX) {
             return -1;
         }
         offset->o32 = (uint32_t)value;
         return 0;
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         offset->o64 = (uint64_t)value;
         return 0;
     } else {
         return -2;
     }
 #elif SIZE_MAX == UINT32_MAX
-    if(byte_mode == 0) {  // 32-bit mode
+    if(module->byte_mode == 0) {  // 32-bit mode
         offset->o32 = (uint32_t)value;
         return 0;
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         offset->o64 = (uint64_t)value;
         return 0;
     } else {
@@ -78,15 +79,15 @@ CPOffset_FromSize_T(uint8_t byte_mode, size_t value, cpoffset_t *offset)
 }
 
 int
-CPOffset_ReadFromMemory(uint8_t byte_mode, const void *buffer, size_t buffer_size, cpoffset_t *offset)
+CPOffset_ReadFromMemory(CPModule *module, const void *buffer, size_t buffer_size, cpoffset_t *offset)
 {
-    if(byte_mode == 0) {  // 32-bit mode
+    if(module->byte_mode == 0) {  // 32-bit mode
         if(buffer_size < sizeof(uint32_t)) {
             return -1;
         }
         offset->o32 = *((const uint32_t *)buffer);
         return 0;
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         if(buffer_size < sizeof(uint64_t)) {
             return -1;
         }
@@ -98,15 +99,15 @@ CPOffset_ReadFromMemory(uint8_t byte_mode, const void *buffer, size_t buffer_siz
 }
 
 int
-CPOffset_WriteToMemory(uint8_t byte_mode, cpoffset_t offset, void *buffer, size_t buffer_size)
+CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer, size_t buffer_size)
 {
-    if(byte_mode == 0) {  // 32-bit mode
+    if(module->byte_mode == 0) {  // 32-bit mode
         if(buffer_size < sizeof(uint32_t)) {
             return -1;
         }
         *((uint32_t *)buffer) = offset.o32;
         return 0;
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         if(buffer_size < sizeof(uint64_t)) {
             return -1;
         }
@@ -118,11 +119,11 @@ CPOffset_WriteToMemory(uint8_t byte_mode, cpoffset_t offset, void *buffer, size_
 }
 
 size_t
-CPOffset_GetSizeByByteMode(uint8_t byte_mode)
+CPOffset_GetSizeByByteMode(CPModule *module)
 {
-    if(byte_mode == 0) {  // 32-bit mode
+    if(module->byte_mode == 0) {  // 32-bit mode
         return sizeof(uint32_t);
-    } else if(byte_mode == 1) {  // 64-bit mode
+    } else if(module->byte_mode == 1) {  // 64-bit mode
         return sizeof(uint64_t);
     } else {
         return (size_t)-1;
