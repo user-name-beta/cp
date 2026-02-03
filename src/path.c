@@ -6,8 +6,8 @@
 //
 // Handle file paths.
 
-#include "cptypes.h"
 #include "path.h"
+#include "cptypes.h"
 #include "safe_string.h"
 
 #ifndef _WIN32
