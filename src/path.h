@@ -16,6 +16,7 @@
 #define CP_PATH_SEP2 "/"
 #define CP_IS_PATH_SEP(c) ((c) == '\\' || (c) == '/')
 #else /* _WIN32 */
+#define _POSIX_C_SOURCE 200809L
 #include <limits.h>
 #define CP_MAX_PATH PATH_MAX
 #define CP_PATH_SEP "/"
