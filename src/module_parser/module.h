@@ -14,6 +14,7 @@
 typedef struct
 {
     uint8_t byte_mode;
+    size_t size;
 } CPModule;
 
 #endif /* _CP_MODULE_PARSER__MODULE_H_ */
