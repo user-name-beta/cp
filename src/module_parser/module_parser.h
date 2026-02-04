@@ -12,5 +12,7 @@
 #include "header.h"
 #include "module.h"
 #include "cpoffset.h"
+#include "segmentnum.h"
+#include "stringtab.h"
 
 #endif /* _CP_MODULE_PARSER__MODULE_PARSER_H_ */
