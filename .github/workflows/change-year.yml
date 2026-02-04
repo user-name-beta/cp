@@ -1,6 +1,9 @@
 name: Simple Year Replacement
 
 on:
+  schedule:
+    - cron: '0 0 1 1 *'
+
   workflow_dispatch:
     inputs:
       from:
@@ -10,6 +13,10 @@ on:
         description: 'Target year to replace with'
         required: true
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   replace-year:
     runs-on: ubuntu-latest
@@ -17,6 +24,16 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Configure Git and GPG
+      run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p ~/.gnupg
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
+          chmod 600 ~/.gnupg/*
+          git checkout -b actions/year-replacement
     
     - name: Replace year
       run: |
@@ -33,16 +50,20 @@ jobs:
         done < <(git ls-files)
         
         echo "Change ${#CHANGED_FILES[@]} files"
-    
+
+    - name: Commit changes
+      run: |
+        git add .
+        git commit -S -m "chore: update year from ${{ github.event.inputs.from }} to ${{ github.event.inputs.to }}" --signoff
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "chore: update year from ${{ github.event.inputs.from }} to ${{ github.event.inputs.to }}"
         title: "Year Update: ${{ github.event.inputs.from }} → ${{ github.event.inputs.to }}"
         body: |
-          Automatic year update.
+          Automatic year update by GitHub Actions.
           
           - From: **${{ github.event.inputs.from }}**
           - To: **${{ github.event.inputs.to }}**
-        branch: "year-update-${{ github.event.inputs.to }}"
+        branch: "actions/year-replacement"
