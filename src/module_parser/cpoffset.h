@@ -23,8 +23,8 @@ typedef union
 int CPOffset_VerifyByteMode(CPModule *module);
 ssize_t CPOffset_ToSizeT(CPModule *module, cpoffset_t offset);
 int CPOffset_FromSize_T(CPModule *module, size_t value, cpoffset_t *offset);
-int CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset);
-int CPOffset_ReadFromMemory(CPModule *module, cpoffset_t *offset);
+int CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer, size_t buffer_size);
+int CPOffset_ReadFromMemory(CPModule *module, const void *buffer, size_t buffer_size, cpoffset_t *offset);
 size_t CPOffset_GetSizeByByteMode(CPModule *module);
 
 #endif /* _CP_MODULE_PARSER__CPOFFSET_H_ */
