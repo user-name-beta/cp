@@ -47,7 +47,10 @@ CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_
     size_t size = get_stringtab_size(module, string_table);
     size_t segoffset_offset = sizeof(CPModuleStringTable) +
         CPOffset_GetSizeByByteMode(module) * index;
-    cpoffset_t seg_offset = *(cpoffset_t *)((char *)string_table + segoffset_offset);
+    cpoffset_t seg_offset;
+    if(CPOffset_ReadFromMemory(module, (char *)string_table + segoffset_offset, &seg_offset) != 0) {
+        return NULL;
+    }
     size_t seg_offset_size = CPOffset_ToSizeT(module, seg_offset);
     if(seg_offset_size == (size_t)-1) {
         return NULL;
