@@ -99,16 +99,16 @@ CPOffset_ReadFromMemory(CPModule *module, const void *buffer, cpoffset_t *offset
 }
 
 int
-CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer, size_t buffer_size)
+CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer)
 {
     if(module->byte_mode == 0) {  // 32-bit mode
-        if(buffer_size < sizeof(uint32_t)) {
+        if((uintptr_t)buffer + sizeof(uint32_t) > (uintptr_t)module->data + module->size) {
             return -1;
         }
         *((uint32_t *)buffer) = offset.o32;
         return 0;
     } else if(module->byte_mode == 1) {  // 64-bit mode
-        if(buffer_size < sizeof(uint64_t)) {
+        if((uintptr_t)buffer + sizeof(uint64_t) > (uintptr_t)module->data + module->size) {
             return -1;
         }
         *((uint64_t *)buffer) = offset.o64;
