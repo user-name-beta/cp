@@ -1,6 +1,6 @@
 // path.c
 //
-// Copyright (c) 2025-2026 user-name-beta. All rights reserved.
+// Copyright (c) 2025-2027 user-name-beta. All rights reserved.
 // Licensed under the MIT license.
 // See LICENSE file in the project root for full license information.
 //

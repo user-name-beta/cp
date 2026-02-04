@@ -18,7 +18,7 @@ BEGIN
             VALUE "ProductName", "CP"
             VALUE "ProductVersion", "p0.0.0"
             VALUE "CompanyName", "user-name-beta"
-            VALUE "LegalCopyright", "Copyright (c) 2025-2026 user-name-beta."
+            VALUE "LegalCopyright", "Copyright (c) 2025-2027 user-name-beta."
             VALUE "InternalName", "cpc.exe"
             VALUE "OriginalFilename", "cpc.exe"
         END
