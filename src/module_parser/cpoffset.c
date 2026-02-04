@@ -79,16 +79,16 @@ CPOffset_FromSize_T(CPModule *module, size_t value, cpoffset_t *offset)
 }
 
 int
-CPOffset_ReadFromMemory(CPModule *module, const void *buffer, size_t buffer_size, cpoffset_t *offset)
+CPOffset_ReadFromMemory(CPModule *module, const void *buffer, cpoffset_t *offset)
 {
     if(module->byte_mode == 0) {  // 32-bit mode
-        if(buffer_size < sizeof(uint32_t)) {
+        if((uintptr_t)buffer + sizeof(uint32_t) > (uintptr_t)module->data + module->size) {
             return -1;
         }
         offset->o32 = *((const uint32_t *)buffer);
         return 0;
     } else if(module->byte_mode == 1) {  // 64-bit mode
-        if(buffer_size < sizeof(uint64_t)) {
+        if((uintptr_t)buffer + sizeof(uint64_t) > (uintptr_t)module->data + module->size) {
             return -1;
         }
         offset->o64 = *((const uint64_t *)buffer);
