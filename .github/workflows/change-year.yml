@@ -30,7 +30,7 @@ jobs:
             sed -i "s/${{ github.event.inputs.from }}/${{ github.event.inputs.to }}/g" "$file"
             CHANGED_FILES+=("$file")
           fi
-        done < < <(git ls-files)
+        done < <(git ls-files)
         
         echo "Change ${#CHANGED_FILES[@]} files"
     
