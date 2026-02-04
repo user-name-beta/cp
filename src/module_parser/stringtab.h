@@ -19,5 +19,6 @@ typedef struct
     cpstringtabindex_t string_count;
     cpoffset_t strings_offset[];
 } CPModuleStringTable;
-
+int CPModule_ParseStringTable(CPModule *module, CPModuleHeader *header, CPModuleStringTable *out_string_table);
+char *CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, cpstringtabindex_t index);
 #endif /* _CP_MODULE_PARSER__STRINGTAB_H_ */
