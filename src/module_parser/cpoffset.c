@@ -79,19 +79,19 @@ CPOffset_FromSize_T(CPModule *module, size_t value, cpoffset_t *offset)
 }
 
 int
-CPOffset_ReadFromMemory(CPModule *module, const void *buffer, size_t buffer_size, cpoffset_t *offset)
+CPOffset_ReadFromMemory(CPModule *module, cpoffset_t *offset)
 {
     if(module->byte_mode == 0) {  // 32-bit mode
-        if(buffer_size < sizeof(uint32_t)) {
+        if(module->size < sizeof(uint32_t)) {
             return -1;
         }
-        offset->o32 = *((const uint32_t *)buffer);
+        offset->o32 = *((const uint32_t *)module->data);
         return 0;
     } else if(module->byte_mode == 1) {  // 64-bit mode
-        if(buffer_size < sizeof(uint64_t)) {
+        if(module->size < sizeof(uint64_t)) {
             return -1;
         }
-        offset->o64 = *((const uint64_t *)buffer);
+        offset->o64 = *((const uint64_t *)module->data);
         return 0;
     } else {
         return -2;
@@ -99,19 +99,19 @@ CPOffset_ReadFromMemory(CPModule *module, const void *buffer, size_t buffer_size
 }
 
 int
-CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer, size_t buffer_size)
+CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset)
 {
     if(module->byte_mode == 0) {  // 32-bit mode
-        if(buffer_size < sizeof(uint32_t)) {
+        if(module->size < sizeof(uint32_t)) {
             return -1;
         }
-        *((uint32_t *)buffer) = offset.o32;
+        *((uint32_t *)module->data) = offset.o32;
         return 0;
     } else if(module->byte_mode == 1) {  // 64-bit mode
-        if(buffer_size < sizeof(uint64_t)) {
+        if(module->size < sizeof(uint64_t)) {
             return -1;
         }
-        *((uint64_t *)buffer) = offset.o64;
+        *((uint64_t *)module->data) = offset.o64;
         return 0;
     } else {
         return -2;
