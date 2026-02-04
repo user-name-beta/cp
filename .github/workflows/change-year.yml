@@ -1,0 +1,48 @@
+name: Simple Year Replacement
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: 'Source year to replace'
+        required: true
+      to:
+        description: 'Target year to replace with'
+        required: true
+
+jobs:
+  replace-year:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Replace year
+      run: |
+        echo "Replace from ${{ github.event.inputs.from }} to ${{ github.event.inputs.to }}"
+        echo ""
+        
+        CHANGED_FILES=()
+        while IFS= read -r file; do
+          if grep -q "${{ github.event.inputs.from }}" "$file" 2>/dev/null; then
+            echo "Handling: $file"
+            sed -i "s/${{ github.event.inputs.from }}/${{ github.event.inputs.to }}/g" "$file"
+            CHANGED_FILES+=("$file")
+          fi
+        done < < <(git ls-files)
+        
+        echo "Change ${#CHANGED_FILES[@]} files"
+    
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update year from ${{ github.event.inputs.from }} to ${{ github.event.inputs.to }}"
+        title: "Year Update: ${{ github.event.inputs.from }} → ${{ github.event.inputs.to }}"
+        body: |
+          Automatic year update.
+          
+          - From: **${{ github.event.inputs.from }}**
+          - To: **${{ github.event.inputs.to }}**
+        branch: "year-update-${{ github.event.inputs.to }}"
