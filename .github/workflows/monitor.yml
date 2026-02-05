@@ -1,0 +1,83 @@
+name: Monitor Workflows
+
+on:
+  workflow_run:
+    workflows:
+    - "Build"
+    types:
+    - completed
+    - requested
+
+jobs:
+  analyze-workflow:
+    runs-on: ubuntu-latest
+    # Only run when monitored workflows complete
+    if: ${{ github.event.workflow_run.conclusion }}
+    steps:
+    - name: Check workflow conclusion
+      env:
+        CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        STATUS: ${{ github.event.workflow_run.status }}
+        WORKFLOW: ${{ github.event.workflow_run.name }}
+        RUN_ID: ${{ github.event.workflow_run.id }}
+      run: |
+        echo "Workflow: $WORKFLOW"
+        echo "Run ID: $RUN_ID"
+        echo "Status: $STATUS"
+        echo "Conclusion: $CONCLUSION"
+        if [[ "$CONCLUSION" == "success" ]]; then
+          echo "✅ Workflow completed successfully"
+        elif [[ "$CONCLUSION" == "failure" ]]; then
+          echo "❌ Workflow failed"
+        elif [[ "$CONCLUSION" == "cancelled" ]]; then
+          echo "⚠️ Workflow cancelled"
+        elif [[ "$CONCLUSION" == "skipped" ]]; then
+          echo "⏭️ Workflow skipped"
+        elif [[ "$CONCLUSION" == "action_required" ]]; then
+          echo "🔄 Manual action required"
+        else
+          echo "❓ Unknown status: $CONCLUSION"
+        fi
+  
+    - name: Get detailed job information
+      uses: actions/github-script@v6
+      env:
+        RUN_ID: ${{ github.event.workflow_run.id }}
+      with:
+        script: |
+          const runId = process.env.RUN_ID;
+          
+          // Get job information for the workflow run
+          const jobs = await github.rest.actions.listJobsForWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: runId
+          });
+          
+          console.log("Job details:");
+          let skippedCount = 0;
+          let failedCount = 0;
+          
+          for (const job of jobs.data.jobs) {
+            console.log(`  ${job.name}: ${job.status} - ${job.conclusion}`);
+            
+            if (job.conclusion === 'skipped') {
+              skippedCount++;
+              console.log(`    ⚠️ Skipped: ${job.name}`);
+            }
+            
+            if (job.conclusion === 'failure') {
+              failedCount++;
+              console.log(`    ❌ Failed: ${job.name}`);
+            }
+          }
+        
+          console.log(`\nSummary:`);
+          console.log(`  Total jobs: ${jobs.data.jobs.length}`);
+          console.log(`  Skipped jobs: ${skippedCount}`);
+          console.log(`  Failed jobs: ${failedCount}`);
+        
+          // Send notification if any jobs were skipped
+          if (skippedCount > 0) {
+            console.log("Warning: Some jobs were skipped!");
+          }
