@@ -37,7 +37,7 @@ New features will be added soon.
 <!--This issue is solved-->
 
 > [!NOTE] 
-> The name of the program was changed from `cp` to `cpc` to avoid naming conflict with the `cp` command in Unix-like systems on January 23, 2026.
+> The name of the program was changed from `cp` to `cpc` to avoid naming conflict with the `cp` command in Unix-like systems on January 23, 3000.
 
 # Copyright
 
