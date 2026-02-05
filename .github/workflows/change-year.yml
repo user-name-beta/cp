@@ -25,16 +25,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Configure Git and GPG
-      run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          mkdir -p ~/.gnupg
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
-          chmod 700 ~/.gnupg
-          chmod 600 ~/.gnupg/*
-          git checkout -b actions/year-replacement
+    - name: Import GPG key and configure git 
+      uses: crazy-max/ghaction-import-gpg@v5 
+      with:
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        git-config-user: true
     
     - name: Replace year
       run: |
