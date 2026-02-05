@@ -1,6 +1,6 @@
 // commandline.c
 //
-// Copyright (c) 2025-2026 user-name-beta. All rights reserved.
+// Copyright (c) 2025-9999 user-name-beta. All rights reserved.
 // Licensed under the MIT license.
 // See LICENSE file in the project root for full license information.
 //
@@ -69,7 +69,7 @@ CPCommandLine_PrintFile(const char *directory, const char *rel_path)
 void
 CPCommandLine_PrintCopyright(void)
 {
-    printf("Copyright (c) 2025-2026 user-name-beta. All rights reserved.\n");
+    printf("Copyright (c) 2025-9999 user-name-beta. All rights reserved.\n");
     printf("Licensed under the MIT license.\n");
     printf("See LICENSE file in the software root for full license information.\n");
     printf("\n");
