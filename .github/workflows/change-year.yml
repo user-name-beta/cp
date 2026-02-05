@@ -28,8 +28,9 @@ jobs:
     - name: Import GPG key and configure git 
       uses: crazy-max/ghaction-import-gpg@v5 
       with:
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-        git-config-user: true
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        git_committer_name: 'github-actions[bot]'
+        git_committer_email: 'github-actions[bot]@users.noreply.github.com'
     
     - name: Replace year
       run: |
