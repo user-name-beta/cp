@@ -11,6 +11,7 @@
 
 #include <stdint.h>
 #include "cpoffset.h"
+#include "header.h"
 
 typedef uint32_t cpstringtabindex_t;
 
@@ -19,6 +20,8 @@ typedef struct
     cpstringtabindex_t string_count;
     cpoffset_t strings_offset[];
 } CPModuleStringTable;
+
 int CPModule_ParseStringTable(CPModule *module, CPModuleHeader *header, CPModuleStringTable *out_string_table);
 char *CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, cpstringtabindex_t index);
+
 #endif /* _CP_MODULE_PARSER__STRINGTAB_H_ */
