@@ -21,7 +21,15 @@ typedef struct
     cpoffset_t strings_offset[];
 } CPModuleStringTable;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int CPModule_ParseStringTable(CPModule *module, CPModuleHeader *header, CPModuleStringTable *out_string_table);
 char *CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, cpstringtabindex_t index);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _CP_MODULE_PARSER__STRINGTAB_H_ */

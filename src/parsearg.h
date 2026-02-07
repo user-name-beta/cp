@@ -11,6 +11,10 @@
 
 /* Always static link */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int cp_argc;
 extern char **cp_argv;
 
@@ -20,5 +24,9 @@ int CP_ParseFlagEx(int flagc, const char * const *flags);
 const char *CP_ParseOption(const char *option);
 int CP_ParseOptionEx(const char *option, int valuec, const char **values);
 int CP_ParseAssertNoMoreArgs(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _CP_PARSE_H_ */

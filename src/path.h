@@ -26,11 +26,19 @@
 
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 bool CPath_IsAbsolute(const char *path);
 int CPath_Getcwd(char *cwd);
 int CPath_Join(char *dst, const char *src1, const char *src2);
 int CPath_JoinInPlace(char *dst, const char *src);
 int CPath_Filename(char *dst, const char *src);
 int CPath_Dirname(char *dst, const char *src);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _CP_PATH_H_ */
