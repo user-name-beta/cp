@@ -256,6 +256,10 @@ $(BUILD)/module_parser/cpoffset$(OBJ_EXT): $(SRC)/module_parser/cpoffset.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/module_parser/cpoffset$(OBJ_EXT)
 
+$(BUILD)/module_parser/stringtab$(OBJ_EXT): $(SRC)/module_parser/stringtab.c
+	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
+OBJECTS += $(BUILD)/module_parser/stringtab$(OBJ_EXT)
+
 $(BUILD)/cpc/launch$(OBJ_EXT): $(SRC)/cpc/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
