@@ -1,0 +1,9 @@
+Usage: cpc --version
+   or: cpc --copyright
+   or: cpc --license
+   or: cpc --help
+
+    --version       Show version information
+    --copyright     Show copyright information
+    --license       Show license information
+    --help          Show this help information
