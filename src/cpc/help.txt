@@ -3,7 +3,7 @@ Usage: cpc --version
    or: cpc --license
    or: cpc --help
 
-    --version       Show vesion information
+    --version       Show version information
     --copyright     Show copyright information
     --license       Show license information
     --help          Show this help information
