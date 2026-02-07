@@ -13,11 +13,11 @@
 #include "cpoffset.h"
 #include "header.h"
 
-typedef uint32_t cpstringtabindex_t;
+typedef uint32_t CPStringIndex;
 
 typedef struct
 {
-    cpstringtabindex_t string_count;
+    CPStringIndex string_count;
     cpoffset_t strings_offset[];
 } CPModuleStringTable;
 
@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 int CPModule_ParseStringTable(CPModule *module, CPModuleHeader *header, CPModuleStringTable *out_string_table);
-char *CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, cpstringtabindex_t index);
+char *CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, CPStringIndex index);
 
 #ifdef __cplusplus
 }

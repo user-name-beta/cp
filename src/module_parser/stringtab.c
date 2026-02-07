@@ -39,7 +39,7 @@ CPModule_ParseStringTable(CPModule *module, CPModuleHeader *header, CPModuleStri
 }
 
 char *
-CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, cpstringtabindex_t index)
+CPModule_GetStringFromStringTable(CPModule *module, CPModuleStringTable *string_table, CPStringIndex index)
 {
     if(index >= string_table->string_count) {
         return NULL;
