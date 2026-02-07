@@ -18,10 +18,12 @@ typedef uint32_t cpfunctype_t;
 
 typedef struct
 {
-    cpstringtabindex_t class_name;
-    cpstringtabindex_t func_name;
+    CPStringIndex class_name;
+    CPStringIndex func_name;
     cpfunctype_t func_type;
     CPTypeDescriptor return_type;
+    uint32_t param_count;
+    CPTypeDescriptor param_type[];
 } CPModuleFuncSymbol;
 
 #endif /* _CP_MODULE_PARSER__SYMBOLS__FUNC_H_ */

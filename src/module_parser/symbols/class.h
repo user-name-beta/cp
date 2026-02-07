@@ -13,7 +13,7 @@
 
 typedef struct
 {
-    cpstringtabindex_t name;
+    CPStringIndex name;
     cpoffset_t object_size;
     uint32_t attr_start;
     uint32_t attr_end;

@@ -15,7 +15,7 @@
 
 typedef struct
 {
-    cpstringtabindex_t name;
+    CPStringIndex name;
     CPTypeDescriptor type;
     cpoffset_t value_offset;
 } CPModuleAttributeSymbol;
