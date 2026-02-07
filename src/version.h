@@ -48,4 +48,4 @@ CP_API_DATA(const long) CP_BytecodeVersionMinor;
 }
 #endif
 
-#endif // _CP_VERSION_H_
+#endif /* _CP_VERSION_H_ */
