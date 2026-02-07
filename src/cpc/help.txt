@@ -6,3 +6,4 @@ Usage: cpc --version
     --version       Show vesion information
     --copyright     Show copyright information
     --license       Show license information
+    --help          Show this help information
