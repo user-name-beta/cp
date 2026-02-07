@@ -20,11 +20,19 @@ typedef union
     uint64_t o64;
 } cpoffset_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int CPOffset_VerifyByteMode(CPModule *module);
 ssize_t CPOffset_ToSizeT(CPModule *module, cpoffset_t offset);
 int CPOffset_FromSize_T(CPModule *module, size_t value, cpoffset_t *offset);
 int CPOffset_WriteToMemory(CPModule *module, cpoffset_t offset, void *buffer);
 int CPOffset_ReadFromMemory(CPModule *module, const void *buffer, cpoffset_t *offset);
 size_t CPOffset_GetSizeByByteMode(CPModule *module);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _CP_MODULE_PARSER__CPOFFSET_H_ */

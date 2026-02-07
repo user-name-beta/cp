@@ -11,9 +11,17 @@
 
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int strcat_safe(char *dst, const char *src, size_t dst_size);
 int strcpy_safe(char *dst, const char *src, size_t dst_size);
 int strncat_safe(char *dst, const char *src, size_t dst_size, size_t n);
 int strncpy_safe(char *dst, const char *src, size_t dst_size, size_t n);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _CP_SAFE_STRING_H_ */

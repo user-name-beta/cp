@@ -46,7 +46,15 @@ static_assert(offsetof(CPModuleHeader, _pending1) == 14, "Offset of _pending1 is
 static_assert(offsetof(CPModuleHeader, seg_table) == 16, "Offset of seg_table is incorrect");
 static_assert(sizeof(CPModuleHeader) == 16, "Size of CPModuleHeader is incorrect");
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int CPModule_ParseHeader(CPModule *module, CPModuleHeader *out_header);
 void *CPModule_GetSegment(CPModule *module, CPModuleHeader *header, uint8_t index);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _CP_MODULE_PARSER__HEADER_H_ */
