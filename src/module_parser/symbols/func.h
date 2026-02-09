@@ -11,6 +11,7 @@
 
 #include "../stringtab.h"
 #include "../types.h"
+#include "<stdint.h>"
 
 typedef uint32_t cpfunctype_t;
 
