@@ -15,6 +15,7 @@
 
 typedef struct
 {
+    CPStringIndex class_name;
     CPStringIndex name;
     CPTypeDescriptor type;
     cpoffset_t value_offset;
