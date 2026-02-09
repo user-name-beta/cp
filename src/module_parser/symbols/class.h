@@ -10,6 +10,8 @@
 #define _CP_MODULE_PARSER__SYMBOLS__CLASS_H_
 
 #include "../stringtab.h"
+#include "../cpoffset.h"
+#include <stdint.h>
 
 typedef struct
 {
