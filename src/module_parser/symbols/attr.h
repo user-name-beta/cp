@@ -11,7 +11,7 @@
 
 #include "../stringtab.h"
 #include "../cpoffset.h"
-#include "../types.h"
+#include <objects/types.h>
 
 typedef struct
 {

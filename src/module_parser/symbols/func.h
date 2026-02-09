@@ -10,7 +10,7 @@
 #define _CP_MODULE_PARSER__SYMBOLS__FUNC_H_
 
 #include "../stringtab.h"
-#include "../types.h"
+#include <objects/types.h>
 #include "<stdint.h>"
 
 typedef uint32_t cpfunctype_t;
