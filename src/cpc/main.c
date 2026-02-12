@@ -73,6 +73,7 @@ CPMainProgramEntryPoint_CPC(int argc, char **argv)
         CPCommandLine_PrintHelp(home, "cpc-help.txt");goto end;
     }
     CPCommandLine_PrintHelp(home, "cpc-help.txt");
+    goto error;
 end:
     if(CP_ParseAssertNoMoreArgs() < 0) {
         CPCommandLine_PrintHelp(home, "cpc-help.txt");
