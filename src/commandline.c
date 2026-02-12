@@ -73,11 +73,7 @@ CPCommandLine_PrintCopyright(void)
     printf("Licensed under the MIT license.\n");
     printf("See LICENSE file in the software root for full license information.\n");
     printf("\n");
-    printf("CP is free-software. It is distributed in the hope that it will be useful,\n");
-    printf("but WITHOUT WARRANTY; without even the implied warranty of\n");
-    printf("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n");
-    printf("\n");
-    printf("If you wants more information, please visit https://github.com/user-name-beta/cp\n");
+    printf("If you want more information, please visit <https://github.com/user-name-beta/cp>\n");
 }
 
 void
