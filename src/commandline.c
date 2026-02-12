@@ -73,7 +73,7 @@ CPCommandLine_PrintCopyright(void)
     printf("Licensed under the MIT license.\n");
     printf("See LICENSE file in the software root for full license information.\n");
     printf("\n");
-    printf("If you want more information, please visit https://github.com/user-name-beta/cp\n");
+    printf("If you want more information, please visit <https://github.com/user-name-beta/cp>\n");
 }
 
 void
