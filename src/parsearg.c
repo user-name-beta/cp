@@ -48,13 +48,15 @@ int
 CP_ParseFlag(const char *flag)
 {
     /* Parse --flag or -f */
+    int found = 0;
     for(int i = 0; i < cp_argc; i++) {
         if(strcmp(cp_argv[i], flag) == 0){
             pop(i);
-            return 1;
+            i--;
+            found = 1;
         }
     }
-    return 0;
+    return found;
 }
 
 int
@@ -83,7 +85,7 @@ const char *
 CP_ParseOption(const char *option)
 {
     /* Parse -option value */
-
+    const char *rv = NULL;
     size_t len = strlen(option);
     for(int i = 0; i < cp_argc; i++) {
         char *arg = cp_argv[i];
@@ -98,7 +100,11 @@ CP_ParseOption(const char *option)
                     }
                 }
                 pop(i);
-                return value;
+                i--;
+                if(rv != NULL) {
+                    return NULL;
+                }
+                rv = value;
             } else if(arglen == len) { /* -option value */
                 if(i + 1 == cp_argc) { /* last argument, value is missing*/
                     return NULL;
@@ -106,14 +112,18 @@ CP_ParseOption(const char *option)
                 char *value = cp_argv[i+1];
                 pop(i); /* remove option */
                 pop(i); /* remove value */
-                return value;
+                i -= 2;
+                if(rv != NULL) {
+                    return NULL;
+                }
+                rv = value;
             } else { /* unreachable */
                 CP_UNREACHABLE();
                 return NULL;
             }
         }
     }
-    return NULL;
+    return rv;
 }
 
 int
