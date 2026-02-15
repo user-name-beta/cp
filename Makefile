@@ -207,9 +207,9 @@ API_HEADERS = # No API headers yet.
 
 $(BUILD)/depends.d: $(wildcard $(SRC)/*.*) | directories
 ifeq ($(OS),Windows_NT)
-	powershell -ExecutionPolicy Bypass -File ./depends.ps1 $(SRC) $@
+	powershell -ExecutionPolicy Bypass -File Misc/depends.ps1 $(SRC) $@
 else
-	./depends.sh $(SRC) $@
+	Misc/depends.sh $(SRC) $@
 endif
 
 ifeq ($(filter clean clean-build help help-install install install-files-only uninstall uninstall-all $(BUILD)/depends.d,$(MAKECMDGOALS)),)
