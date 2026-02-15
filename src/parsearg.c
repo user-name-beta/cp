@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "cptypes.h"
+#include "report_error.h"
 
 int cp_argc;
 char **cp_argv;
@@ -102,6 +103,7 @@ CP_ParseOption(const char *option)
                 pop(i);
                 i--;
                 if(rv != NULL) {
+                    cp_report_error("Multiple values of '%s' found", option);
                     return NULL;
                 }
                 rv = value;
@@ -114,6 +116,7 @@ CP_ParseOption(const char *option)
                 pop(i); /* remove value */
                 i -= 2;
                 if(rv != NULL) {
+                    cp_report_error("Multiple values of '%s' found", option);
                     return NULL;
                 }
                 rv = value;
