@@ -22,24 +22,23 @@ static char *exe = NULL;
 static char *home = NULL;
 static char buf1[CP_MAX_PATH];
 static char buf2[CP_MAX_PATH];
-static char exe_name[CP_MAX_PATH];
 
 static int init_program_path(void)
 {
     if(CPCommandLine_GetExecutablePath(buf1) == 0) {
         exe = buf1;
     } else {
-        cp_report_error(NULL, "Cannot get executable path.");
+        cp_report_error("Cannot get executable path.");
         return -1;
     }
     if(CPCommandLine_GetHomeDirectory(buf2, exe) == 0) {
         home = buf2;
     } else {
-        cp_report_error(exe_name, "Cannot get home directory.");
+        cp_report_error("Cannot get home directory.");
         return -1;
     }
-    if(CPath_Filename(exe_name, exe) < 0) {
-        cp_report_error(exe_name, "Cannot get executable name.");
+    if(CPath_Filename(cp_exename, exe) < 0) {
+        cp_report_error("Cannot get executable name.");
         return -1;
     }
     return 0;
@@ -49,7 +48,7 @@ CP_API_FUNC(int)
 CPMainProgramEntryPoint_CPC(int argc, char **argv)
 {
     if(main_running) {
-        cp_report_fatal("cpc", "Recursive call to main entry point.");
+        cp_report_fatal("Recursive call to main entry point.");
         return -1;
     }
     main_running = 1;

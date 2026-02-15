@@ -55,7 +55,7 @@ CPCommandLine_PrintFile(const char *directory, const char *rel_path)
     CPath_Join(full_path, directory, rel_path);
     FILE *f = fopen(full_path, "r");
     if(f == NULL) {
-        cp_report_error(NULL, "Cannot open file: %s", full_path);
+        cp_report_error("Cannot open file: %s", full_path);
         return -1;
     }
     char line[1024];

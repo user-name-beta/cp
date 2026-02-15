@@ -6,15 +6,19 @@
 //
 // Report error in command-line interface.
 
+#include "path.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
+char cp_exename[CP_MAX_PATH] = {0};
+
 void
-cp_report_fatal(const char *exename, const char *fmt, ...)
+cp_report_fatal(const char *fmt, ...)
 {
-    if(exename != NULL) {
-        fprintf(stderr, "%s: ", exename);
+    if(cp_exename[0] != '\0') {
+        fprintf(stderr, "%s: ", cp_exename);
     }
     va_list args;
     va_start(args, fmt);
@@ -25,10 +29,10 @@ cp_report_fatal(const char *exename, const char *fmt, ...)
 }
 
 void
-cp_report_error(const char *exename, const char *fmt, ...)
+cp_report_error(const char *fmt, ...)
 {
-    if(exename != NULL) {
-        fprintf(stderr, "%s: ", exename);
+    if(cp_exename[0] != '\0') {
+        fprintf(stderr, "%s: ", cp_exename);
     }
     va_list args;
     va_start(args, fmt);
