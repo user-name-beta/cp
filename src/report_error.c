@@ -6,11 +6,11 @@
 //
 // Report error in command-line interface.
 
+#include "path.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
-
-#include "path.h"
 
 char cp_exename[CP_MAX_PATH] = {0};
 
