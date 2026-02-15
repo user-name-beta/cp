@@ -22,7 +22,6 @@ static char *exe = NULL;
 static char *home = NULL;
 static char buf1[CP_MAX_PATH];
 static char buf2[CP_MAX_PATH];
-static char exe_name[CP_MAX_PATH];
 
 static int init_program_path(void)
 {
