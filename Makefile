@@ -110,6 +110,9 @@ else ifeq ($(CC),gcc)
 endif
 
 CFLAGS += $(call MACRO,_CP_STATIC_IMPORT_)
+ifneq ($(OS),Windows_NT)
+	CFLAGS += $(call MACRO,_POSIX_C_SOURCE=200809L)
+endif
 
 # Define variables about linking
 

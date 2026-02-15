@@ -6,8 +6,6 @@
 //
 // Memory mapping functions for cross-platform compatibility.
 
-#define _POSIX_C_SOURCE 200112L
-
 #include "mmap.h"
 
 #include <stdio.h>
