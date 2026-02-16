@@ -10,6 +10,8 @@
 #include <string.h>
 #include "cptypes.h"
 #include "report_error.h"
+#include "safe_string.h"
+#include "cpassert.h"
 
 int cp_argc;
 char **cp_argv;
@@ -70,6 +72,7 @@ CP_ParseFlagEx(int flagc, const char * const *flags)
             if(strcmp(cp_argv[i], flags[j]) == 0) {
                 if(rv != -1) {
                     /* multiple flags found */
+                    cp_report_error("Multiple exclusive flags found: '%s' and '%s'", flags[j], flags[rv]);
                     return -1;
                 } else {
                     rv = j;
@@ -97,6 +100,7 @@ CP_ParseOption(const char *option)
                 if(value[0] == '=') {
                     value++; /* skip '=' */
                     if(value[0] == '\0') { /* no value */
+                        cp_report_error("%s= requires a value", option);
                         return NULL;
                     }
                 }
@@ -109,6 +113,7 @@ CP_ParseOption(const char *option)
                 rv = value;
             } else if(arglen == len) { /* -option value */
                 if(i + 1 == cp_argc) { /* last argument, value is missing*/
+                    cp_report_error("%s requires a value", option);
                     return NULL;
                 }
                 char *value = cp_argv[i+1];
@@ -143,6 +148,7 @@ CP_ParseOptionEx(const char *option, int valuec, const char **values)
                 if(value[0] == '=') {
                     value++; /* skip '=' */
                     if(value[0] == '\0') { /* no value */
+                        cp_report_error("%s= requires a value", option);
                         return -1;
                     }
                 }
@@ -153,6 +159,7 @@ CP_ParseOptionEx(const char *option, int valuec, const char **values)
                 values[count++] = value;
             } else if(arglen == len) { /* -option value */
                 if(i + 1 == cp_argc) { /* last argument, value is missing*/
+                    cp_report_error("%s requires a value");
                     return -1;
                 }
                 char *value = cp_argv[i+1];
