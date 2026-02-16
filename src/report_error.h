@@ -9,6 +9,8 @@
 #ifndef _CP_REPORT_ERROR_H_
 #define _CP_REPORT_ERROR_H_
 
+#include <stdarg.h>
+
 #include "path.h"
 
 #ifdef __cplusplus
@@ -19,6 +21,8 @@ extern char cp_exename[CP_MAX_PATH];
 
 void cp_report_fatal(const char *fmt, ...);
 void cp_report_error(const char *fmt, ...);
+void cp_report_fatal_v(const char *fmt, va_list args);
+void cp_report_error_v(const char *fmt, va_list args);
 
 #ifdef __cplusplus
 }
