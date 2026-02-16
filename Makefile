@@ -205,7 +205,11 @@ API_HEADERS = # No API headers yet.
 
 # Define dependencies of headers and source files
 
-$(BUILD)/depends.d: $(wildcard $(SRC)/*.*) | directories
+ifeq ($(OS),Windows_NT)
+$(BUILD)/depends.d: $(shell dir /s /b /a-d $(SRC)) | directories
+else
+$(BUILD)/depends.d: $(shell find $(SRC) -type f) | directories
+endif
 ifeq ($(OS),Windows_NT)
 	powershell -ExecutionPolicy Bypass -File Misc/depends.ps1 $(SRC) $@
 else
