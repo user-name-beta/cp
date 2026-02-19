@@ -18,7 +18,7 @@ jobs:
         find src -name "*.h" -o -name "*.hpp" -o -name "*.hxx" |
         while read header; do
           echo "checking $header"
-          if ! gcc -fsyntax-only "$header"; then
+          if ! gcc -fsyntax-only "$header" -std=c99 -Wall -Wextra -Werror -I. -Isrc ; then
             echo "$header does not pass the check.  Stop."
             exit 1
           fi
