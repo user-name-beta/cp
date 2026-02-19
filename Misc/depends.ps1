@@ -2,7 +2,8 @@
 
 param(
     [string]$src = "src",
-    [string]$output = "build/depends.d"
+    [string]$output = "build/depends.d",
+    [string[]]$includeDirs = @('.', 'src')
 )
 
 # Write the head of depends.d file
@@ -24,18 +25,35 @@ function Process-Includes {
     
     $includes = @()
     $lines = Get-Content $filePath -Raw
-    $pattern = '(?m)^\s*#\s*include\s*"([^"]+)"'
+    $pattern = '(?m)^\s*#\s*include\s*(?:<([^<>]*)>|"([^"]*)").*$'
     $regexMatches = [regex]::Matches($lines, $pattern)
     
     foreach ($match in $regexMatches) {
-        $includeFile = $match.Groups[1].Value.Trim()
-        
-        $includeFile = $includeFile -replace '\s*//.*$', ''  # remove // comments
-        $includeFile = $includeFile -replace '\s*/\*.*\*/', ''  # remove /* */ comments
-        $includeFile = $includeFile.Trim()
-        
-        if (-not [string]::IsNullOrWhiteSpace($includeFile)) {
-            $includes += $includeFile
+        if ($match.Groups[1].Success) {
+            # `#include <stdint.h>`
+            $includeFile = $match.Groups[1].Value.Trim()
+            foreach ($dir in $script:includeDirs) {
+                $fullPath = Join-Path $dir $includeFile
+                if (Test-Path $fullPath -PathType Leaf) {
+                    $includes += $fullPath
+                    break
+                }
+            }
+        } elseif ($match.Groups[2].Success) {
+            # `#include "cptypes.h"`
+            $includeFile = $match.Groups[2].Value.Trim()
+            $dir = Split-Path $filePath -Parent
+            $fullPath = Join-Path $dir $includeFile
+            if (Test-Path $fullPath -PathType Leaf) {
+                $includes += $fullPath
+            } else {
+                foreach ($dir in $script:includeDirs) {
+                    $fullPath = Join-Path $dir $includeFile
+                    if (Test-Path $fullPath -PathType Leaf) {
+                        $includes += $fullPath
+                    }
+                }
+            }
         }
     }
     return $includes
