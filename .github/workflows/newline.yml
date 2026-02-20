@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - '**'
-  pull_request:
-    branches: [ main ]
 
 jobs:
   check-newline-at-end-of-file:
