@@ -2,7 +2,8 @@
 
 param(
     [string]$src = "src",
-    [string]$output = "build/depends.d"
+    [string]$output = "build/depends.d",
+    [string[]]$includeDirs = @('.', 'src')
 )
 
 # Write the head of depends.d file
@@ -24,55 +25,40 @@ function Process-Includes {
     
     $includes = @()
     $lines = Get-Content $filePath -Raw
-    $pattern = '(?m)^\s*#\s*include\s*"([^"]+)"'
+    $pattern = '(?m)^\s*#\s*include\s*(?:<([^<>]*)>|"([^"]*)").*$'
     $regexMatches = [regex]::Matches($lines, $pattern)
     
     foreach ($match in $regexMatches) {
-        $includeFile = $match.Groups[1].Value.Trim()
-        
-        $includeFile = $includeFile -replace '\s*//.*$', ''  # remove // comments
-        $includeFile = $includeFile -replace '\s*/\*.*\*/', ''  # remove /* */ comments
-        $includeFile = $includeFile.Trim()
-        
-        if (-not [string]::IsNullOrWhiteSpace($includeFile)) {
-            $includes += $includeFile
+        if ($match.Groups[1].Success) {
+            # `#include <stdint.h>`
+            $includeFile = $match.Groups[1].Value.Trim()
+            foreach ($dir in $script:includeDirs) {
+                $fullPath = Join-Path $dir $includeFile
+                if (Test-Path $fullPath -PathType Leaf) {
+                    $includes += $fullPath
+                    break
+                }
+            }
+        } elseif ($match.Groups[2].Success) {
+            # `#include "cptypes.h"`
+            $includeFile = $match.Groups[2].Value.Trim()
+            $dir = Split-Path $filePath -Parent
+            $fullPath = Join-Path $dir $includeFile
+            if (Test-Path $fullPath -PathType Leaf) {
+                $fullPath = $fullPath.replace("\", "/")
+                $includes += $fullPath
+            } else {
+                foreach ($dir in $script:includeDirs) {
+                    $fullPath = Join-Path $dir $includeFile
+                    if (Test-Path $fullPath -PathType Leaf) {
+                        $fullPath = $fullPath.replace("\", "/")
+                        $includes += $fullPath
+                    }
+                }
+            }
         }
     }
     return $includes
-}
-
-# Process the header file path to generate the correct dependency path
-function Process-HeaderPath {
-    param(
-        [string]$includeFile,
-        [string]$currentDir
-    )
-    
-    # Fix path separators
-    $includeFile = $includeFile.Replace('\', '/')
-    
-    # Resolve the path
-    if ($includeFile.Contains('/')) {
-        # Check if the path is absolute or relative
-        if ($includeFile.StartsWith('/')) {
-            # Absolute path
-            # Raise a warning
-            Write-Warning "Absolute path is not supported: $includeFile"
-            return $includeFile
-        }
-        else {
-            return "`$(SRC)/$includeFile"
-        }
-    }
-    else {
-        # File name only, check if it's in the current directory or a sub-directory
-        if ([string]::IsNullOrEmpty($currentDir) -or $currentDir -eq '.') {
-            return "`$(SRC)/$includeFile"
-        }
-        else {
-            return "`$(SRC)/$currentDir/$includeFile"
-        }
-    }
 }
 
 # Scan the directory and generate dependencies
@@ -109,9 +95,8 @@ function Scan-Directory {
             # Process includes and generate dependencies
             $uniqueDeps = @()
             foreach ($inc in $includes) {
-                $depPath = Process-HeaderPath $inc $currentDir
-                if ($uniqueDeps -notcontains $depPath) {
-                    $uniqueDeps += $depPath
+                if ($uniqueDeps -notcontains $inc) {
+                    $uniqueDeps += $inc
                 }
             }
             
