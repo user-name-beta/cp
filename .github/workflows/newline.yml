@@ -15,17 +15,19 @@ jobs:
     - name: Check if newline is missing at end of the file
       run: |
         echo "Check started"
-        files=$(git ls-files)
         counter=0
         red="\033[1;31m"
         green="\033[32m"
         nc="\033[0m"
+        files=()
+        while IFS= read -r file; do
+            files+=("$file")
+        done < <(git ls-files)
         for file in "${files[@]}"; do
             if [ ! -s "$file" ]; then
                 continue
             fi
-            last_char=$(tail -c1)
-            if [ "$last_char" -ne $'\n' ]; then
+            if [ -n "$(tail -c1 "$file")" ]; then
                 echo -e "${red}$file has missing newline at end of the file.${nc}" >&2
                 ((counter++))
             fi
