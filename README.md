@@ -27,7 +27,7 @@ Since this project has only one contributor \([user-name-beta](https://github.co
 
 Use it as a command-line tool. Such as:
 
-`cpc version`
+`cpc --version`
 
 and it will print version information.
 
