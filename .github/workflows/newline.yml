@@ -1,0 +1,40 @@
+name: Check newline at end of the file
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-newline-at-end-of-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Check if newline is missing at end of the file
+      run: |
+        echo "Check started"
+        files=$(git ls-files)
+        counter=0
+        red="\033[1;31m"
+        green="\033[32m"
+        nc="\033[0m"
+        for file in "${files[@]}"; do
+            if [ ! -s "$file" ]; then
+                continue
+            fi
+            last_char=$(tail -c1)
+            if [ "$last_char" -ne $'\n' ]; then
+                echo -e "${red}$file has missing newline at end of the file.${nc}" >&2
+                ((counter++))
+        done
+        if [ $counter -eq 0 ]; then
+            echo -e "${green}Successfully checked ${#files[@]} files.${nc}"
+        else
+            if [ $counter -eq 1 ]; then
+                echo "${red}1 file has missing newline.${nc}"
+            else
+                echo "${red}$counter files have missing newline.${nc}" >&2
