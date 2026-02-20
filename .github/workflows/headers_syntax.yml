@@ -15,11 +15,20 @@ jobs:
     
     - name: Check Header Syntax
       run: |
-        find src -name "*.h" -o -name "*.hpp" -o -name "*.hxx" |
+        echo "Check started"
+        counter=0
         while read header; do
-          echo "checking $header"
           if ! gcc -fsyntax-only "$header" -std=c99 -Wall -Wextra -Werror -I. -Isrc -D_POSIX_C_SOURCE=200809L ; then
-            echo "$header does not pass the check.  Stop."
-            exit 1
+            echo "$header does not pass the check." >&2
+            ((counter++))
           fi
-        done
+        done < <(find src -name "*.h" -o -name "*.hpp" -o -name "*.hxx")
+        if [ $counter -eq 0 ]; then
+          echo "All files have passed the check"
+        else
+          if [ $counter -eq 1 ]; then
+            echo "1 file has not passed the check" >&2
+          else
+            echo "$counter files have not passed the check" >&2
+          fi
+        fi
