@@ -216,7 +216,8 @@ else
 	Misc/depends.sh $(SRC) $@
 endif
 
-ifeq ($(filter clean clean-build help help-install install install-files-only uninstall uninstall-all $(BUILD)/depends.d,$(MAKECMDGOALS)),)
+ifeq ($(filter clean clean-build help help-install install install-files-only uninstall \
+uninstall-all $(BUILD)/depends.d print-cc print-cflags,$(MAKECMDGOALS)),)
 -include $(BUILD)/depends.d
 endif
 
@@ -416,3 +417,9 @@ help-install:
 	@echo but also create some environment variables for the program to use at runtime, such as CPGLOBALHOME,
 	@echo unless when running "make install-files-only".
 .PHONY: help-install
+
+print-cc:
+	@echo $(CC)
+
+print-cflags:
+	@echo $(CFLAGS)
