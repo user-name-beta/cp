@@ -30,6 +30,7 @@ jobs:
             if [ "$last_char" -ne $'\n' ]; then
                 echo -e "${red}$file has missing newline at end of the file.${nc}" >&2
                 ((counter++))
+            fi
         done
         if [ $counter -eq 0 ]; then
             echo -e "${green}Successfully checked ${#files[@]} files.${nc}"
@@ -38,3 +39,5 @@ jobs:
                 echo "${red}1 file has missing newline.${nc}"
             else
                 echo "${red}$counter files have missing newline.${nc}" >&2
+            fi
+        fi
