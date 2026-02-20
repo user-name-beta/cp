@@ -416,3 +416,9 @@ help-install:
 	@echo but also create some environment variables for the program to use at runtime, such as CPGLOBALHOME,
 	@echo unless when running "make install-files-only".
 .PHONY: help-install
+
+print-cc:
+	@echo $(CC)
+
+print-cflags:
+	@echo $(CFLAGS)
