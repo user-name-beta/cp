@@ -27,8 +27,7 @@ jobs:
             if [ ! -s "$file" ]; then
                 continue
             fi
-            last_char=$(tail -c1 "$file")
-            if [ "$last_char" -ne $'\n' ]; then
+            if [ -n "$(tail -c1 "$file")" ]; then
                 echo -e "${red}$file has missing newline at end of the file.${nc}" >&2
                 ((counter++))
             fi
