@@ -10,6 +10,7 @@
 #define _CP_MODULE_PARSER__MODULE_H_
 
 #include <stdint.h>
+#include <stddef.h>
 
 typedef struct
 {
