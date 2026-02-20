@@ -9,7 +9,7 @@
 #ifndef _CP_MODULE_PARSER__TYPES_H_
 #define _CP_MODULE_PARSER__TYPES_H_
 
-#include "stringtab.h"
+#include "module_parser/stringtab.h"
 
 typedef uint32_t cpbuiltin_type_t;
 
