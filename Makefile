@@ -211,7 +211,7 @@ else
 $(BUILD)/depends.d: $(shell find $(SRC) -type f) | directories
 endif
 ifeq ($(OS),Windows_NT)
-	powershell -ExecutionPolicy Bypass -File Misc/depends.ps1 $(SRC) $@
+	powershell -ExecutionPolicy Bypass -File Misc/depends.ps1 $(SRC) $@ . $(SRC)
 else
 	Misc/depends.sh $(SRC) $@ . $(SRC)
 endif
