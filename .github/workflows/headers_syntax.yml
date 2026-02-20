@@ -15,7 +15,7 @@ jobs:
     
     - name: Check Header Syntax
       run: |
-        echo "Check started"
+        echo "Check started."
         counter=0
         cc=$(make -s print-cc)
         cflags=$(make -s print-cflags)
@@ -24,18 +24,18 @@ jobs:
         nc="\033[0m"
         while read header; do
           if ! "$cc" $cflags -fsyntax-only "$header"; then
-            echo "$red$header does not pass the check.$nc" >&2
+            echo -e "${red}$header does not pass the check.$nc" >&2
             ((counter++))
           else
-            echo "$green$header passes the check.$nc"
+            echo -e "${green}$header passes the check.$nc"
           fi
         done < <(find src -name "*.h" -o -name "*.hpp" -o -name "*.hxx")
         if [ $counter -eq 0 ]; then
-          echo "All files have passed the check"
+          echo -e "${green}All files have passed the check.$nc"
         else
           if [ $counter -eq 1 ]; then
-            echo "1 file has not passed the check" >&2
+            echo -e "${red}1 file has not passed the check.$nc" >&2
           else
-            echo "$counter files have not passed the check" >&2
+            echo -e "${red}$counter files have not passed the check.$nc" >&2
           fi
         fi
