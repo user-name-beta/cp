@@ -16,7 +16,7 @@ ifeq ($(OS),Windows_NT)
 	SHELL := cmd.exe
 	RM = del /Q
 	RMDIR = rmdir /Q /S
-	COPY = copy /Q /Y
+	COPY = xcopy /Q /Y
 	EXE_EXT = .exe
 	LIB_PREFIX =
 	SO_EXT = .dll
