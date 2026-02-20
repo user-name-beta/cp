@@ -17,12 +17,17 @@ jobs:
       run: |
         echo "Check started"
         counter=0
-        cc=$(make print-cc)
-        cflags=$(make print-cflags)
+        cc=$(make -s print-cc)
+        cflags=$(make -s print-cflags)
+        red="\033[1;31m"
+        green="\033[32m"
+        nc="\033[0m"
         while read header; do
           if ! "$cc" $cflags -fsyntax-only "$header"; then
-            echo "$header does not pass the check." >&2
+            echo "$red$header does not pass the check.$nc" >&2
             ((counter++))
+          else
+            echo "$green$header passes the check.$nc"
           fi
         done < <(find src -name "*.h" -o -name "*.hpp" -o -name "*.hxx")
         if [ $counter -eq 0 ]; then
