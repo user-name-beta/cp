@@ -31,11 +31,11 @@ jobs:
           fi
         done < <(find src -name "*.h" -o -name "*.hpp" -o -name "*.hxx")
         if [ $counter -eq 0 ]; then
-          echo -e "${green}All files have passed the check.$nc"
+          echo "All files have passed the check."
         else
           if [ $counter -eq 1 ]; then
-            echo -e "${red}1 file has not passed the check.$nc" >&2
+            echo "1 file has not passed the check." >&2
           else
-            echo -e "${red}$counter files have not passed the check.$nc" >&2
+            echo "$counter files have not passed the check." >&2
           fi
         fi
