@@ -3,17 +3,46 @@
 # Generate dependency rules for Makefile from source files
 
 SRC_DIR="$1"
-OUTPUT_FILE="$2"
+BUILD_DIR="$2"
+
+# Remove the trailing slash
+
+SRC_DIR="${SRC_DIR%/}"
+BUILD_DIR="${BUILD_DIR%/}"
+
 shift 2
-INCLUDE_DIRS=("$@")
+
+INCLUDE_DIRS=()
+
+while true; do
+    if [ "$1" = "--" ]; then
+        shift
+        break
+    fi
+    INCLUDE_DIRS+=("$1")
+    shift
+done
+
+FILES=("$@")
+
+OUTPUT_FILE="$BUILD_DIR/depends.d"
+DEP_DIR="$BUILD_DIR/depends"
+
+mkdir -p "$DEP_DIR"
 
 # Initialize output file
 echo "# Automatically generated dependencies file." > "$OUTPUT_FILE"
 echo "" >> "$OUTPUT_FILE"
 
 # Resolve source files
-find "$SRC_DIR" \( -name "*.cpp" -o -name "*.c" -o -name "*.h" \) -type f | \
-while read -r file; do
+
+for file in "${FILES[@]}"; do
+    echo "$file"
+    file_dir=$(dirname "$file")
+    dir=${file_dir/#"$SRC_DIR"/"$DEP_DIR"}
+    mkdir -p "$dir"
+    OUT_FILE="$dir/$(basename "$file").d"
+    echo "include $OUT_FILE" >> "$OUTPUT_FILE"
 
     # Get target name
 
@@ -53,11 +82,9 @@ while read -r file; do
             deps+=" $dep_path"
         fi
     done < <(grep '^[[:space:]]*#[[:space:]]*include[[:space:]]*["<]' "$file")
-    
+        
     # Write into file
-    if [ -n "$deps" ]; then
-        echo "$target:$deps" >> "$OUTPUT_FILE"
-    fi
+    echo "$target:$deps" > "$OUT_FILE"
 done
 
 echo "depends.sh: Dependencies file generated: $OUTPUT_FILE"

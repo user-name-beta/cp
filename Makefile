@@ -213,7 +213,7 @@ endif
 ifeq ($(OS),Windows_NT)
 	powershell -ExecutionPolicy Bypass -File Misc/depends.ps1 $(SRC) $@ . $(SRC)
 else
-	Misc/depends.sh $(SRC) $@ . $(SRC)
+	Misc/depends.sh $(SRC) $(BUILD) . $(SRC) -- $?
 endif
 
 ifeq ($(filter clean clean-build help help-install install install-files-only uninstall \
