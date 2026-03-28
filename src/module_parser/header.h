@@ -15,7 +15,7 @@
 
 #include "cpoffset.h"
 
-#ifdef _MSV_VER
+#ifdef _MSC_VER
 __pragma(pack(push, 1))
 #endif
 
@@ -33,7 +33,7 @@ __attribute__((packed))
     cpoffset_t seg_table[]; // Offsets to each segment, offset 16.
 } CPModuleHeader;
 
-#ifdef _MSV_VER
+#ifdef _MSC_VER
 __pragma(pack(pop))
 #endif
 
