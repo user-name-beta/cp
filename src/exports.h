@@ -1,13 +1,20 @@
-// exports.h
-//
-// Copyright (c) 2025-2026 user-name-beta. All rights reserved.
-// Licensed under the MIT license.
-// See LICENSE file in the project root for full license information.
-//
-// Macros for exporting and importing cp API functions.
-// This header can be included by other headers more than once in one source file
-// but including it explicitly multiple times is not allowed.
-// NOTE: You must include this header file after including all other headers.
+/*
+ * exports.h - export and import macros for shared libraries.
+ * Copyright (C) 2025-2026 Huang Jiangyao. All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 #ifndef _CP_EXPORTS_H_
 #define _CP_EXPORTS_H_
