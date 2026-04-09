@@ -29,9 +29,6 @@ autom4te.cache
 /missing
 /stamp-h1
 /config.h
-/config.h.in~
-/configure~
-/configure.ac~
 
 # https://www.gnu.org/software/libtool/
 
@@ -61,6 +58,10 @@ Makefile
 # generated from Makefile.am.
 # So ignore Makefile.in
 Makefile.in
+
+# Editor Temporary File
+
+*~
 
 # C files
 
