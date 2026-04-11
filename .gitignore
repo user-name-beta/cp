@@ -54,11 +54,6 @@ m4/lt~obsolete.m4
 # (which is called by configure script))
 Makefile
 
-# We use Automake, so Makefile.in is 
-# generated from Makefile.am.
-# So ignore Makefile.in
-Makefile.in
-
 # Editor Temporary File
 
 *~
