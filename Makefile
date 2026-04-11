@@ -256,7 +256,7 @@ $(BUILD)/commandline$(OBJ_EXT): $(SRC)/commandline.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 OBJECTS += $(BUILD)/commandline$(OBJ_EXT)
 
-$(BUILD)/cpc/launch$(OBJ_EXT): $(SRC)/cpc/launch.c
+$(BUILD)/cpc_src/launch$(OBJ_EXT): $(SRC)/cpc_src/launch.c
 	$(CC) $(CFLAGS) $(OUTOBJ_FLAG) $<
 #OBJECTS += $(BUILD)/launch$(OBJ_EXT)
 # This object file cannot not be linked into the library(but the executable file).
