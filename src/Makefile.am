@@ -1,0 +1,61 @@
+#
+# Makefile.am - the structure of Makefile
+# Copyright (C) 2025-2026 Huang Jiangyao. All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Flags
+
+AM_CFLAGS = -Wall -Wextra -Werror -std=c99
+LDADD = libcp.la
+
+# Main programs
+
+bin_PROGRAMS = \
+    cpc
+cpc_SOURCES = cpc_src/launch.c cpc_src/main.h
+
+# Libraries
+
+lib_LTLIBRARIES = libcp.la
+libcp_la_SOURCES = \
+    cpc_src/main.c \
+    cpc_src/main.h \
+    platform/mmap.c \
+    platform/mmap.h \
+    commandline.c \
+    commandline.h \
+    cptypes.h \
+    exports.h \
+    parsearg.c \
+    parsearg.h \
+    path.c \
+    path.h \
+    report_error.c \
+    report_error.h \
+    safe_string.c \
+    safe_string.h \
+    version.c \
+    version.h
+
+libcp_la_LDFLAGS = -version-info @libcp_la_version_info@
+
+# Test programs
+
+check_PROGRAMS = \
+    test_mmap
+
+test_mmap_SOURCES = \
+    Test/platform/mmap.c
