@@ -65,12 +65,6 @@ Makefile.in
 
 # C files
 
-# Compiled source
-build/
-
-# Distribution
-dist/
-
 # Resource files
 *.res
 
