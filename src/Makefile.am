@@ -24,38 +24,63 @@ LDADD = libcp.la
 # Main programs
 
 bin_PROGRAMS = \
-    cpc
+	cpc
 cpc_SOURCES = cpc_src/launch.c cpc_src/main.h
 
 # Libraries
 
 lib_LTLIBRARIES = libcp.la
 libcp_la_SOURCES = \
-    cpc_src/main.c \
-    cpc_src/main.h \
-    platform/mmap.c \
-    platform/mmap.h \
-    commandline.c \
-    commandline.h \
-    cptypes.h \
-    exports.h \
-    parsearg.c \
-    parsearg.h \
-    path.c \
-    path.h \
-    report_error.c \
-    report_error.h \
-    safe_string.c \
-    safe_string.h \
-    version.c \
-    version.h
+	cpc_src/main.c \
+	cpc_src/main.h \
+	platform/mmap.c \
+	platform/mmap.h \
+	commandline.c \
+	commandline.h \
+	cptypes.h \
+	exports.h \
+	parsearg.c \
+	parsearg.h \
+	path.c \
+	path.h \
+	report_error.c \
+	report_error.h \
+	safe_string.c \
+	safe_string.h \
+	version.c \
+	version.h
 
 libcp_la_LDFLAGS = -version-info @libcp_la_version_info@
 
 # Test programs
 
 check_PROGRAMS = \
-    test_mmap
+	test_mmap
 
 test_mmap_SOURCES = \
-    Test/platform/mmap.c
+	Test/platform/mmap.c
+
+# Check headers
+# XXX This replaces .github/workflows/header_syntax.yml.
+
+# When .github/workflows/build.yml run `check` target
+# the following target will be run.
+
+check-headers:
+	@failed=; \
+	for h in $$(find . -name "*.h" -not -path "./.git/*"); \
+	do \
+	printf "%s\n" "Check header: $$h"; \
+	$(COMPILE) -fsyntax-only -c $$h || failed=y; \
+	done; \
+	if test $$failed; \
+	then \
+	echo "Check does not pass.   Stop."; \
+	exit 1; \
+	else \
+	echo "Check passed."; \
+	fi
+
+.PHONY: check-headers
+
+check: check-headers
