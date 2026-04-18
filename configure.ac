@@ -59,4 +59,10 @@ dnl after checking archiver.
 
 LT_INIT
 
+dnl Define _POSIX_C_SOURCE (as the old Makefile did)
+dnl to enable POSIX functions since `-std=c99` may
+dnl hide non-standard C functions.
+
+AC_DEFINE([_POSIX_C_SOURCE], [200809L], [Define to enable POSIX features])
+
 AC_OUTPUT
