@@ -17,6 +17,7 @@
  */
 #define _CP_CPC__MAIN_E_
 
+#include "config.h"
 #include <parsearg.h>
 #include <path.h>
 #include <report_error.h>

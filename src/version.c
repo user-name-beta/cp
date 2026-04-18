@@ -17,6 +17,7 @@
  */
 #define _CP_VERSION_E_
 
+#include "config.h"
 #include "version.h"
 
 CP_API_DATA(const char *) CP_VersionString = CP_VERSION_STRING;
