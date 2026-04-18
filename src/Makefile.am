@@ -71,7 +71,12 @@ check-headers:
 	for h in $$(find . -name "*.h" -not -path "./.git/*"); \
 	do \
 	printf "%s\n" "Check header: $$h"; \
-	$(COMPILE) -fsyntax-only -c $$h || failed=y; \
+	# Use `-include config.h` since we are \
+	# compiling a single header file \
+	# which does not include config.h \
+	# automatically. (this is usually done \
+	# by C source files at the beginning). \
+	$(COMPILE) -fsyntax-only -c -include config.h $$h || failed=y; \
 	done; \
 	if test $$failed; \
 	then \
