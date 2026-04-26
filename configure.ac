@@ -65,4 +65,14 @@ dnl hide non-standard C functions.
 
 AC_DEFINE([_POSIX_C_SOURCE], [200809L], [Define to enable POSIX features])
 
+dnl This macro is always defined to judge
+dnl whether we are in our own compilation environment,
+dnl rather than others. For example, when a third-party library 
+dnl includes a header file in our project, this macro 
+dnl will not be defined. This helps some header files
+dnl like export.h to determine how to control symbol
+dnl export and import.
+
+AC_DEFINE([_CP_STATIC_IMPORT_], [1], [This macro is always defined])
+
 AC_OUTPUT
