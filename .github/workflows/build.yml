@@ -15,6 +15,13 @@ on:
       - 'Makefile.am'
       - 'configure.ac'
       - '.github/workflows/build.yml'
+  
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The git ref to build (branch, tag, or commit SHA).'
+        required: false
+        default: 'main'
 
 jobs:
   on-linux:
@@ -23,6 +30,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
+      with:
+        ref: ${{ github.event.inputs.ref || github.ref }}
 
     - name: Update software sources
       run: sudo apt-get update
