@@ -76,7 +76,7 @@ jobs:
       env:
         CHERE_INVOKING: 1
         MSYS2_PATH_TYPE: inherit
-      run: ./configure
+      run: CC=cl.exe ./configure
     
     - name: Make
       shell: msys2 {0}
