@@ -43,29 +43,6 @@ jobs:
     - name: testrun
       run: build/Test/testrun.sh
 
-  on-windows-with-msvc:
-
-    runs-on: windows-latest
-
-    steps:
-    - uses: actions/checkout@v5
-    - name: set up MSVC 2022
-      uses: ilammy/msvc-dev-cmd@v1
-      with:
-        vsversion: 2022
-
-    - name: make
-      run: make
-
-    - name: test-run
-      run: dist/cpc --version
-    
-    - name: make test
-      run: make test
-    
-    - name: testrun
-      run: cmd /c build\Test\testrun.bat
-
   on-windows-with-mingw:
 
     runs-on: windows-latest

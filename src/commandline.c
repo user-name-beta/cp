@@ -91,9 +91,7 @@ CPCommandLine_PrintVersion(void)
 {
     printf("CP version %s\n", CP_VERSION_STRING);
     printf("Build date: %s %s\n", __DATE__, __TIME__);
-#ifdef _MSC_VER
-    printf("Compiler: Microsoft Visual Studio %d.%d\n", _MSC_VER / 100, _MSC_VER % 100);
-#elif defined(__GNUC__)
+#if defined(__GNUC__)
     printf("Compiler: GCC %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #else
     printf("Compiler: unknown\n");

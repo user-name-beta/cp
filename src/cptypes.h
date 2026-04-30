@@ -36,8 +36,6 @@ typedef SSIZE_T ssize_t;
 
 #ifdef __GNUC__
 #define CP_ALWYAS_INLINE __attribute__((always_inline)) inline
-#elif defined(_MSC_VER)
-#define CP_ALWYAS_INLINE __forceinline inline
 #else
 #define CP_ALWYAS_INLINE inline
 #endif
@@ -46,8 +44,6 @@ typedef SSIZE_T ssize_t;
 
 #ifdef __GNUC__
 #define CP_UNREACHABLE() __builtin_unreachable()
-#elif defined(_MSC_VER)
-#define CP_UNREACHABLE() __assume(0)
 #else
 #define CP_UNREACHABLE() do {
     assert(0 && "Unreachable code reached");
