@@ -35,7 +35,7 @@ jobs:
 
     - name: Update software sources
       run: sudo apt-get update
-    
+
     - name: Install GNU Autotools
       run: sudo apt-get install -y autoconf automake libtool
     
