@@ -30,19 +30,20 @@ cpc_SOURCES = cpc_src/launch.c cpc_src/main.h
 # Libraries
 
 lib_LTLIBRARIES = libcp.la
+# Please put new source files in alphabetical order.
 libcp_la_SOURCES = \
-	cpc_src/main.c \
-	cpc_src/main.h \
-	platform/mmap.c \
-	platform/mmap.h \
 	commandline.c \
 	commandline.h \
+	cpc_src/main.c \
+	cpc_src/main.h \
 	cptypes.h \
 	exports.h \
 	parsearg.c \
 	parsearg.h \
 	path.c \
 	path.h \
+	platform/mmap.c \
+	platform/mmap.h \
 	report_error.c \
 	report_error.h \
 	safe_string.c \
