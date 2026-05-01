@@ -1,6 +1,6 @@
 dnl
 dnl configure.ac - configure script.
-dnl Copyright (C) 2025-2026 Huang Jiangyao. All rights reserved.
+dnl Copyright (C) 2026 Huang Jiangyao. All rights reserved.
 dnl
 dnl This program is free software: you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
