@@ -1,6 +1,6 @@
 /*
  * safe_string.c - safe string manipulation functions.
- * Copyright (C) 2025-2026 Huang Jiangyao. All rights reserved.
+ * Copyright (C) 2026 Huang Jiangyao. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
