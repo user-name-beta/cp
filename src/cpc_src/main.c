@@ -76,9 +76,6 @@ CPMainProgramEntryPoint_CPC(int argc, char **argv)
     if(CP_ParseFlag("--version") == 1) {
         CPCommandLine_PrintVersion();goto end;
     }
-    if(CP_ParseFlag("--license") == 1) {
-        CPCommandLine_PrintLicense(home);goto end;
-    }
     if(CP_ParseFlag("--help") == 1) {
         printf("Usage: cpc --version\n");
         printf("           or: cpc --copyright\n");
