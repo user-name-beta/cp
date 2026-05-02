@@ -21,6 +21,7 @@
 #include <path.h>
 #include <report_error.h>
 #include <commandline.h>
+#include <stdio.h>
 
 #include "main.h"
 
