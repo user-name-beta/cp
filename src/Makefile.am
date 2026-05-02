@@ -34,6 +34,7 @@ lib_LTLIBRARIES = libcp.la
 libcp_la_SOURCES = \
 	commandline.c \
 	commandline.h \
+	cpassert.h \
 	cpc_src/main.c \
 	cpc_src/main.h \
 	cptypes.h \
