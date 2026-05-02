@@ -64,7 +64,7 @@ test_mmap_SOURCES = \
 
 # Link with libcp.a instead of libcp.la since we'd like 
 # to test the non-exported symbols.
-test_mmap_LDADD = libcp.a
+test_mmap_LDADD = .libs/libcp.a
 
 # Check headers
 # XXX This replaces .github/workflows/header_syntax.yml.
