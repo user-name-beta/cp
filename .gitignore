@@ -122,3 +122,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Libtool temporary script for running compiled programs
+/src/cpc
