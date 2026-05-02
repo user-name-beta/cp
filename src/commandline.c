@@ -55,27 +55,6 @@ CPCommandLine_GetExecutablePath(char *dst)
     return 0;
 }
 
-int
-CPCommandLine_PrintFile(const char *directory, const char *rel_path)
-{
-    if(directory == NULL || rel_path == NULL) {
-        return -1;
-    }
-    char full_path[CP_MAX_PATH];
-    CPath_Join(full_path, directory, rel_path);
-    FILE *f = fopen(full_path, "r");
-    if(f == NULL) {
-        cp_report_error("Cannot open file: %s", full_path);
-        return -1;
-    }
-    char line[1024];
-    while(fgets(line, sizeof(line), f) != NULL) {
-        printf("%s", line);
-    }
-    fclose(f);
-    return 0;
-}
-
 void
 CPCommandLine_PrintCopyright(void)
 {
@@ -111,16 +90,4 @@ CPCommandLine_GetHomeDirectory(char *dst, const char *exe)
     if(exe == NULL)return -1;
     if(CPath_Dirname(dst, exe) < 0)return -1;
     return 0;
-}
-
-int
-CPCommandLine_PrintLicense(const char *home)
-{
-    return CPCommandLine_PrintFile(home, "LICENSE");
-}
-
-int
-CPCommandLine_PrintHelp(const char *home, const char *helpfile)
-{
-    return CPCommandLine_PrintFile(home, helpfile);
 }
