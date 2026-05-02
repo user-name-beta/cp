@@ -75,4 +75,15 @@ dnl export and import.
 
 AC_DEFINE([_CP_STATIC_IMPORT_], [1], [This macro is always defined])
 
+dnl Check for Windows libraries.
+
+windows_libs=
+
+AC_CHECK_LIB([kernel32], [GetModuleHandleA], [windows_libs="$windows_libs -lkernel32"], [])
+AC_CHECK_LIB([ucrt], [printf], [windows_libs="$windows_libs -lucrt"], [
+    AC_CHECK_LIB([msvcrt], [printf], [windows_libs="$windows_libs -lmsvcrt"], [])
+])
+
+AC_SUBST([windows_libs])
+
 AC_OUTPUT
