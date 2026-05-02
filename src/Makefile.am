@@ -19,13 +19,13 @@
 # Flags
 
 AM_CFLAGS = -Wall -Wextra -Werror -std=c99
-LDADD = libcp.la
 
 # Main programs
 
 bin_PROGRAMS = \
 	cpc
 cpc_SOURCES = cpc_src/launch.c cpc_src/main.h
+cpc_LDADD = libcp.la
 
 # Libraries
 
@@ -61,6 +61,10 @@ check_PROGRAMS = \
 
 test_mmap_SOURCES = \
 	Test/platform/mmap.c
+
+# Link with libcp.a instead of libcp.la since we'd like 
+# to test the non-exported symbols.
+test_mmap_LDADD = libcp.a
 
 # Check headers
 # XXX This replaces .github/workflows/header_syntax.yml.
