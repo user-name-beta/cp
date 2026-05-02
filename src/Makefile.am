@@ -52,7 +52,7 @@ libcp_la_SOURCES = \
 	version.c \
 	version.h
 
-libcp_la_LDFLAGS = -version-info @libcp_la_version_info@
+libcp_la_LDFLAGS = -no-undefined -version-info @libcp_la_version_info@
 
 # Test programs
 
