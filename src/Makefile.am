@@ -19,7 +19,7 @@
 # Flags
 
 AM_CFLAGS = -Wall -Wextra -Werror -std=c99
-LDADD = @windows_libs@ libcp.la
+LDADD = libcp.la
 
 # Main programs
 
