@@ -50,6 +50,9 @@ jobs:
     - name: Make
       run: make
     
+    - name: Run the Compiled Program(s)
+      run: ./src/cpc --version
+    
     - name: Run tests
       run: make check
 
@@ -91,6 +94,13 @@ jobs:
         CHERE_INVOKING: 1
         MSYS2_PATH_TYPE: inherit
       run: make
+
+    - name: Run the Compiled Program(s)
+      shell: msys2 {0}
+      env:
+        CHERE_INVOKING: 1
+        MSYS2_PATH_TYPE: inherit
+      run: ./src/cpc --version
     
     - name: Run tests
       shell: msys2 {0}
