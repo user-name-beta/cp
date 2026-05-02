@@ -196,9 +196,6 @@ LOCALPREFIX = $(PREFIX)/$(VERSION)
 $(DIST)/LICENSE: LICENSE
 	$(COPY) $< $@
 
-$(DIST)/cpc-help.txt: $(SRC)/cpc_src/help.txt
-	$(COPY) $(call fix_path,$<) $(call fix_path,$@)
-
 # Define API headers
 
 API_HEADERS = # No API headers yet.
@@ -311,7 +308,7 @@ TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
 
 # Define target all as a default target
 
-TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/LICENSE $(DIST)/cpc-help.txt
+TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/LICENSE
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all

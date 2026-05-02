@@ -21,6 +21,7 @@
 #include <path.h>
 #include <report_error.h>
 #include <commandline.h>
+#include <stdio.h>
 
 #include "main.h"
 
@@ -79,7 +80,17 @@ CPMainProgramEntryPoint_CPC(int argc, char **argv)
         CPCommandLine_PrintLicense(home);goto end;
     }
     if(CP_ParseFlag("--help") == 1) {
-        CPCommandLine_PrintHelp(home, "cpc-help.txt");goto end;
+        printf("Usage: cpc --version\n");
+        printf("           or: cpc --copyright\n");
+        printf("           or: cpc --license\n");
+        printf("           or: cpc --help\n");
+        printf("\n");
+        printf("            --version       Show version information\n");
+        printf("            --copyright     Show copyright information\n");
+        printf("            --license       Show license information\n");
+        printf("            --help          Show this help information\n");
+        printf("\n");
+
     }
     CPCommandLine_PrintHelp(home, "cpc-help.txt");
     goto error;
