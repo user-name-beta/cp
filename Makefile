@@ -308,7 +308,7 @@ TEST_TARGETS += $(BUILD)/Test/platform/mmap$(EXE_EXT)
 
 # Define target all as a default target
 
-TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/LICENSE $(DIST)/cpc-help.txt
+TARGET = directories $(CPIMPLIB) $(DIST)/cpc$(EXE_EXT) api_headers $(DIST)/cpc-help.txt
 all: $(TARGET)
 .PHONY: all
 .DEFAULT_GOAL := all
