@@ -5,13 +5,17 @@ on:
     branches: [ "main" ]
     paths:
       - 'src/**'
-      - 'Makefile'
+      - 'src/Makefile.am'
+      - 'Makefile.am'
+      - 'configure.ac'
       - '.github/workflows/build.yml'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'src/**'
-      - 'Makefile'
+      - 'src/Makefile.am'
+      - 'Makefile.am'
+      - 'configure.ac'
       - '.github/workflows/build.yml'
   
   workflow_dispatch:
@@ -31,17 +35,26 @@ jobs:
       with:
         ref: ${{ github.event.inputs.ref || github.ref }}
 
-    - name: make
-      run: make
+    - name: Update software sources
+      run: sudo apt-get update
 
-    - name: test-run
-      run: dist/cpc --version
+    - name: Install GNU Autotools
+      run: sudo apt-get install -y autoconf automake libtool
     
-    - name: make test
-      run: make test
+    - name: Generate configure script
+      run: autoreconf -i
     
-    - name: testrun
-      run: build/Test/testrun.sh
+    - name: Run configure script
+      run: ./configure
+    
+    - name: Make
+      run: make
+    
+    - name: Run the Compiled Program(s)
+      run: ./src/cpc --version
+    
+    - name: Run tests
+      run: make check
 
   on-windows-with-mingw:
 
@@ -53,19 +66,45 @@ jobs:
     - name: set up mingw
       uses: msys2/setup-msys2@v2
       with:
-        msystem: mingw64
+        msystem: ucrt64
         update: true
         install: |
           base-devel
+          autoconf
+          automake
+          libtool
       
-    - name: make
-      run: make CC=gcc
+    - name: Generate configure script
+      shell: msys2 {0}
+      env:
+        CHERE_INVOKING: 1         # Do not run in $HOME
+        MSYS2_PATH_TYPE: inherit  # Inherit environment variables
+      run: autoreconf -i
+    
+    - name: Run configure script
+      shell: msys2 {0}
+      env:
+        CHERE_INVOKING: 1
+        MSYS2_PATH_TYPE: inherit
+      run: ./configure
+    
+    - name: Make
+      shell: msys2 {0}
+      env:
+        CHERE_INVOKING: 1
+        MSYS2_PATH_TYPE: inherit
+      run: make
 
-    - name: test-run
-      run: dist/cpc --version
+    - name: Run the Compiled Program(s)
+      shell: msys2 {0}
+      env:
+        CHERE_INVOKING: 1
+        MSYS2_PATH_TYPE: inherit
+      run: ./src/cpc --version
     
-    - name: make test
-      run: make test CC=gcc
-    
-    - name: testrun
-      run: cmd /c build\Test\testrun.bat
+    - name: Run tests
+      shell: msys2 {0}
+      env:
+        CHERE_INVOKING: 1
+        MSYS2_PATH_TYPE: inherit
+      run: make check
