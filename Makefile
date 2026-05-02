@@ -193,9 +193,6 @@ LOCALPREFIX = $(PREFIX)/$(VERSION)
 
 # Define other targets
 
-$(DIST)/LICENSE: LICENSE
-	$(COPY) $< $@
-
 $(DIST)/cpc-help.txt: $(SRC)/cpc_src/help.txt
 	$(COPY) $(call fix_path,$<) $(call fix_path,$@)
 

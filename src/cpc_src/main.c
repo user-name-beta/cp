@@ -75,9 +75,6 @@ CPMainProgramEntryPoint_CPC(int argc, char **argv)
     if(CP_ParseFlag("--version") == 1) {
         CPCommandLine_PrintVersion();goto end;
     }
-    if(CP_ParseFlag("--license") == 1) {
-        CPCommandLine_PrintLicense(home);goto end;
-    }
     if(CP_ParseFlag("--help") == 1) {
         CPCommandLine_PrintHelp(home, "cpc-help.txt");goto end;
     }
