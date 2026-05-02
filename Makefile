@@ -191,16 +191,6 @@ ifeq ($(origin PREFIX),undefined)
 endif
 LOCALPREFIX = $(PREFIX)/$(VERSION)
 
-# Define other targets
-
-<<<<<<< HEAD
-$(DIST)/cpc-help.txt: $(SRC)/cpc_src/help.txt
-	$(COPY) $(call fix_path,$<) $(call fix_path,$@)
-=======
-$(DIST)/LICENSE: LICENSE
-	$(COPY) $< $@
->>>>>>> main
-
 # Define API headers
 
 API_HEADERS = # No API headers yet.
