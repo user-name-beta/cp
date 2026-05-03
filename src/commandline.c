@@ -70,7 +70,6 @@ void
 CPCommandLine_PrintVersion(void)
 {
     printf("CP version %s\n", CP_VERSION_STRING);
-    printf("Build date: %s %s\n", __DATE__, __TIME__);
 #if defined(__GNUC__)
     printf("Compiler: GCC %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #else
