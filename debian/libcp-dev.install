@@ -1,0 +1,7 @@
+# Static libraries
+usr/lib/*/*.a
+# Shared library symbol links
+usr/lib/*/*.so
+usr/lib/*/*.so.?
+# Header files
+usr/include/**/*.h

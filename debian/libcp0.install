@@ -1,0 +1,2 @@
+# Shared libaries (not symbol links)
+usr/lib/*/*.so.0.*
