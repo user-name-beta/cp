@@ -1,0 +1,21 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: cp
+Upstream-Contact: Huang Jiangyao <john202312@126.com>
+Source: <https://github.com/user-name-beta/cp>
+
+Files:     *
+Copyright: 2025-2026 Huang Jiangyao.
+License:   GPL-3.0+
+
+Files:     .github/ISSUE_TEMPLATE/bug_report.md
+           .github/ISSUE_TEMPLATE/feature_request.md
+           .github/workflows/build.yml
+           .github/workflows/change-year.yml
+           .github/workflows/newline.yml
+           Misc/CONTRIBUTORS.md
+           src/platform/README.md
+           src/Makefile.am
+           Makefile.am
+           configure.ac
+Copyright: 2026 Huang Jiangyao.
+License:   GPL-3.0+
