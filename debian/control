@@ -35,6 +35,8 @@ Package: cp-devel
 Section: utils
 Architecture: any
 Multi-Arch: foreign
-Depends: libcp0 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Depends: libcp0 (= ${binary:Version}), 
+ libcp-dev (= ${binary:Version}),
+ ${misc:Depends}, ${shlibs:Depends}
 Description: The development utilities for developing
  CP-powered programs.
