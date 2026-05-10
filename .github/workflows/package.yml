@@ -22,7 +22,7 @@ jobs:
       run: sudo apt-get update
     
     - name: Install Packaging Tools
-      run: sudo apt-get install -y debhelper devscripts fakeroot
+      run: sudo apt-get install -y debhelper devscripts fakeroot build-essential
     
     - name: Prepare Source Directory and Tarball
       run: |
