@@ -9,7 +9,7 @@ on:
         default: 'main'
 
 jobs:
-  on-linux:
+  debian:
 
     runs-on: ubuntu-latest
 
@@ -31,16 +31,16 @@ jobs:
         tarball="cpc_${version}.orig.tar.gz"
         rm -rf .git
         cd ..
-        mv -f cp "$source_dir"
+        cp -rf cp "$source_dir"
         tar -czf "$tarball" "$source_dir"
     
     - name: Debian Package Build
-      run: debuild -uc -us
+      run: cd ../cp-* && debuild -uc -us
     
-    - name: Upload Packages
+    - name: Upload Debian Packages
       uses: actions/upload-artifact@v4
       with:
-        name: packages
+        name: debian-packages
         path: |
           ../*.deb
           ../*.dsc
