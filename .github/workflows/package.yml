@@ -1,0 +1,46 @@
+name: Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git reference to build (branch, tag, or commit SHA)'
+        required: false
+        default: 'main'
+
+jobs:
+  on-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        ref: ${{ github.event.inputs.ref || github.ref }}
+
+    - name: Update software sources
+      run: sudo apt-get update
+    
+    - name: Install Packaging Tools
+      run: sudo apt-get install -y debhelper devscripts fakeroot
+    
+    - name: Prepare Source Directory and Tarball
+      run: |
+        version=$(dpkg-parsechangelog -S Version | cut -d- -f1)
+        source_dir="cpc-${version}"
+        tarball="cpc_${version}.orig.tar.gz"
+        rm -rf .git
+        cd ..
+        mv -f cp "$source_dir"
+        tar -czf "$tarball" "$source_dir"
+    
+    - name: Debian Package Build
+      run: debuild -uc -us
+    
+    - name: Upload Packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages
+        path: |
+          ../*.deb
+          ../*.dsc
