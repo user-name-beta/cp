@@ -1,0 +1,19 @@
+name: Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git reference to build (branch, tag, or commit SHA)'
+        required: false
+        default: 'main'
+
+jobs:
+  on-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        ref: ${{ github.event.inputs.ref || github.ref }}
