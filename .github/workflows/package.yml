@@ -9,7 +9,7 @@ on:
         default: 'main'
 
 jobs:
-  on-linux:
+  debian:
 
     runs-on: ubuntu-latest
 
