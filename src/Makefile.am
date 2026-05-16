@@ -66,8 +66,8 @@ test_mmap_SOURCES = \
 # to test the non-exported symbols.
 test_mmap_LDADD = .libs/libcp.a
 
-# Public headers
-nobase_include_HEADERS = \
+cpincludedir = $(includedir)/cp
+nobase_cpinclude_HEADERS = \
 	exports.h \
 	version.h
 
