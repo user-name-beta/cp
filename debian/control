@@ -1,0 +1,42 @@
+Source: cp
+Section: misc
+Priority: optional
+Maintainer: Huang Jiangyao <john202312@126.com>
+Build-Depends: debhelper-compat (= 13), dh-autoreconf
+Standards-Version: 4.6.1
+Homepage: <https://github.com/user-name-beta/cp>
+Rules-Requires-Root: no
+
+Package: libcp0
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: The runtime shared libraries for
+ CP-based programs and libraries.
+
+Package: libcp-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libcp0 (= ${binary:Version}), ${misc:Depends}
+Description: The static libraries and header files
+ for build environment of CP-based libraries.
+
+Package: cp-runtime
+Section: utils
+Architecture: any
+Multi-Arch: foreign
+Depends: libcp0 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Description: The binaries for CP-powered programs at runtime.
+
+Package: cp-devel
+Section: utils
+Architecture: any
+Multi-Arch: foreign
+Depends: libcp0 (= ${binary:Version}), 
+ libcp-dev (= ${binary:Version}),
+ ${misc:Depends}, ${shlibs:Depends}
+Description: The development utilities for developing
+ CP-powered programs.

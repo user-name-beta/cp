@@ -17,3 +17,40 @@ jobs:
     - uses: actions/checkout@v5
       with:
         ref: ${{ github.event.inputs.ref || github.ref }}
+
+    - name: Update software sources
+      run: sudo apt-get update
+    
+    - name: Install Packaging Tools
+      run: sudo apt-get install -y debhelper devscripts fakeroot build-essential
+    
+    - name: Prepare Source Directory and Tarball
+      run: |
+        version=$(dpkg-parsechangelog -S Version | cut -d- -f1)
+        source_dir="cp-${version}"
+        tarball="cp_${version}.orig.tar.gz"
+        rm -rf .git
+        cd ..
+        cp -rf cp "$source_dir"
+        tar -czf "$tarball" "$source_dir"
+    
+    - name: Debian Package Build
+      run: |
+        version=$(dpkg-parsechangelog -S Version | cut -d- -f1)
+        cd "../cp-${version}"
+        debuild -uc -us
+
+    - name: Copy Packages to Current Work Directory
+      run: |
+        cp ../*.deb ./
+        cp ../*.dsc ./
+        cp ../*.tar.* ./
+    
+    - name: Upload Debian Packages
+      uses: actions/upload-artifact@v6
+      with:
+        name: debian-packages
+        path: |
+          *.deb
+          *.dsc
+          *.tar.*
