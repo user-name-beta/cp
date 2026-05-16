@@ -1,2 +1,6 @@
 # The CPC program
 usr/bin/cpc
+# License
+usr/share/doc/cp/LICENSE usr/share/doc/cp-devel/
+# README
+usr/share/doc/cp/README.md usr/share/doc/cp-devel/

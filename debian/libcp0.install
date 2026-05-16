@@ -1,2 +1,4 @@
 # Shared libaries (not symbol links)
 usr/lib/*/*.so.0.*
+# License
+usr/share/doc/cp/LICENSE usr/share/doc/libcp0/

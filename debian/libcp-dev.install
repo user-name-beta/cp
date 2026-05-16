@@ -5,3 +5,7 @@ usr/lib/*/*.so
 usr/lib/*/*.so.?
 # Header files
 usr/include/
+# License
+usr/share/doc/cp/LICENSE usr/share/doc/libcp-dev/
+# README
+usr/share/doc/cp/README.md usr/share/doc/libcp-dev/
