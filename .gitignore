@@ -126,6 +126,9 @@ dkms.conf
 # Libtool temporary script for running compiled programs
 /src/cpc
 
+# Compiled test programs
+/src/test_*
+
 # The debian package files
 *.deb
 *.ddeb
